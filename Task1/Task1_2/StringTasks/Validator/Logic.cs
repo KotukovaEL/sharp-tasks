@@ -11,7 +11,7 @@ namespace Validator
         public static string Validator(string str, char[] endSigns)
         {
             char[] separators = { ' ' };
-            string[] words = str.Split(separators);
+            string[] words = str.Split(separators, StringSplitOptions.RemoveEmptyEntries);
             var results = new List<string>();
             bool isSentenceStart = true;
 

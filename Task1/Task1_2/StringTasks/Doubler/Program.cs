@@ -11,7 +11,7 @@ namespace Doubler
         {
             var str = "написать программу, которая";
             var str1 = "описание";
-            var value = Logic.SymbolDoubling(str, str1);
+            var value = Logic.DoubleSymbol(str, str1);
             Console.WriteLine(value);
         }
     }

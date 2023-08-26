@@ -10,19 +10,16 @@ namespace Averages
     {
         public static double AverageWordLength(string textString)
         {
-            char[] charsToRemove = { '@', '_', ',', '.', '!', '?', '^', ':', ';', '—', ' ', '-','\'','\\', '\"' };
-            string[] editedText = textString.Split(charsToRemove, StringSplitOptions.RemoveEmptyEntries);
-            int countWords = 0;
-            int countLettersInWord = 0;
+            var separators = new [] { '@', '_', ',', '.', '!', '?', '^', ':', ';', '—', ' ', '-','\'','\\', '\"' };
+            var words = textString.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            int wordsLengthSum = 0;
 
-            foreach (string c in editedText)
+            foreach (string word in words)
             {
-                countWords++;
-                countLettersInWord += c.Length;
+                wordsLengthSum += word.Length;
             }
 
-            double averageLength = (countLettersInWord / (double)countWords);
-            return averageLength;
+            return wordsLengthSum / (double)words.Length;
         }
     }
 }

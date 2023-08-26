@@ -8,22 +8,21 @@ namespace Doubler
 {
     public static class Logic
     {
-        public static string SymbolDoubling(string str, string str1)
+        public static string DoubleSymbol(string firstStr, string secondStr)
         {
-            var newString = new StringBuilder();
+            var sb = new StringBuilder();
 
-            foreach (char i in str)
+            foreach (var letter in firstStr)
             {
-                var boolValue = str1.Contains(i);
-                newString.Append(i);
+                sb.Append(letter);
 
-                if (boolValue)
+                if (secondStr.Contains(letter))
                 {
-                    newString.Append(i);
+                    sb.Append(letter);
                 }
             }
 
-            return newString.ToString();
+            return sb.ToString();
         }
     }
 }

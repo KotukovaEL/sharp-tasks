@@ -10,19 +10,18 @@ namespace LowerCase
     {
         public static int CountWordsWithSmallLetter(string str)
         {
-            string[] editedText = str.Split(new[] {' ', ',', ':', ';' }, StringSplitOptions.RemoveEmptyEntries);
-            int countWords = 0;
+            var words = str.Split(new[] {' ', ',', ':', ';' }, StringSplitOptions.RemoveEmptyEntries);
+            var wordsCount = 0;
 
-            for (int i = 0; i < editedText.Length; i++)
+            for (int i = 0; i < words.Length; i++)
             {
-                if (editedText[i] == editedText[i].ToString().ToLower())
+                if (char.IsLower(words[i][0]))
                 {
-                    countWords++;
+                    wordsCount++;
                 }
-
             }
 
-            return countWords;
+            return wordsCount;
         }
     }
 }

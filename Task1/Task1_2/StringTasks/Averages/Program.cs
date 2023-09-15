@@ -9,10 +9,11 @@ namespace Averages
     {
         static void Main(string[] args)
         {
-            var textString = "Викентий хорошо отметил день рождения: покушал пиццу, посмотрел кино, пообщался со студентами в чате";            
-            Console.WriteLine(textString);
-            var value = string.Format("{0:0.0}", Logic.AverageWordLength(textString));
-            Console.WriteLine(value);
+            var app = new Application();
+            var logic = new Logic(app); 
+            logic.Run();
+            
+            
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Averages
+namespace Doubler
 {
     public class Application
     {
@@ -17,20 +17,16 @@ namespace Averages
 
         public void Run()
         {
-            PrintMessage();
-            var sentence = ReadSentence();
-            sentence = string.Format("{0:0.0}", _logic.AverageWordLength(sentence));
+            var str1 = PrintStr("1");
+            var str2 = PrintStr("2");
+            var sentence =  _logic.DoubleSymbol(str1, str2);
             Console.WriteLine(sentence);
         }
 
-        public void PrintMessage()
+        public string PrintStr(string str)
         {
-            Console.WriteLine("Введите предложение: ");
-        }
-
-        public string ReadSentence()
-        {
-            return Console.ReadLine();
+            Console.WriteLine($"Введите {str} строку: ");
+            return Console.ReadLine(); ;
         }
     }
 }

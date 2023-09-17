@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Averages
+namespace LowerCase
 {
     public class Application
     {
@@ -19,8 +19,8 @@ namespace Averages
         {
             PrintMessage();
             var sentence = ReadSentence();
-            sentence = string.Format("{0:0.0}", _logic.AverageWordLength(sentence));
-            Console.WriteLine(sentence);
+            var numberWordsWithSmallLetter = _logic.CountWordsWithSmallLetter(sentence);
+            Console.WriteLine(numberWordsWithSmallLetter);
         }
 
         public void PrintMessage()

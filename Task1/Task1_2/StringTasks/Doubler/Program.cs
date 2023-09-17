@@ -9,10 +9,11 @@ namespace Doubler
     {
         static void Main(string[] args)
         {
-            var str = "написать программу, которая";
-            var str1 = "описание";
-            var value = Logic.DoubleSymbol(str, str1);
-            Console.WriteLine(value);
+            var logic = new Logic();
+            var app = new Application(logic);
+            app.Run();
         }
     }
 }
+//var str = "написать программу, которая";
+//var str1 = "описание";

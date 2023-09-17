@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Averages
+namespace Validator
 {
     public class Application
     {
@@ -14,13 +14,12 @@ namespace Averages
         {
             _logic = logic;
         }
-
         public void Run()
         {
             PrintMessage();
             var sentence = ReadSentence();
-            sentence = string.Format("{0:0.0}", _logic.AverageWordLength(sentence));
-            Console.WriteLine(sentence);
+            var numberWordsWithSmallLetter = _logic.Validator(sentence);
+            Console.WriteLine(numberWordsWithSmallLetter);
         }
 
         public void PrintMessage()

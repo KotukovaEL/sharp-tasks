@@ -8,12 +8,11 @@ namespace Averages
     internal static class Program
     {
         static void Main(string[] args)
-        {
-            var app = new Application();
-            var logic = new Logic(app); 
-            logic.Run();
-            
-            
+        {  
+            var logic = new Logic(); 
+            var app = new Application(logic);         
+            app.Run();         
         }
     }
 }
+//"Викентий хорошо отметил день рождения: покушал пиццу, посмотрел кино, пообщался со студентами в чате";

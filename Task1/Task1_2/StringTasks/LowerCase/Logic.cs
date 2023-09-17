@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LowerCase
 {
-    public static class Logic
+    public  class Logic
     {
-        public static int CountWordsWithSmallLetter(string str)
+        public int CountWordsWithSmallLetter(string str)
         {
             var words = str.Split(new[] {' ', ',', ':', ';' }, StringSplitOptions.RemoveEmptyEntries);
             var wordsCount = 0;

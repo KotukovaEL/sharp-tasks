@@ -16,19 +16,14 @@ namespace Validator
         }
         public void Run()
         {
-            PrintMessage();
-            var sentence = ReadSentence();
+            var sentence = EnterSentence();
             var numberWordsWithSmallLetter = _logic.Validator(sentence);
             Console.WriteLine(numberWordsWithSmallLetter);
         }
 
-        public void PrintMessage()
+        public string EnterSentence()
         {
             Console.WriteLine("Введите предложение: ");
-        }
-
-        public string ReadSentence()
-        {
             return Console.ReadLine();
         }
     }

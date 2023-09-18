@@ -17,19 +17,14 @@ namespace Averages
 
         public void Run()
         {
-            PrintMessage();
-            var sentence = ReadSentence();
-            sentence = string.Format("{0:0.0}", _logic.AverageWordLength(sentence));
-            Console.WriteLine(sentence);
+            var sentence = EnterSentence();
+            var averageWordLength = string.Format("{0:0.0}", _logic.AverageWordLength(sentence));
+            Console.WriteLine(averageWordLength);
         }
 
-        public void PrintMessage()
+        public string EnterSentence()
         {
             Console.WriteLine("Введите предложение: ");
-        }
-
-        public string ReadSentence()
-        {
             return Console.ReadLine();
         }
     }

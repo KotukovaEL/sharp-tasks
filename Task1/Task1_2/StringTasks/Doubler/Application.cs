@@ -17,13 +17,13 @@ namespace Doubler
 
         public void Run()
         {
-            var str1 = PrintStr("1");
-            var str2 = PrintStr("2");
-            var sentence =  _logic.DoubleSymbol(str1, str2);
-            Console.WriteLine(sentence);
+            var str1 = EnterStr("1");
+            var str2 = EnterStr("2");
+            var resultStr =  _logic.DoubleSymbol(str1, str2);
+            Console.WriteLine(resultStr);
         }
 
-        public string PrintStr(string str)
+        public string EnterStr(string str)
         {
             Console.WriteLine($"Введите {str} строку: ");
             return Console.ReadLine(); ;

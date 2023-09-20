@@ -6,9 +6,10 @@ namespace LowerCase
     {
         static void Main(string[] args)
         {
-            var str = "Антон хорошо начал утро: послушал Стинга, выпил кофе и посмотрел Звездные Войны";
-            var value = Logic.CountWordsWithSmallLetter(str);
-            Console.WriteLine(value);
+            var logic = new Logic();
+            var app = new Application(logic);
+            app.Run();
         }
     }
 }
+// var str = "Антон хорошо начал утро: послушал Стинга, выпил кофе и посмотрел Звездные Войны";

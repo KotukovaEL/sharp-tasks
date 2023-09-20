@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Averages
 {
-    public static class Logic
-    {
-        public static double AverageWordLength(string textString)
+    public class Logic
+    {     
+        public double AverageWordLength(string textString)
         {
             var separators = new [] { '@', '_', ',', '.', '!', '?', '^', ':', ';', '—', ' ', '-','\'','\\', '\"' };
             var words = textString.Split(separators, StringSplitOptions.RemoveEmptyEntries);
@@ -20,6 +20,9 @@ namespace Averages
             }
 
             return wordsLengthSum / (double)words.Length;
+
         }
     }
 }
+
+

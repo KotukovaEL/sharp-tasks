@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Validator
 {
-    public static class Logic
+    public class Logic
     {
-        public static string Validator(string str, char[] endSigns)
+        public string Validator(string str)
         {
+            char[] endSigns = { '.', '!', '?' };
             char[] separators = { ' ' };
             string[] words = str.Split(separators, StringSplitOptions.RemoveEmptyEntries);
             var results = new List<string>();

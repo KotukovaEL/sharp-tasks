@@ -4,14 +4,13 @@ using System.Linq;
 
 namespace Validator
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            var str = "dasddas adsa. d dcsd hg! hihih? sdf svcd scvds.";
-            char[] endSigns = { '.', '!', '?' };
-            var value = Logic.Validator(str, endSigns);
-            Console.WriteLine(value);
+            var logic = new Logic();
+            var app = new Application(logic);
+            app.Run();
         }      
     }
 }

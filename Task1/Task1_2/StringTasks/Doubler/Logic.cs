@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Doubler
 {
-    public static class Logic
+    public class Logic
     {
-        public static string DoubleSymbol(string firstStr, string secondStr)
+        public string DoubleSymbol(string firstStr, string secondStr)
         {
             var sb = new StringBuilder();
 

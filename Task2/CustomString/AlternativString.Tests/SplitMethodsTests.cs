@@ -12,12 +12,19 @@ namespace AlternativString.Tests
     public class SplitMethodsTests
     {
         [Fact]
-        public void Should_split_string_correctly()
+        public void Should_split_strings_correctly()
         {
-            var expectedResult = "geeksForGeeks";
-            var customString1 = new CustomString("geeks,For,Geeks");
-            var result = customString1.Split(new[] { ',', ';', ' ' }) ;
-            result.Should().BeEquivalentTo(expectedResult);
+            var expectedList = new List<CustomString>
+            {
+                new CustomString("geeks"),
+                new CustomString("For"),
+                new CustomString("Geeks"),
+            };
+
+            var customString = new CustomString("geeks,For,Geeks");
+            var actualList = customString.Split(new[] { ',', ';', ' ' }) ;
+
+            actualList.Should().BeEquivalentTo(expectedList);
         }
     }
 }

@@ -15,7 +15,12 @@ namespace Application
             var customString1 = new CustomString("geeks,For,Geeks");
             var customString2 = new CustomString("Geeks");
             var customString4 = new CustomString("sdsf");
-            Console.WriteLine(customString1.Split(new[] { ',', ';', ' ' }));
+            var splitedList = customString1.Split(new[] { ',', ';', ' ' });
+
+            foreach (var value in splitedList)
+            {
+                Console.Write(value);
+            }
         }
     }
 }

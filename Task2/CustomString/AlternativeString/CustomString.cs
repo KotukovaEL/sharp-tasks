@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Drawing;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.WebSockets;
@@ -13,7 +14,6 @@ namespace AlternativeString
     public class CustomString
     {
         private static HashSet<char> Vowels = new HashSet<char>() { 'А', 'У', 'О', 'Ы', 'И', 'Э', 'Я', 'Ю', 'Ё', 'Е', 'а', 'у', 'о', 'ы', 'и', 'э', 'я', 'ю', 'ё', 'е', 'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u' };
-        private static HashSet<char> Separators = new HashSet<char>() { ',', ';', ':', ' ' };
         private readonly char[] _chars;
 
         public int Length => _chars.Length;
@@ -145,6 +145,7 @@ namespace AlternativeString
 
             return -1;
         }
+
         public int LastIndexOf(char symbol)
         {
             for (int i = _chars.Length - 1; i >= 0; i--)
@@ -154,6 +155,30 @@ namespace AlternativeString
                     return i;
                 }
             }
+            return -1;
+        }
+
+        public int LastIndexOf(CustomString entry)
+        {
+            for (int i = _chars.Length - 1; i >= 0; i--)
+            {
+                bool isContains = true;
+
+                for (int j = 0; j < entry.Length; j++)
+                {
+                    if (_chars[i + j] != entry[j])
+                    {
+                        isContains = false;
+                        break;
+                    }
+                }
+
+                if (isContains)
+                {
+                    return i;
+                }
+            }
+
             return -1;
         }
 
@@ -177,7 +202,7 @@ namespace AlternativeString
             return vowelsCount;
         }
 
-        public CustomString DeleteVowelLetters()
+        public CustomString DeleteVowels()
         {
             var sb = new StringBuilder();
 
@@ -237,7 +262,7 @@ namespace AlternativeString
 
         public static explicit operator char[](CustomString other)
         {
-            return other._chars;
+            return other.ToCharArray();
         }
 
 
@@ -249,12 +274,29 @@ namespace AlternativeString
             {
                 throw new ArgumentOutOfRangeException("startIndex");
             }
-            for(int i = startIndex; i < _chars.Length; i++)
-                {
-                    sb.Append(_chars[i]);
-                }
+
+            for (int i = startIndex; i < _chars.Length; i++)
+            {
+                sb.Append(_chars[i]);
+            }
             
             return new CustomString(sb);
+        }
+
+        public CustomString Substring(int startIndex, int length)
+        {
+            var newChars = new char[length];
+            if (startIndex < 0 || startIndex >= _chars.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof (startIndex));
+            }
+
+            if (length > _chars.Length || length + startIndex > _chars.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(length));
+            }
+            Array.Copy(_chars, startIndex, newChars, 0, length);
+            return new CustomString(newChars);
         }
 
 
@@ -311,7 +353,7 @@ namespace AlternativeString
             return false;
         }
 
-        public bool Contains(string value)
+        public bool Contains(CustomString value)
         {
             for (int i = 0; i < _chars.Length; i++)
             {
@@ -319,6 +361,11 @@ namespace AlternativeString
 
                 for (int j = 0; j < value.Length; j++)
                 {
+                    if(i + j == _chars.Length)
+                    {
+                        return false;
+                    }
+
                     if (_chars[i + j] != value[j])
                     {
                         isContains = false;
@@ -337,7 +384,7 @@ namespace AlternativeString
 
         public CustomString CopyTo(int sourceIndex, int destinationIndex, int length)
         {
-            char[] result = new char[_chars.Length];
+            char[] result = new char[length];
             Array.Copy(_chars, sourceIndex, result, destinationIndex, length);
             return new CustomString(result);
         }
@@ -356,13 +403,11 @@ namespace AlternativeString
 
         public bool EndsWith(CustomString entry)
         {
-            for (var i = entry.Length - 1; i >= 0; i--)
+            if (Substring(_chars.Length - entry.Length) != entry)
             {
-                if (entry[i] != _chars[i])
-                {
-                    return false;
-                }
+                return false;
             }
+
             return true;
         }
 
@@ -377,7 +422,7 @@ namespace AlternativeString
 
         public CustomString Remove(int startIndex)
         {
-            var newChars = new char[_chars.Length - startIndex + 1];
+            var newChars = new char[startIndex];
             Array.Copy(_chars, 0, newChars, 0, startIndex);
             return new CustomString(newChars);
         }
@@ -386,7 +431,7 @@ namespace AlternativeString
         {
             var newChars = new char[_chars.Length - count ];
             Array.Copy(_chars, 0, newChars, 0, startIndex);
-            Array.Copy(_chars, startIndex + count, newChars, startIndex,  _chars.Length - count - startIndex  );
+            Array.Copy(_chars, startIndex + count, newChars, startIndex,  _chars.Length - count - startIndex);
             return new CustomString(newChars);
         }
 
@@ -417,7 +462,6 @@ namespace AlternativeString
             while (char.IsWhiteSpace(_chars[count]))
             {
                 count--;
-
             }
 
             for (int i = 0; i <= count; i++)
@@ -428,24 +472,46 @@ namespace AlternativeString
             return new CustomString(sb);
         }
 
-        //public CustomString Trim()
-        //{
-        //  
-        //}
-
-        public CustomString Split()
+        public CustomString Trim()
         {
+            var trimed = TrimStart();
+            trimed = trimed.TrimEnd();
+            return trimed;
+        }
+
+        public List<CustomString> Split(char[] separators)
+        {
+            var separatorsSet = separators.ToHashSet();
+            var splitedList = new List<CustomString>();
             var sb = new StringBuilder();
 
             for (int i = 0; i < _chars.Length; i++)
             {
-                if (!Separators.Contains(_chars[i]))
+                if (separatorsSet.Contains(_chars[i]))
+                {
+                    var customstring = new CustomString(sb);
+                    splitedList.Add(customstring);
+                    sb.Clear();
+                }
+                else
                 {
                     sb.Append(_chars[i]);
                 }
+
+                if(i == _chars.Length - 1)
+                {
+                    var customstring = new CustomString(sb);
+                    splitedList.Add(customstring);
+                    sb.Clear();
+                }
             }
 
-            return new CustomString(sb);
+            foreach(var value in splitedList)
+            {
+                Console.Write(value);
+            }
+
+            return splitedList;
         }
     }
 }

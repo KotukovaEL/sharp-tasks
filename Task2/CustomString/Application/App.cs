@@ -12,14 +12,10 @@ namespace Application
     {
         public void Run()
         {
-            var customString1 = new CustomString("a bcde ft");
-            var customString2 = new CustomString("ac");
+            var customString1 = new CustomString("geeks,For,Geeks");
+            var customString2 = new CustomString("Geeks");
             var customString4 = new CustomString("sdsf");
-
-            Console.WriteLine(customString1.Split());
-            //var str = "GeeksForGeeks";
-            //var str2 = str.Split();
-            //Console.WriteLine(str2);
+            Console.WriteLine(customString1.Split(new[] { ',', ';', ' ' }));
         }
     }
 }

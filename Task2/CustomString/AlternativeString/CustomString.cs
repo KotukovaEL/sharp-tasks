@@ -99,30 +99,16 @@ namespace AlternativeString
 
         public int IndexOf(CustomString entry)
         {
-            for (int i = 0; i < _chars.Length; i++)
-            {
-                bool isContains = true;
-
-                for (int j = 0; j < entry.Length; j++)
-                {
-                    if (_chars[i + j] != entry[j])
-                    {
-                        isContains = false;
-                        break;
-                    }
-                }
-
-                if (isContains)
-                {
-                    return i;
-                }
-            }
-
-            return -1;
+            return IndexOf(entry._chars);
         }
 
 
         public int IndexOf(string entry)
+        {
+            return IndexOf(entry.ToCharArray());
+        }
+
+        private int IndexOf(char[] entry)
         {
             for (int i = 0; i < _chars.Length; i++)
             {
@@ -243,37 +229,14 @@ namespace AlternativeString
             return 0;
         }
 
-
-        public static CustomString operator +(CustomString str1, CustomString str2)
-        {
-
-            return str1.Concat(str2);
-        }
-
-        public static bool operator ==(CustomString str1, CustomString str2)
-        {
-            return str1.Equals(str2);
-        }
-
-        public static bool operator !=(CustomString str1, CustomString str2)
-        {
-            return !str1.Equals(str2);
-        }
-
-        public static explicit operator char[](CustomString other)
-        {
-            return other.ToCharArray();
-        }
-
-
         public CustomString Substring(int startIndex)
         {
-            var sb = new StringBuilder();
-
             if (startIndex < 0 || startIndex >= _chars.Length)
             {
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
             }
+
+            var sb = new StringBuilder();
 
             for (int i = startIndex; i < _chars.Length; i++)
             {
@@ -285,16 +248,17 @@ namespace AlternativeString
 
         public CustomString Substring(int startIndex, int length)
         {
-            var newChars = new char[length];
             if (startIndex < 0 || startIndex >= _chars.Length)
             {
-                throw new ArgumentOutOfRangeException(nameof (startIndex));
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
             }
 
             if (length > _chars.Length || length + startIndex > _chars.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
+
+            var newChars = new char[length];
             Array.Copy(_chars, startIndex, newChars, 0, length);
             return new CustomString(newChars);
         }
@@ -361,7 +325,7 @@ namespace AlternativeString
 
                 for (int j = 0; j < value.Length; j++)
                 {
-                    if(i + j == _chars.Length)
+                    if (i + j >= _chars.Length)
                     {
                         return false;
                     }
@@ -403,11 +367,13 @@ namespace AlternativeString
 
         public bool EndsWith(CustomString entry)
         {
-            if (Substring(_chars.Length - entry.Length) != entry)
+            for (int i = _chars.Length - 1, j = entry.Length - 1; i >= 0 && j >= 0; i--, j--)
             {
-                return false;
+                if (entry[j] != _chars[i])
+                {
+                    return false;
+                }
             }
-
             return true;
         }
 
@@ -443,7 +409,6 @@ namespace AlternativeString
             while(char.IsWhiteSpace(_chars[count]))
             { 
                 count++;
-
             }
 
             for (int i = count; i < _chars.Length; i++)
@@ -489,29 +454,49 @@ namespace AlternativeString
             {
                 if (separatorsSet.Contains(_chars[i]))
                 {
-                    var customstring = new CustomString(sb);
-                    splitedList.Add(customstring);
-                    sb.Clear();
+                    TryAddSplitedString(splitedList, sb);
                 }
                 else
                 {
                     sb.Append(_chars[i]);
                 }
-
-                if(i == _chars.Length - 1)
-                {
-                    var customstring = new CustomString(sb);
-                    splitedList.Add(customstring);
-                    sb.Clear();
-                }
             }
 
-            foreach(var value in splitedList)
-            {
-                Console.Write(value);
-            }
+            TryAddSplitedString(splitedList, sb);
 
             return splitedList;
+        }
+
+        private void TryAddSplitedString(List<CustomString> splitedList, StringBuilder sb)
+        {
+            if (sb.Length == 0)
+            {
+                return;
+            }
+
+            var customstring = new CustomString(sb);
+            splitedList.Add(customstring);
+            sb.Clear();
+        }
+
+        public static CustomString operator +(CustomString str1, CustomString str2)
+        {
+            return str1.Concat(str2);
+        }
+
+        public static bool operator ==(CustomString str1, CustomString str2)
+        {
+            return str1.Equals(str2);
+        }
+
+        public static bool operator !=(CustomString str1, CustomString str2)
+        {
+            return !str1.Equals(str2);
+        }
+
+        public static explicit operator char[](CustomString other)
+        {
+            return other.ToCharArray();
         }
     }
 }

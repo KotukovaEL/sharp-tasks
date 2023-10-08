@@ -285,32 +285,27 @@ namespace AlternativeString
 
         public CustomString Replace(CustomString oldValue, CustomString newValue)
         {
-            char[] result = new char[_chars.Length - oldValue.Length + newValue.Length];
-var indexOldValue = IndexOf(oldValue);
-            //while (true)
-            //{
-
-
-            //    if (indexOldValue == -1)
-            //    {
-            //        break;
-            //    }
-
-
-            //    //else
-            //    //{
-            //    //    Array.Copy(newValue._chars, 0, result, indexOldValue, newValue.Length);
-            //    //    Array.Copy(_chars, newValue.Length, result, newValue.Length, _chars.Length - newValue.Length);
-            //    //}
-            //}
-
-            if (indexOldValue != 0)
+            if (oldValue == newValue)
             {
-                Array.Copy(_chars, 0, result, 0, indexOldValue);
-                Array.Copy(newValue._chars, 0, result, indexOldValue, newValue.Length);
-                Array.Copy(_chars, _chars.Length - oldValue.Length, result, result.Length - newValue.Length, _chars.Length - oldValue.Length - newValue.Length);
+                return new CustomString(_chars);
             }
-            return new CustomString(result);
+
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < _chars.Length; i++)
+            {
+                if (Contains(oldValue, i))
+                {
+                    sb.Append(newValue);
+                    i += oldValue.Length - 1;
+                }
+                else
+                {
+                    sb.Append(_chars[i]);
+                }
+            }
+
+            return new CustomString(sb);
         }
 
         public CustomString ToLower()
@@ -349,7 +344,14 @@ var indexOldValue = IndexOf(oldValue);
 
         public bool Contains(CustomString value)
         {
-            for (int i = 0; i < _chars.Length; i++)
+            return Contains(value, 0);
+        }
+
+        public bool Contains(CustomString value, int startIndex)
+        {
+            // Add validation for startIndex
+
+            for (int i = startIndex; i < _chars.Length; i++)
             {
                 bool isContains = true;
 

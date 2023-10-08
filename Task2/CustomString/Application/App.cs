@@ -12,15 +12,17 @@ namespace Application
     {
         public void Run()
         {
-            var customString1 = new CustomString("geeks,For,Geeks");
-            var customString2 = new CustomString("Geeks");
-            var customString4 = new CustomString("sdsf");
-            var splitedList = customString1.Split(new[] { ',', ';', ' ' });
+            var customString1 = new CustomString("geeksForGeeks");
+            var customString2 = new CustomString("For");
+            var customString4 = new CustomString("For");
+            //var splitedList = customString1.Split(new[] { ',', ';', ' ' });
 
-            foreach (var value in splitedList)
-            {
-                Console.Write(value);
-            }
+            //foreach (var value in splitedList)
+            //{
+            //    Console.Write(value);
+            //}
+
+            Console.WriteLine(customString1.Replace(customString2, customString4));
         }
     }
 }

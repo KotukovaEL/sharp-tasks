@@ -283,6 +283,36 @@ namespace AlternativeString
             return new CustomString(sb);
         }
 
+        public CustomString Replace(CustomString oldValue, CustomString newValue)
+        {
+            char[] result = new char[_chars.Length - oldValue.Length + newValue.Length];
+var indexOldValue = IndexOf(oldValue);
+            //while (true)
+            //{
+
+
+            //    if (indexOldValue == -1)
+            //    {
+            //        break;
+            //    }
+
+
+            //    //else
+            //    //{
+            //    //    Array.Copy(newValue._chars, 0, result, indexOldValue, newValue.Length);
+            //    //    Array.Copy(_chars, newValue.Length, result, newValue.Length, _chars.Length - newValue.Length);
+            //    //}
+            //}
+
+            if (indexOldValue != 0)
+            {
+                Array.Copy(_chars, 0, result, 0, indexOldValue);
+                Array.Copy(newValue._chars, 0, result, indexOldValue, newValue.Length);
+                Array.Copy(_chars, _chars.Length - oldValue.Length, result, result.Length - newValue.Length, _chars.Length - oldValue.Length - newValue.Length);
+            }
+            return new CustomString(result);
+        }
+
         public CustomString ToLower()
         {
             char[] result = new char[_chars.Length];

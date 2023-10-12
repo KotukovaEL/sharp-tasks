@@ -21,7 +21,7 @@ namespace AlternativString.Tests
         }
 
         [Fact]
-        public void Should_calculate_quantity_vowels_correctly_when_no_vowels()
+        public void Should_not_delete_when_no_vowels_correctly()
         {
             var expectedResult = new CustomString("hll");
             var customString1 = new CustomString("hll");

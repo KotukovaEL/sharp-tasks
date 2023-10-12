@@ -12,7 +12,7 @@ namespace AlternativString.Tests
     public class IndexOfMethodsTests
     {
         [Fact]
-        public void Should_find_index_symbol_correctly_when_it_stands_in_first_position()
+        public void Should_find_symbol_index_when_index_is_0()
         {
             var expectedIndex = 0;
             var customString1 = new CustomString("geeksForGeeks");
@@ -39,7 +39,7 @@ namespace AlternativString.Tests
         }
 
         [Fact]
-        public void Should_output_value_correctly_when_no_such_symbol()
+        public void Should_return_negative_value_when_no_such_symbol()
         {
             var expectedIndex = -1;
             var customString1 = new CustomString("hello");

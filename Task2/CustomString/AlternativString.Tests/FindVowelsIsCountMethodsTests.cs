@@ -11,7 +11,7 @@ namespace AlternativString.Tests
     public class FindVowelsIsCountMethodsTests
     {
         [Fact]
-        public void Should_calculate_quantity_vowels_correctly()
+        public void Should_find_vowels_count_correctly()
         {
             var expectedIndex = 5;
             var customString1 = new CustomString("geeksForGeeks");
@@ -20,7 +20,7 @@ namespace AlternativString.Tests
         }
 
         [Fact]
-        public void Should_calculate_quantity_vowels_correctly_when_no_vowels()
+        public void Should_not_find_vowels_count_when_no_vowels()
         {
             var expectedIndex = 0;
             var customString1 = new CustomString("vht");

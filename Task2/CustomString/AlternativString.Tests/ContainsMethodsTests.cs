@@ -6,7 +6,7 @@ namespace AlternativString.Tests
     public class ContainsMethodsTests
     {
         [Fact]
-        public void Should_return_boolean_value_correctly_when_symbol_contains()
+        public void Should_return_boolean_value_correctly_when_symbol_is_contained()
         {
             var expectedResult = true;
             var customString1 = new CustomString("geeksForGeeks");
@@ -15,7 +15,7 @@ namespace AlternativString.Tests
         }
 
         [Fact]
-        public void Should_return_boolean_value_correctly_when_symbol_is_not_contains()
+        public void Should_return_boolean_value_correctly_when_symbol_is_not_contained()
         {
             var expectedResult = false;
             var customString1 = new CustomString("geeksForGeeks");
@@ -24,7 +24,7 @@ namespace AlternativString.Tests
         }
 
         [Fact]
-        public void Should_return_boolean_value_correctly_when_string_contains()
+        public void Should_return_boolean_value_correctly_when_string_is_contained()
         {
             var expectedResult = true;
             var customString1 = new CustomString("geeksForGeeks");

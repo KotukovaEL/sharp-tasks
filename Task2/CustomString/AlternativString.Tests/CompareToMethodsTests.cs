@@ -31,6 +31,7 @@ namespace AlternativString.Tests
             Assert.Equal(expectedResult, result);
         }
 
+        [Fact]
         public void Should_compare_two_objects_correctly_when_both_lines_equal()
         {
             var expectedResult = 0;

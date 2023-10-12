@@ -12,17 +12,20 @@ namespace Application
     {
         public void Run()
         {
-            var customString1 = new CustomString("geeksForGeeks");
+            var customString1 = new CustomString("geeksForForForGeeks");
             var customString2 = new CustomString("For");
-            var customString4 = new CustomString("For");
+            var customString4 = new CustomString("Hello");
             //var splitedList = customString1.Split(new[] { ',', ';', ' ' });
 
             //foreach (var value in splitedList)
             //{
             //    Console.Write(value);
             //}
-
+           
             Console.WriteLine(customString1.Replace(customString2, customString4));
+
+            //var str = "dsfsd";
+            //var str2 = str.IndexOf()
         }
     }
 }

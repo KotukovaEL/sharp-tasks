@@ -132,6 +132,30 @@ namespace AlternativeString
             return -1;
         }
 
+        private int IndexOf(CustomString entry, int startIndex)
+        {
+            for (int i = startIndex; i < _chars.Length; i++)
+            {
+                bool isContains = true;
+
+                for (int j = 0; j < entry.Length; j++)
+                {
+                    if (_chars[i + j] != entry[j])
+                    {
+                        isContains = false;
+                        break;
+                    }
+                }
+
+                if (isContains)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
         public int LastIndexOf(char symbol)
         {
             for (int i = _chars.Length - 1; i >= 0; i--)
@@ -294,10 +318,19 @@ namespace AlternativeString
 
             for (int i = 0; i < _chars.Length; i++)
             {
-                if (Contains(oldValue, i))
+                int index = IndexOf(oldValue, i);
+
+                if (index != -1)
                 {
+                    while (i < index)
+                    {
+                        sb.Append(_chars[i]);
+                        i++;
+                    }
+
                     sb.Append(newValue);
                     i += oldValue.Length - 1;
+
                 }
                 else
                 {
@@ -344,14 +377,8 @@ namespace AlternativeString
 
         public bool Contains(CustomString value)
         {
-            return Contains(value, 0);
-        }
 
-        public bool Contains(CustomString value, int startIndex)
-        {
-            // Add validation for startIndex
-
-            for (int i = startIndex; i < _chars.Length; i++)
+            for (int i = 0; i < _chars.Length; i++)
             {
                 bool isContains = true;
 

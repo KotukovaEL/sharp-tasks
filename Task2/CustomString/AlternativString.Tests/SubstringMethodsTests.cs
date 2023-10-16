@@ -22,6 +22,16 @@ namespace AlternativString.Tests
         }
 
         [Fact]
+        public void Should_throw_ArgumentOutOfRangeException_when_startIndex_more_than_char_length()
+        {
+            var incorrectStartIndex = 13;
+            var str = new CustomString("geeksForGeeks");
+
+            Func<CustomString> func = () => str.Substring(incorrectStartIndex);
+            Assert.Throws<ArgumentOutOfRangeException>(() => func());
+        }
+
+        [Fact]
         public void Should_retrieve_substring_correctly()
         {
             var expectedResult = new CustomString("ForGeeks");

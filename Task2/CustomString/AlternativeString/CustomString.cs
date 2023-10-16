@@ -38,18 +38,21 @@ namespace AlternativeString
         {
             get
             {
-                if (index >= 0 && index < _chars.Length)
+                if (index < 0 || index >= _chars.Length)
                 {
-                    return _chars[index];
+                    throw new ArgumentOutOfRangeException("index"); 
                 }
 
-                else
-                    throw new ArgumentOutOfRangeException("index");
+                return _chars[index];
+
             }
             set
             {
-                if (index >= 0 && index < _chars.Length)
-                    _chars[index] = value;
+                if (index < 0 || index >= _chars.Length)
+                {
+                    throw new ArgumentOutOfRangeException("index");
+                }
+                _chars[index] = value;
             }
         }
 

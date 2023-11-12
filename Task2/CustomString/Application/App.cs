@@ -15,9 +15,8 @@ namespace Application
             var customString1 = new CustomString("geeksForForForGeeks");
             var customString2 = new CustomString("For");
             var customString4 = new CustomString("Hello");
-          
-            Console.WriteLine(customString1.Replace(customString2, customString4));
 
+            Console.WriteLine(customString1.Replace(customString2, customString4));
         }
     }
 }

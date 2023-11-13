@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace AlternativeDateTime
 {
@@ -13,9 +14,11 @@ namespace AlternativeDateTime
         public int Second { get; private set; }
 
         public CustomDateTime Date => new CustomDateTime(Year, Month, Day, 0, 0, 0);
+        public CustomTimeSpan Time => new CustomTimeSpan(0, Hour, Minute, Second);
 
         public CustomDateTime (int year, int month, int day, int hour, int minute, int second)
         {
+            ValidateAndThrow(year, month, day, hour, minute, second);
             Year = year;
             Month = month;
             Day = day;
@@ -24,80 +27,48 @@ namespace AlternativeDateTime
             Second = second;
         }
 
+        private void ValidateAndThrow(params int[] parameters)
+        {
+            var positiveCount = 0;
+
+            foreach (var parameter in parameters)
+            {
+                if (parameter >= 0)
+                {
+                    positiveCount++;
+                }
+            }
+
+            if (positiveCount != parameters.Length)
+            {
+                throw new ArgumentException("Parameters cannot be negative simultaneously.");
+            }
+        }
+
         public static CustomDateTime operator + (CustomDateTime dt, CustomTimeSpan ts)
         {
-            int totalSeconds = dt.Second + ts.Seconds;
-            int totalMinutes = dt.Minute + ts.Minutes;
-            int totalHours = dt.Hour + ts.Hours;
-            int totalDays = dt.Day + ts.Days;
-            int totalMonth = dt.Month;
-            int totalYear = dt.Year;
-            var daysInMonth = GetDaysInMonth(totalYear, totalMonth);
+            //if (ts.Time < dt.Time)
+            //{
+            //    var totalSeconds = dt.Second + ts.Seconds;
+            //    var totalMinutes = dt.Minute + ts.Minutes;
+            //    var totalHours = dt.Hour + ts.Hours;
+            //}
 
+            var totalTime = dt.Time + ts.Time;
+            var result = new CustomDateTime(dt.Year, dt.Month, dt.Day, totalTime.Hours, totalTime.Minutes, totalTime.Seconds);
+            var daysInMonth = GetDaysInMonth(dt.Year, dt.Month);
 
-
-            if (totalSeconds >= 60)
+            if (dt.Day + ts.Days + totalTime.Days > daysInMonth)
             {
-                totalSeconds -= 60;
-                totalMinutes++;
+                result = result.AddDays(totalTime.Days + ts.Days);
+            }
+            else
+            {
+                result = result.AddDays(totalTime.Days + ts.Days);
             }
 
-            if (totalSeconds < 0)
-            {
-                totalSeconds += 60;
-                totalMinutes--;
-            }
 
-            if (totalMinutes >= 60 )
-            {
-                totalMinutes -= 60;
-                totalHours++;
-            }
-
-            if (totalMinutes < 0)
-            {
-                totalMinutes += 60;
-                totalHours--;
-            }
-
-            if (totalHours >= 24)
-            {
-                totalHours -= 24;
-                totalDays++;
-            }
-
-            if (totalHours < 0)
-            {
-                totalHours += 24;
-                totalDays--;
-            }
-
-            if (totalDays >= daysInMonth)
-            {
-                totalDays -= daysInMonth;
-                totalMonth++;
-            }
-
-            if (totalDays < 0)
-            {
-                totalMonth--;
-                if (totalMonth <1)
-                {
-                    totalMonth += 12;
-                    totalYear--;
-                }
-
-                daysInMonth = GetDaysInMonth(totalYear, totalMonth);
-                totalDays += daysInMonth;
-            }
-
-            if (totalMonth > 12)
-            {
-                totalMonth -= 12;
-                totalYear++;
-            }
-
-            return new CustomDateTime(totalYear, totalMonth, totalDays, totalHours, totalMinutes, totalSeconds);
+            return new CustomDateTime(result.Year, result.Month, result.Day, result.Hour, result.Minute, result.Second);
         }
 
         public static CustomDateTime operator -(CustomDateTime dt, CustomTimeSpan ts)
@@ -171,13 +142,9 @@ namespace AlternativeDateTime
             }
 
             var timeSpanFromDays = CustomTimeSpan.FromDays(daysMultiplier * daysCount);
+            var timeSpan = dt1.Time - dt2.Time;
 
-            var totalSecondsTd1 = dt1.Hour * 3600 + dt1.Minute * 60 + dt1.Second;
-            var totalSecondsTd2 = dt2.Hour * 3600 + dt2.Minute * 60 + dt2.Second;
-            long totalSeconds = totalSecondsTd1 - totalSecondsTd2;
-            var timeSpanFromSeconds = CustomTimeSpan.FromSeconds(totalSeconds);
-
-            return timeSpanFromDays + timeSpanFromSeconds;
+            return timeSpanFromDays + timeSpan;
         }
 
         public CustomDateTime AddDays(int days)
@@ -236,13 +203,6 @@ namespace AlternativeDateTime
         public static bool operator >=(CustomDateTime dt1, CustomDateTime dt2)
         {
             return dt1.CompareTo(dt2) >= 0;
-        }
-
-        public static long GetSeconds(CustomDateTime dt)
-        {
-            var daysInYear = dt.GetDaysInYear(dt.Year);
-            var daysInMonth = GetDaysInMonth(dt.Year, dt.Month);
-            return (daysInYear + daysInMonth + dt.Day) * 24 * 60 * 60 + dt.Hour * 60 * 60 + dt.Minute * 60 + dt.Second;
         }
 
         public static int GetDaysInMonth(int year, int month)

@@ -7,27 +7,39 @@ namespace Application
     {
         public void Run()
         {
-            //var dateTime = new CustomDateTime(2023, 03, 2, 16, 12, 00);
-            //var dateTime2 = new CustomDateTime(2024, 01, 21, 23, 15, 40);
-            //var result = dateTime - dateTime2;
-            //Console.WriteLine(result);
 
-            var ts1 = new CustomDateTime(2023, 5, 10, 10, 47, 12);
-            var ts2 = new CustomDateTime(2023, 2, 28, 14, 5, 12);
-            Console.WriteLine( ts1 - ts2);
+            //var ts1 = new CustomDateTime(2023, 5, 10, 10, 47, 12);
+            //var ts2 = new CustomTimeSpan(-28, -14, -5, -12);
+            //Console.WriteLine(ts1 + ts2);
 
-            var ts5 = new CustomDateTime(2022, 5, 10, 10, 47, 12);
-            var ts6 = new CustomDateTime(2023, 2, 28, 14, 5, 12);
-            Console.WriteLine(ts5 - ts6);
+            var ts1 = new CustomDateTime(2023, 01, 02, 10, 5, 12);
+            var ts2 = new CustomTimeSpan(12, 8, 44, 0);
+            Console.WriteLine(ts1 + ts2);
 
-            //var dt = new DateTime(2023, 03, 2, 16, 12, 00);
-            //var dt2 = new DateTime(2024, 01, 21, 23, 15, 40);
-            //Console.WriteLine(dt - dt2);
 
-            var td3 = new DateTime(2022, 5, 10, 10, 47, 12);
-            var td4 = new DateTime(2023, 2, 28, 14, 5, 12);
+            //var td3 = new DateTime(2023, 5, 10, 10, 47, 12);
+            //var td4 = new TimeSpan(-28, -14, -5, -12);
             //var td4 = new TimeSpan(-12, -8, -44, 0);
-            Console.WriteLine(td3 - td4);
+            //Console.WriteLine(td3 + td4);
+
+            var td3 = new DateTime(2023, 01, 02, 10, 5, 12);
+            var td4 = new TimeSpan(12, 8, 44, 0);
+            //var td4 = new TimeSpan(-12, -8, -44, 0);
+            Console.WriteLine(td3 + td4);
+
+            //var td6 = CustomTimeSpan.FromSeconds(447);
+            //var td5 = TimeSpan.FromSeconds(447);
+            //Console.WriteLine(td5);
+            //Console.WriteLine(td6);
+
+            var ts5 = new CustomDateTime(2023, 5, 10, 10, 47, 12);
+            var ts6 = new CustomTimeSpan(28, 14, 5, 12);
+            Console.WriteLine(ts5 + ts6);
+
+            var td7 = new DateTime(2023, 5, 10, 10, 47, 12);
+            var td8 = new TimeSpan(28, 14, 5, 12);
+            //var td4 = new TimeSpan(-12, -8, -44, 0);
+            Console.WriteLine(td7 + td8);
         }
     }
 }

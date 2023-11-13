@@ -12,16 +12,16 @@ namespace AlternativeDateTime.Tests.TimeSpanTests
         [Fact]
         public void Should_calculate_customTimeSpan_when_famous_seconds()
         {
-            var expectedResult = new CustomTimeSpan(0, 0, 0, 447);
-            var actualResult = CustomTimeSpan.FromSeconds(447.444);
+            var expectedResult = new CustomTimeSpan(0, 0, 7, 27);
+            var actualResult = CustomTimeSpan.FromSeconds(447);
             Assert.Equal(expectedResult, actualResult);
         }
 
         [Fact]
         public void Should_calculate_customTimeSpan_when_famous_seconds_are_negative()
         {
-            var expectedResult = new CustomTimeSpan(0, 0, 0, -447);
-            var actualResult = CustomTimeSpan.FromSeconds(-447.444);
+            var expectedResult = new CustomTimeSpan(0, 0, -7, -27);
+            var actualResult = CustomTimeSpan.FromSeconds(-447);
             Assert.Equal(expectedResult, actualResult);
         }
     }

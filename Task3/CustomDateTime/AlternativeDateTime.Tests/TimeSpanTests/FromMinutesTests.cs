@@ -12,7 +12,7 @@ namespace AlternativeDateTime.Tests.TimeSpanTests
         [Fact]
         public void Should_calculate_customTimeSpan_when_famous_minutes()
         {
-            var expectedResult = new CustomTimeSpan(0, 0, 48, 47);
+            var expectedResult = new CustomTimeSpan(0, 0, 48, 46);
             var actualResult = CustomTimeSpan.FromMinutes(48.78);
             Assert.Equal(expectedResult, actualResult);
         }
@@ -20,7 +20,7 @@ namespace AlternativeDateTime.Tests.TimeSpanTests
         [Fact]
         public void Should_calculate_customTimeSpan_when_famous_minutes_is_negative()
         {
-            var expectedResult = new CustomTimeSpan(0, 0, -48, -47);
+            var expectedResult = new CustomTimeSpan(0, 0, -48, -46);
             var actualResult = CustomTimeSpan.FromMinutes(-48.78);
             Assert.Equal(expectedResult, actualResult);
         }

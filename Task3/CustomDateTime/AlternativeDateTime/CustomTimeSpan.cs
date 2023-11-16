@@ -15,6 +15,7 @@ namespace AlternativeDateTime
         public int Minutes { get; }
         public int Seconds { get; }
         public CustomTimeSpan Time => new CustomTimeSpan(0, Hours, Minutes, Seconds);
+        public CustomTimeSpan Zero => new CustomTimeSpan(0, 0, 0, 0);
         public CustomTimeSpan(int day, int hour, int minute, int second)
         {
             ValidateAndThrow(day, hour, minute, second);
@@ -220,6 +221,11 @@ namespace AlternativeDateTime
             }
 
             return 0;
+        }
+
+        public CustomTimeSpan Invert()
+        {
+            return new CustomTimeSpan(-Days, -Hours, -Minutes, -Seconds);
         }
     }
 }

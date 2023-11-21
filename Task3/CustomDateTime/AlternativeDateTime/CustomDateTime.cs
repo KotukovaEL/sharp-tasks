@@ -15,6 +15,7 @@ namespace AlternativeDateTime
 
         public CustomDateTime Date => new CustomDateTime(Year, Month, Day, 0, 0, 0);
         public CustomTimeSpan Time => new CustomTimeSpan(0, Hour, Minute, Second);
+        public static Calendar calendar => new GregorianCalendar();
 
         public CustomDateTime (int year, int month, int day, int hour, int minute, int second)
         {
@@ -118,7 +119,7 @@ namespace AlternativeDateTime
 
             for (var i = 0; i < days; i++)
             {
-                var daysInMonth = GetDaysInMonth(result.Year, result.Month);
+                var daysInMonth = calendar.GetDaysInMonth(result.Year, result.Month);
 
                 if (result.Day + 1 <= daysInMonth)
                 {
@@ -164,7 +165,7 @@ namespace AlternativeDateTime
                     result.Month--;
                 }
 
-                result.Day = GetDaysInMonth(result.Year, result.Month);
+                result.Day = calendar.GetDaysInMonth(result.Year, result.Month);
             }
 
             return result;
@@ -197,48 +198,6 @@ namespace AlternativeDateTime
         {
             return dt1.CompareTo(dt2) >= 0;
         }
-
-        public static int GetDaysInMonth(int year, int month)
-        {
-            var calendar = new GregorianCalendar();
-            return calendar.GetDaysInMonth(year, month);
-        }
-
-        public int GetDaysInYear(int year)
-        {
-            if (IsLeapYear(year)) 
-            {
-                return 366;
-            }
-
-            return 365;
-
-        }
-
-        public bool IsLeapYear(int year)
-        {
-            bool isLeapYear = false;
-
-            if (year % 4 == 0)
-            {
-                isLeapYear = true;
-            }
-            else
-            {
-                return isLeapYear;
-            }
-
-            if (year % 100 == 0)
-            {
-                if (year % 400 != 0)
-                {
-                    isLeapYear = false;
-                }
-            }
-
-            return isLeapYear;
-        }
-
 
         public override string ToString()
         {

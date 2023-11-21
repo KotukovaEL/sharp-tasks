@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,10 @@ namespace AlternativeDateTime
 {
     public class CustomTimeSpan : IEquatable<CustomTimeSpan>, IComparable<CustomTimeSpan>
     {
-        public int Days { get; }
-        public int Hours { get; }
-        public int Minutes { get; }
-        public int Seconds { get; }
+        public int Days { get; private set; }
+        public int Hours { get; private set; }
+        public int Minutes { get; private set; }
+        public int Seconds { get; private set; }
         public CustomTimeSpan Time => new CustomTimeSpan(0, Hours, Minutes, Seconds);
         public CustomTimeSpan Zero => new CustomTimeSpan(0, 0, 0, 0);
         public CustomTimeSpan(int day, int hour, int minute, int second)
@@ -49,82 +50,65 @@ namespace AlternativeDateTime
             }
         }
 
-        private static CustomTimeSpan Aggregate(char operators, CustomTimeSpan ts1, CustomTimeSpan ts2)
+        private static int GetTotalSecond (CustomTimeSpan ts)
         {
-            var totalSecondsTs1 = ts1.Days * 86400 + ts1.Hours * 3600 + ts1.Minutes * 60 + ts1.Seconds;
-            var totalSecondsTs2 = ts2.Days * 86400 + ts2.Hours * 3600 + ts2.Minutes * 60 + ts2.Seconds;
-
-            switch (operators)
-            {
-                case '+':
-                    return ConversionUnitsOfTime(totalSecondsTs1 + totalSecondsTs2);
-
-
-                case '-':
-                    return ConversionUnitsOfTime(totalSecondsTs1 - totalSecondsTs2);
-
-                default: throw new ArgumentException($"Unknown operation {(operators)}");
-            }
-        }
-
-        public static CustomTimeSpan ConversionUnitsOfTime(int result)
-        {
-            var totalDays = (int)result / 86400;
-            var totalHours = (int)result / 3600 - totalDays * 24;
-            var totalMinutes = (int)(result - result / 3600 * 3600) / 60;
-            var totalSeconds = (int)(result - result / 3600 * 3600) - totalMinutes * 60;
-            return new CustomTimeSpan(totalDays, totalHours, totalMinutes, totalSeconds);
+            return ts.Days * 86400 + ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds;
         }
 
         public static CustomTimeSpan operator +(CustomTimeSpan ts1, CustomTimeSpan ts2)
         {
-            return Aggregate('+', ts1, ts2);
+            var totalSeconds = GetTotalSecond(ts1) + GetTotalSecond(ts2);
+            return FromSeconds(totalSeconds);
         }
 
         public static CustomTimeSpan operator -(CustomTimeSpan ts1, CustomTimeSpan ts2)
         {
-            return Aggregate('-', ts1, ts2);
+            var totalSeconds = GetTotalSecond(ts1) - GetTotalSecond(ts2);
+            return FromSeconds(totalSeconds);
         }
 
         public static CustomTimeSpan FromDays(double value)
         {
             var days = (int)value;
             var remainingHours = (value - days) * 24;
-            var hours = (int)remainingHours;
-            var remainingMinutes = (remainingHours - hours) * 60;
-            var minutes = (int)remainingMinutes;
-            var remainingSeconds = (remainingMinutes - minutes) * 60;
-            var seconds = (int)remainingSeconds;
-            return new CustomTimeSpan(days, hours, minutes, seconds);
+            var ts = FromHours(remainingHours);
+            ts.Days = days;
+            return ts;
         }
 
         public static CustomTimeSpan FromHours(double value)
         {
-            var hours = (int)value;
-            var remainingMinutes = (value - hours) * 60;
-            var minutes = (int)remainingMinutes;
-            var remainingSeconds = (remainingMinutes - minutes) * 60;
-            var seconds = (int)remainingSeconds;
-            return new CustomTimeSpan(0, hours, minutes, seconds);
+            var days = (int)value / 24;
+            var remainingHours = value % 24;
+            var hours = (int)remainingHours;
+            remainingHours = (remainingHours - hours) * 60;
+            var ts = FromMinutes(remainingHours);
+            ts.Days = days;
+            ts.Hours = hours;
+            return ts;
         }
 
         public static CustomTimeSpan FromMinutes(double value)
         {
-            var hours = (int)value / 60;
-            var remainingMinutes = value % 60;
+            var days = (int)value / (24 * 60);
+            var remainingMinutes = value % (24 * 60);
+            var hours = (int)remainingMinutes / 60;
+            remainingMinutes = value % 60;
             var minutes = (int)remainingMinutes;
             var remainingSeconds = (remainingMinutes - minutes) * 60;
             int seconds = (int)remainingSeconds;
-            return new CustomTimeSpan(0, hours, minutes, seconds);
+            return new CustomTimeSpan(days, hours, minutes, seconds); 
         }
 
         public static CustomTimeSpan FromSeconds(int value)
         {
-            var hours = (int)value / 3600;
-            var remainingSeconds = value % 3600;
+            var days = value / (24 * 3600);
+            var remainingSeconds = value % (24 * 3600);
+            var hours = remainingSeconds / 3600;
+            remainingSeconds = value % 3600;
             var minutes = remainingSeconds / 60;
             var seconds = remainingSeconds % 60;
-            return new CustomTimeSpan(0, hours, minutes, seconds);
+            return new CustomTimeSpan(days, hours, minutes, seconds);
         }
         public static bool operator <(CustomTimeSpan ts1, CustomTimeSpan ts2)
         {

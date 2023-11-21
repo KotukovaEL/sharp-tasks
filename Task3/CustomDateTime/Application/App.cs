@@ -9,14 +9,17 @@ namespace Application
         {
             var td5 = new CustomDateTime(2023, 01, 2, 23, 47, 12);
             //var td6 = new TimeSpan(28, 14, 5, 12);
-            var td6 = new CustomTimeSpan(234, 12, 44, 0);
+            var td6 = new CustomTimeSpan(-234, -12, -44, 0);
             Console.WriteLine(td5 - td6);
 
 
             var td7 = new DateTime(2023, 01, 2, 23, 47, 12);
             //var td8 = new TimeSpan(28, 14, 5, 12);
-            var td8 = new TimeSpan(234, 12, 44, 0);
+            var td8 = new TimeSpan(-234, -12, -44, 0);
             Console.WriteLine(td7 - td8);
+
+            Console.WriteLine(TimeSpan.FromSeconds(256));
+            Console.WriteLine(CustomTimeSpan.FromSeconds(256));
         }
     }
 }

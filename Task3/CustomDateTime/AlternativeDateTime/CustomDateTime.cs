@@ -28,6 +28,7 @@ namespace AlternativeDateTime
             Second = second;
         }
 
+
         private void ValidateAndThrow(params int[] parameters)
         {
             var positiveCount = 0;
@@ -53,9 +54,22 @@ namespace AlternativeDateTime
             if (ts < ts.Zero)
             {
                 totalTime += CustomTimeSpan.FromDays(1);
-                dt.Day--;
-            }
 
+                if (dt.Day - 1 <= 0)
+                {
+                    if (dt.Month - 1 <= 0)
+                    {
+                        dt.Month = 12;
+                        dt.Year--;
+                    }
+
+                    dt.Day = calendar.GetDaysInMonth(dt.Year, dt.Month);
+                }
+                else
+                {
+                    dt.Day--;
+                }   
+            }
             else
             {
                 totalTime = dt.Time + ts.Time;

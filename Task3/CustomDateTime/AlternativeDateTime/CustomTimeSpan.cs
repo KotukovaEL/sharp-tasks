@@ -71,9 +71,12 @@ namespace AlternativeDateTime
         {
             var days = (int)value;
             var remainingHours = (value - days) * 24;
-            var ts = FromHours(remainingHours);
-            ts.Days = days;
-            return ts;
+            var hours = (int)remainingHours;
+            var remainingMinutes = (remainingHours - hours) * 60;
+            var minutes = (int)remainingMinutes;
+            var remainingSeconds = (remainingMinutes - minutes) * 60;
+            var seconds = (int)remainingSeconds;
+            return new CustomTimeSpan(days, hours, minutes, seconds);
         }
 
         public static CustomTimeSpan FromHours(double value)
@@ -81,11 +84,11 @@ namespace AlternativeDateTime
             var days = (int)value / 24;
             var remainingHours = value % 24;
             var hours = (int)remainingHours;
-            remainingHours = (remainingHours - hours) * 60;
-            var ts = FromMinutes(remainingHours);
-            ts.Days = days;
-            ts.Hours = hours;
-            return ts;
+            var remainingMinutes = (remainingHours - hours) * 60;
+            var minutes = (int)remainingMinutes;
+            var remainingSeconds = (remainingMinutes - minutes) * 60;
+            var seconds = (int)remainingSeconds;
+            return new CustomTimeSpan(days, hours, minutes, seconds);
         }
 
         public static CustomTimeSpan FromMinutes(double value)
@@ -96,7 +99,7 @@ namespace AlternativeDateTime
             remainingMinutes = value % 60;
             var minutes = (int)remainingMinutes;
             var remainingSeconds = (remainingMinutes - minutes) * 60;
-            int seconds = (int)remainingSeconds;
+            var seconds = (int)remainingSeconds;
             return new CustomTimeSpan(days, hours, minutes, seconds); 
         }
 

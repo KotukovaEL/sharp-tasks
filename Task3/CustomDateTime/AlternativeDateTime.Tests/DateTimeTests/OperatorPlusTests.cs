@@ -48,5 +48,14 @@ namespace AlternativeDateTime.Tests.DateTimeTests
             var result = td1 + ts2;
             Assert.Equal(expectedResult, result);
         }
+        [Fact]
+        public void Should_calculate_sum()
+        {
+            var expectedResult = new CustomDateTime(2023, 02, 03, 18, 38, 24);
+            var td1 = new CustomDateTime(2023, 01, 01, 18, 49, 12);
+            var ts2 = new CustomTimeSpan(32, 23, 49, 12);
+            var result = td1 + ts2;
+            Assert.Equal(expectedResult, result);
+        }
     }
 }

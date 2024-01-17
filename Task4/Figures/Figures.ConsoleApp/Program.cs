@@ -9,7 +9,8 @@ namespace Figures.ConsoleApp
     {
         static void Main(string[] args)
         {
-            Logic.SelectAnAction();
+            var logic = new Logic();
+            logic.SelectAnAction();
         }
     }
 }

@@ -36,5 +36,10 @@ namespace Figures.Model
         {
             return 2 * Math.PI * Radius;
         }
+
+        public override string ToString()
+        {
+            return $"Круг: центр: '{Center.X}','{Center.Y}'; радиус: '{Radius}'; площадь: '{GetArea()}'; периметр: '{GetPerimeter()}'; диаметр: '{GetDiameter()}'.";
+        }
     }
 }

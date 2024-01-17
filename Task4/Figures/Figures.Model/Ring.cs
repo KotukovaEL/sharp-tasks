@@ -10,6 +10,7 @@ namespace Figures.Model
     {
         public Circle BigCircle { get; }
         public Circle SmallCircle { get; }
+        public Point Center { get; }
 
         public Ring(Point center, double longRadius, double shortRadius)
         {
@@ -17,7 +18,7 @@ namespace Figures.Model
             {
                 throw new ArgumentException($"LongRadius '{longRadius}' cannot be lower than shortRadius '{shortRadius}'.");
             }
-
+            Center = center;
             BigCircle = new Circle(center, longRadius);
             SmallCircle = new Circle(center, shortRadius);
         }
@@ -36,6 +37,11 @@ namespace Figures.Model
         public override double GetPerimeter()
         {
             return BigCircle.GetPerimeter() + SmallCircle.GetPerimeter();
+        }
+
+        public override string ToString()
+        {
+            return $"Кольцо: центр: '{Center.X}','{Center.Y}'; радиус первого круга: '{BigCircle.Radius}'; радиус второго круга: '{SmallCircle.Radius}'; площадь: '{GetArea()}'; периметр: '{GetPerimeter()}'; диаметр: '{GetDiameter()}'.";
         }
     }
 }

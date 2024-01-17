@@ -59,5 +59,18 @@ namespace Figures.Model.Tests
             var expectedResult = 20;
             Assert.Equal(expectedResult, result);
         }
+
+        [Fact]
+        public void Should_determinе_that_shape_is_a_square_correctly()
+        {
+            var point1 = new Point(1, 1);
+            var point2 = new Point(1, 2);
+            var point3 = new Point(2, 2);
+            var point4 = new Point(2, 1);
+            var rectangle = new Rectangle(point1, point2, point3, point4);
+            var result = rectangle.IsSquare;
+            var expectedResult = true;
+            Assert.Equal(expectedResult, result);
+        }
     }
 }

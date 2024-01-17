@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Figures.Model
 {
-    public abstract class Figure
+    public abstract class Figure : GeometricEntity
     {
         public abstract double GetArea();
         public abstract double GetPerimeter();

@@ -51,5 +51,10 @@ namespace Figures.Model
                 throw new ArgumentException("There is no such triangle");
             }
         }
+
+        public override string ToString()
+        {
+            return $"Треугольник: точка А: '{A.X}','{A.Y}'; точка B: '{B.X}','{B.Y}'; точка C: '{C.X}','{C.Y}';  площадь: '{GetArea()}'; периметр: '{GetPerimeter()}'; диаметр: '{GetDiameter()}'.";
+        }
     }
 }

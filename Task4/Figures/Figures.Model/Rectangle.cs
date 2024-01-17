@@ -59,7 +59,7 @@ namespace Figures.Model
 
         public override string ToString()
         {
-            return $"Прямоугольник: точка А: '{A.X}','{A.Y}'; точка B: '{B.X}','{B.Y}'; точка C: '{C.X}','{C.Y}'; точка D: '{D.X}','{D.Y}'; площадь: '{GetArea()}'; периметр: '{GetPerimeter()}'; диаметр: '{GetDiameter()}'.";
+            return $"Прямоугольник: точка А: '{A.X}','{A.Y}'; точка B: '{B.X}','{B.Y}'; точка C: '{C.X}','{C.Y}'; точка D: '{D.X}','{D.Y}'. {base.ToString()}";
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Figures.ConsoleApp
 {
-    public class PrintOnConsole
+    public class MenuHelpers
     {
         public static void PrintActions()
         {

@@ -8,7 +8,8 @@ namespace Figures.ConsoleApp
 {
     public enum GeometricEntityTypes
     {
-        Circle = 1,
+        None,
+        Circle,
         LineSegment,
         Rectangle,
         Ring,

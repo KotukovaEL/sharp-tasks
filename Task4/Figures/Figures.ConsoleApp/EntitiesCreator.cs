@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Figures.ConsoleApp
 {
-    public class CreateEntities
+    public class EntitiesCreator
     {
         public static Circle CreateCircle()
         {
@@ -15,7 +15,7 @@ namespace Figures.ConsoleApp
             Console.WriteLine("Введите координаты центра:");
             var center = CreatePoint();
             Console.WriteLine("Введите радиус круга:");
-            var radius = double.Parse(Console.ReadLine());
+            var radius = ReadDoubleForRadius(Console.ReadLine());
             Console.WriteLine("Фигура Круг создана!");
             return new Circle(center, radius);
         }
@@ -52,9 +52,9 @@ namespace Figures.ConsoleApp
             Console.WriteLine("Введите координаты центра:");
             var center = CreatePoint();
             Console.WriteLine("Введите радиус большего круга:");
-            var longRadius = double.Parse(Console.ReadLine());
+            var longRadius = ReadDoubleForRadius(Console.ReadLine());
             Console.WriteLine("Введите радиус меньшего круга:");
-            var shortRadius = double.Parse(Console.ReadLine());
+            var shortRadius = ReadDoubleForRadius(Console.ReadLine());
             Console.WriteLine("Фигура Кольцо создана!");
             return new Ring(center, longRadius, shortRadius);
         }
@@ -74,10 +74,36 @@ namespace Figures.ConsoleApp
 
         public static Point CreatePoint()
         {
-            double x = double.Parse(Console.ReadLine());
-            double y = double.Parse(Console.ReadLine());
+            Console.WriteLine("Введите координаты X:");
+            double x = ReadDouble(Console.ReadLine());
+            Console.WriteLine("Введите координаты Y:");
+            double y = ReadDouble(Console.ReadLine());
             return new Point(x, y);
         }
 
+        public static double ReadDoubleForRadius(string str)
+        {
+            double value;
+            while (!double.TryParse(str, out value) || value < 0)
+            {
+                Console.WriteLine("Попробуй снова ввести");
+                str = Console.ReadLine();
+            }
+
+            return value;
+        }
+
+        public static double ReadDouble(string str)
+        {
+            double value;
+
+            while (!double.TryParse(str, out value))
+            {
+                Console.WriteLine("Попробуй снова ввести");
+                str = Console.ReadLine();
+            }
+
+            return value;
+        }
     }
 }

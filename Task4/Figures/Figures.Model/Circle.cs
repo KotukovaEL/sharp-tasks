@@ -39,7 +39,7 @@ namespace Figures.Model
 
         public override string ToString()
         {
-            return $"Круг: центр: '{Center.X}','{Center.Y}'; радиус: '{Radius}'; площадь: '{GetArea()}'; периметр: '{GetPerimeter()}'; диаметр: '{GetDiameter()}'.";
+            return $"Круг: центр: '{Center.X}','{Center.Y}'; радиус: '{Radius}'. {base.ToString()}";
         }
     }
 }

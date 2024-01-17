@@ -20,45 +20,51 @@ namespace Figures.ConsoleApp
 
             while (true)
             {
-                PrintOnConsole.PrintActions();
+                MenuHelpers.PrintActions();
 
-                if (!TryReadTypeForActions(Console.ReadLine(), out Actions result))
+                if (!TryReadEnum(Console.ReadLine(), out Actions result))
                 {
                     Console.WriteLine("Попытайся заново");
                     continue;
                 }
 
-                if (result == Actions.Exit)
+                switch (result)
                 {
-                    return;
-                }
+                    case Actions.Exit:
+                        return;
 
-                if (result == Actions.Add)
-                {
-                    ValidateNumberForGeometricEntityTypes();
-                }
+                    case Actions.Add:
+                        var type = EnterEntityType();
+                        var figure = CreateEntityByType(type);
+                        geometricEntitiesRepository.Add(figure);
+                        break;
 
-                if (result == Actions.Output)
-                {
-                    foreach (var entity in geometricEntitiesRepository.List())
-                    {
-                        Console.WriteLine(entity.ToString());
-                    }
-                }
+                    case Actions.Output:
+                        PrintEntities();
+                        break;
 
-                if (result == Actions.Clear)
-                {
-                    geometricEntitiesRepository.DeleteAll();
+                    case Actions.Clear:
+                        geometricEntitiesRepository.DeleteAll();
+                        break;
                 }
 
             }
         }
-
-        public bool TryReadTypeForActions(string enteredStr, out Actions type)
+        public GeometricEntityTypes EnterEntityType()
         {
-            type = Actions.Exit;
+            MenuHelpers.PrintGeometricEntityTypes();
 
-            if (!Enum.TryParse(enteredStr, out type))
+            if (!TryReadEnum(Console.ReadLine(), out GeometricEntityTypes result))
+            {
+                return GeometricEntityTypes.None;
+            }
+            return result;
+        }
+
+        public bool TryReadEnum<T>(string str, out T type) where T : struct, Enum
+        {
+
+            if (!Enum.TryParse(str, out type))
             {
                 return false;
             }
@@ -70,50 +76,23 @@ namespace Figures.ConsoleApp
 
             return true;
         }
-        public void ValidateNumberForGeometricEntityTypes()
-        {
-            if (true)
-            {
-                PrintOnConsole.PrintGeometricEntityTypes();
-
-                if (!TryReadTypeForGeometricEntityTypes(Console.ReadLine(), out GeometricEntityTypes result))
-                {
-                    return;
-                }
-
-                geometricEntitiesRepository.Add(CreateEntityByType(result));
-                
-
-            }
-        }
-
-        public bool TryReadTypeForGeometricEntityTypes(string enteredStr, out GeometricEntityTypes type)
-        {
-
-            if (!Enum.TryParse(enteredStr, out type))
-            {
-                return false;
-            }
-
-            if (!Enum.IsDefined(type))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-
         public GeometricEntity CreateEntityByType(GeometricEntityTypes geometricFigure) => geometricFigure switch
         {
-            GeometricEntityTypes.Circle => CreateEntities.CreateCircle(),
-            GeometricEntityTypes.LineSegment => CreateEntities.CreateLineSegment(),
-            GeometricEntityTypes.Rectangle => CreateEntities.CreateRectangle(),
-            GeometricEntityTypes.Ring => CreateEntities.CreateRing(),
-            GeometricEntityTypes.Triangle => CreateEntities.CreateTriangle(),
-            GeometricEntityTypes.Point => CreateEntities.CreatePoint(),
+            GeometricEntityTypes.Circle => EntitiesCreator.CreateCircle(),
+            GeometricEntityTypes.LineSegment => EntitiesCreator.CreateLineSegment(),
+            GeometricEntityTypes.Rectangle => EntitiesCreator.CreateRectangle(),
+            GeometricEntityTypes.Ring => EntitiesCreator.CreateRing(),
+            GeometricEntityTypes.Triangle => EntitiesCreator.CreateTriangle(),
+            GeometricEntityTypes.Point => EntitiesCreator.CreatePoint(),
             _ => throw new ArgumentException("There is no such figure."),
         };
 
+        public void PrintEntities()
+        {
+            foreach (var entity in geometricEntitiesRepository.List())
+            {
+                Console.WriteLine(entity.ToString());
+            }
+        }
     }
 }

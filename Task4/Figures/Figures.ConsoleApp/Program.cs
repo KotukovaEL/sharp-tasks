@@ -9,8 +9,8 @@ namespace Figures.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var logic = new Logic();
-            logic.SelectAnAction();
+            var logic = new FiguresAppLogic();
+            logic.Run();
         }
     }
 }

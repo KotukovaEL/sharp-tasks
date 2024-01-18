@@ -15,7 +15,7 @@ namespace Figures.ConsoleApp
             Console.WriteLine("Введите координаты центра:");
             var center = CreatePoint();
             Console.WriteLine("Введите радиус круга:");
-            var radius = Logic.ReadDouble(Console.ReadLine());
+            var radius = ConsoleHelpers.ReadDouble(Console.ReadLine());
             return new Circle(center, radius);
         }
 
@@ -49,9 +49,9 @@ namespace Figures.ConsoleApp
             Console.WriteLine("Введите координаты центра:");
             var center = CreatePoint();
             Console.WriteLine("Введите радиус большего круга:");
-            var longRadius = Logic.ReadDouble(Console.ReadLine());
+            var longRadius = ConsoleHelpers.ReadDouble(Console.ReadLine());
             Console.WriteLine("Введите радиус меньшего круга:");
-            var shortRadius = Logic.ReadDouble(Console.ReadLine());
+            var shortRadius = ConsoleHelpers.ReadDouble(Console.ReadLine());
             return new Ring(center, longRadius, shortRadius);
         }
 
@@ -70,9 +70,9 @@ namespace Figures.ConsoleApp
         public static Point CreatePoint()
         {
             Console.WriteLine("Введите координаты X:");
-            double x = Logic.ReadDouble(Console.ReadLine());
+            double x = ConsoleHelpers.ReadDouble(Console.ReadLine());
             Console.WriteLine("Введите координаты Y:");
-            double y = Logic.ReadDouble(Console.ReadLine());
+            double y = ConsoleHelpers.ReadDouble(Console.ReadLine());
             return new Point(x, y);
         }
     }

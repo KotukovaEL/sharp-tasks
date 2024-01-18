@@ -8,16 +8,15 @@ using System.Threading.Tasks;
 
 namespace Figures.ConsoleApp
 {
-    public class Logic
+    public class FiguresAppLogic
     {
         private readonly GeometricEntitiesRepository geometricEntitiesRepository;
-        public Logic()
+        public FiguresAppLogic()
         {
             geometricEntitiesRepository = new GeometricEntitiesRepository();
         }
-        public void SelectAnAction()
+        public void Run()
         {
-
             while (true)
             {
                 MenuHelpers.PrintActions();
@@ -34,20 +33,7 @@ namespace Figures.ConsoleApp
                         return;
 
                     case Actions.Add:
-                        var type = EnterEntityType();
-                        GeometricEntity figure;
-                        try
-                        {
-                            figure = CreateEntityByType(type);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("Произошла ошибка");
-                            Console.WriteLine(ex.Message);
-                            break;
-                        }
-                        geometricEntitiesRepository.Add(figure);
-                        Console.WriteLine($"Фигура {type} создана!") ;
+                        AddEntity();
                         break;
 
                     case Actions.Output:
@@ -58,10 +44,30 @@ namespace Figures.ConsoleApp
                         geometricEntitiesRepository.DeleteAll();
                         break;
                 }
-
             }
         }
-        public GeometricEntityTypes EnterEntityType()
+
+        private void AddEntity()
+        {
+            var type = EnterEntityType();
+            GeometricEntity figure;
+
+            try
+            {
+                figure = CreateEntityByType(type);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Произошла ошибка");
+                Console.WriteLine(ex.Message);
+                return;
+            }
+
+            geometricEntitiesRepository.Add(figure);
+            Console.WriteLine($"Фигура {type} создана!");
+        }
+
+        private GeometricEntityTypes EnterEntityType()
         {
             MenuHelpers.PrintGeometricEntityTypes();
 
@@ -69,12 +75,12 @@ namespace Figures.ConsoleApp
             {
                 return GeometricEntityTypes.None;
             }
+
             return result;
         }
 
-        public bool TryReadEnum<T>(string str, out T type) where T : struct, Enum
+        private bool TryReadEnum<T>(string str, out T type) where T : struct, Enum
         {
-
             if (!Enum.TryParse(str, out type))
             {
                 return false;
@@ -87,7 +93,7 @@ namespace Figures.ConsoleApp
 
             return true;
         }
-        public GeometricEntity CreateEntityByType(GeometricEntityTypes geometricFigure) => geometricFigure switch
+        private GeometricEntity CreateEntityByType(GeometricEntityTypes geometricFigure) => geometricFigure switch
         {
             GeometricEntityTypes.Circle => EntitiesCreator.CreateCircle(),
             GeometricEntityTypes.LineSegment => EntitiesCreator.CreateLineSegment(),
@@ -98,25 +104,12 @@ namespace Figures.ConsoleApp
             _ => throw new ArgumentException("There is no such figure."),
         };
 
-        public void PrintEntities()
+        private void PrintEntities()
         {
             foreach (var entity in geometricEntitiesRepository.List())
             {
                 Console.WriteLine(entity.ToString());
             }
-        }
-
-        public static double ReadDouble(string str)
-        {
-            double value;
-
-            while (!double.TryParse(str, out value))
-            {
-                Console.WriteLine("Попробуй снова ввести");
-                str = Console.ReadLine();
-            }
-
-            return value;
         }
     }
 }

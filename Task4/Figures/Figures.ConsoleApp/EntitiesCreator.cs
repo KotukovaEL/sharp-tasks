@@ -15,8 +15,7 @@ namespace Figures.ConsoleApp
             Console.WriteLine("Введите координаты центра:");
             var center = CreatePoint();
             Console.WriteLine("Введите радиус круга:");
-            var radius = ReadDoubleForRadius(Console.ReadLine());
-            Console.WriteLine("Фигура Круг создана!");
+            var radius = Logic.ReadDouble(Console.ReadLine());
             return new Circle(center, radius);
         }
 
@@ -27,7 +26,6 @@ namespace Figures.ConsoleApp
             var point1 = CreatePoint();
             Console.WriteLine("Введите координаты второй точки:");
             var point2 = CreatePoint();
-            Console.WriteLine("Линия создана!");
             return new LineSegment(point1, point2);
         }
 
@@ -41,7 +39,6 @@ namespace Figures.ConsoleApp
             Console.WriteLine("Введите координаты третьей точки:");
             var point3 = CreatePoint();
             Console.WriteLine("Введите координаты четвертой точки:");
-            Console.WriteLine("Фигура Прямоугольник создана!");
             var point4 = CreatePoint();
             return new Rectangle(point1, point2, point3, point4);
         }
@@ -52,10 +49,9 @@ namespace Figures.ConsoleApp
             Console.WriteLine("Введите координаты центра:");
             var center = CreatePoint();
             Console.WriteLine("Введите радиус большего круга:");
-            var longRadius = ReadDoubleForRadius(Console.ReadLine());
+            var longRadius = Logic.ReadDouble(Console.ReadLine());
             Console.WriteLine("Введите радиус меньшего круга:");
-            var shortRadius = ReadDoubleForRadius(Console.ReadLine());
-            Console.WriteLine("Фигура Кольцо создана!");
+            var shortRadius = Logic.ReadDouble(Console.ReadLine());
             return new Ring(center, longRadius, shortRadius);
         }
 
@@ -68,42 +64,16 @@ namespace Figures.ConsoleApp
             var point2 = CreatePoint();
             Console.WriteLine("Введите координаты третьей точки:");
             var point3 = CreatePoint();
-            Console.WriteLine("Фигура Треугольник создана!");
             return new Triangle(point1, point2, point3);
         }
 
         public static Point CreatePoint()
         {
             Console.WriteLine("Введите координаты X:");
-            double x = ReadDouble(Console.ReadLine());
+            double x = Logic.ReadDouble(Console.ReadLine());
             Console.WriteLine("Введите координаты Y:");
-            double y = ReadDouble(Console.ReadLine());
+            double y = Logic.ReadDouble(Console.ReadLine());
             return new Point(x, y);
-        }
-
-        public static double ReadDoubleForRadius(string str)
-        {
-            double value;
-            while (!double.TryParse(str, out value) || value < 0)
-            {
-                Console.WriteLine("Попробуй снова ввести");
-                str = Console.ReadLine();
-            }
-
-            return value;
-        }
-
-        public static double ReadDouble(string str)
-        {
-            double value;
-
-            while (!double.TryParse(str, out value))
-            {
-                Console.WriteLine("Попробуй снова ввести");
-                str = Console.ReadLine();
-            }
-
-            return value;
         }
     }
 }

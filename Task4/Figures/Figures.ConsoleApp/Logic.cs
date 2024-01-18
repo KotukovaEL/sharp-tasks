@@ -35,8 +35,19 @@ namespace Figures.ConsoleApp
 
                     case Actions.Add:
                         var type = EnterEntityType();
-                        var figure = CreateEntityByType(type);
+                        GeometricEntity figure;
+                        try
+                        {
+                            figure = CreateEntityByType(type);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Произошла ошибка");
+                            Console.WriteLine(ex.Message);
+                            break;
+                        }
                         geometricEntitiesRepository.Add(figure);
+                        Console.WriteLine($"Фигура {type} создана!") ;
                         break;
 
                     case Actions.Output:
@@ -93,6 +104,19 @@ namespace Figures.ConsoleApp
             {
                 Console.WriteLine(entity.ToString());
             }
+        }
+
+        public static double ReadDouble(string str)
+        {
+            double value;
+
+            while (!double.TryParse(str, out value))
+            {
+                Console.WriteLine("Попробуй снова ввести");
+                str = Console.ReadLine();
+            }
+
+            return value;
         }
     }
 }

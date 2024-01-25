@@ -1,5 +1,6 @@
 ﻿using Figures.Model;
 using Figures.Repositories;
+using Figures.Services;
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +10,10 @@ namespace Figures.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var logic = new FiguresAppLogic();
+            var geometricEntitiesRepository = new GeometricEntitiesRepository();
+            var interactor = new ConsoleUserInteractor();
+            var entitiesCreator = new EntitiesCreator(interactor);
+            var logic = new FiguresAppLogic(entitiesCreator, geometricEntitiesRepository, interactor);
             logic.Run();
         }
     }

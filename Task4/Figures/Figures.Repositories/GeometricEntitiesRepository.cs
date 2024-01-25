@@ -1,10 +1,11 @@
 ﻿using Figures.Model;
+using InterfaceFigure.Services;
 using System;
 using System.Collections.Generic;
 
 namespace Figures.Repositories
 {
-    public class GeometricEntitiesRepository
+    public class GeometricEntitiesRepository : IGeometricEntitiesRepository
     {
         private readonly List<GeometricEntity> _geometricEntities;
 

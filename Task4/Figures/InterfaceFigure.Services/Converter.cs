@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InterfaceFigure.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Figures.ConsoleApp
 {
-    public class ConsoleHelpers
+    public class Converter
     {
-        public static double ReadDouble(string str)
+        public static double ReadDouble(string str, IUserInteractor userInteractor)
         {
             double value;
 
             while (!double.TryParse(str, out value))
             {
-                Console.WriteLine("Попробуй снова ввести");
-                str = Console.ReadLine();
+                userInteractor.PrintMessage("Попробуй снова ввести");
+                str = userInteractor.ReadValue();
             }
 
             return value;

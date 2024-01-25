@@ -1,29 +1,36 @@
-﻿using Figures.Model;
-using Figures.Repositories;
+﻿using Figures.ConsoleApp;
+using Figures.Model;
+using InterfaceFigure.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Figures.ConsoleApp
+namespace Figures.Services
 {
-    public class FiguresAppLogic
+    public class FiguresAppLogic 
     {
-        private readonly GeometricEntitiesRepository geometricEntitiesRepository;
-        public FiguresAppLogic()
+        private readonly IUserInteractor _userInteractor;
+        private readonly IGeometricEntitiesRepository _geometricEntitiesRepository;
+        private readonly EntitiesCreator _entitiesCreator;
+
+        public FiguresAppLogic(EntitiesCreator entitiesCreator, IGeometricEntitiesRepository geometricEntitiesRepository, IUserInteractor userInteractor)
         {
-            geometricEntitiesRepository = new GeometricEntitiesRepository();
+            _entitiesCreator = entitiesCreator;
+            _geometricEntitiesRepository = geometricEntitiesRepository;
+            _userInteractor = userInteractor;
         }
+
         public void Run()
         {
             while (true)
             {
-                MenuHelpers.PrintActions();
+                MenuHelpers.PrintActions(_userInteractor);
 
                 if (!TryReadEnum(Console.ReadLine(), out Actions result))
                 {
-                    Console.WriteLine("Попытайся заново");
+                    _userInteractor.PrintMessage("Попытайся заново");
                     continue;
                 }
 
@@ -41,7 +48,7 @@ namespace Figures.ConsoleApp
                         break;
 
                     case Actions.Clear:
-                        geometricEntitiesRepository.DeleteAll();
+                        _geometricEntitiesRepository.DeleteAll();
                         break;
                 }
             }
@@ -58,20 +65,20 @@ namespace Figures.ConsoleApp
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Произошла ошибка");
-                Console.WriteLine(ex.Message);
+                _userInteractor.PrintMessage("Произошла ошибка");
+                _userInteractor.PrintMessage(ex.Message);
                 return;
             }
 
-            geometricEntitiesRepository.Add(figure);
-            Console.WriteLine($"Фигура {type} создана!");
+            _geometricEntitiesRepository.Add(figure);
+            _userInteractor.PrintMessage($"Фигура {type} создана!");
         }
 
         private GeometricEntityTypes EnterEntityType()
         {
-            MenuHelpers.PrintGeometricEntityTypes();
+            MenuHelpers.PrintGeometricEntityTypes(_userInteractor);
 
-            if (!TryReadEnum(Console.ReadLine(), out GeometricEntityTypes result))
+            if (!TryReadEnum(_userInteractor.ReadValue(), out GeometricEntityTypes result))
             {
                 return GeometricEntityTypes.None;
             }
@@ -86,7 +93,7 @@ namespace Figures.ConsoleApp
                 return false;
             }
 
-            if (!Enum.IsDefined(type))
+            if (!Enum.IsDefined(typeof(T), str))
             {
                 return false;
             }
@@ -95,18 +102,18 @@ namespace Figures.ConsoleApp
         }
         private GeometricEntity CreateEntityByType(GeometricEntityTypes geometricFigure) => geometricFigure switch
         {
-            GeometricEntityTypes.Circle => EntitiesCreator.CreateCircle(),
-            GeometricEntityTypes.LineSegment => EntitiesCreator.CreateLineSegment(),
-            GeometricEntityTypes.Rectangle => EntitiesCreator.CreateRectangle(),
-            GeometricEntityTypes.Ring => EntitiesCreator.CreateRing(),
-            GeometricEntityTypes.Triangle => EntitiesCreator.CreateTriangle(),
-            GeometricEntityTypes.Point => EntitiesCreator.CreatePoint(),
+            GeometricEntityTypes.Circle =>  _entitiesCreator.CreateCircle(),
+            GeometricEntityTypes.LineSegment => _entitiesCreator.CreateLineSegment(),
+            GeometricEntityTypes.Rectangle => _entitiesCreator.CreateRectangle(),
+            GeometricEntityTypes.Ring => _entitiesCreator.CreateRing(),
+            GeometricEntityTypes.Triangle => _entitiesCreator.CreateTriangle(),
+            GeometricEntityTypes.Point => _entitiesCreator.CreatePoint(),
             _ => throw new ArgumentException("There is no such figure."),
         };
 
         private void PrintEntities()
         {
-            foreach (var entity in geometricEntitiesRepository.List())
+            foreach (var entity in _geometricEntitiesRepository.List())
             {
                 Console.WriteLine(entity.ToString());
             }

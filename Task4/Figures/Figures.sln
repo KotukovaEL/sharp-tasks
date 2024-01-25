@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Figures.Model.Tests", "Figu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Figures.Repositories", "Figures.Repositories\Figures.Repositories.csproj", "{BCF40785-B0E0-44E3-A2A1-1A6FB9AD5CE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Figures.ConsoleApp", "Figures.ConsoleApp\Figures.ConsoleApp.csproj", "{435F90A1-B2EC-4BD5-AF77-8FECAB9CBAB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Figures.ConsoleApp", "Figures.ConsoleApp\Figures.ConsoleApp.csproj", "{435F90A1-B2EC-4BD5-AF77-8FECAB9CBAB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfaceFigure.Services", "InterfaceFigure.Services\InterfaceFigure.Services.csproj", "{11E3DC45-D29E-4D99-A649-216F627D5DAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{435F90A1-B2EC-4BD5-AF77-8FECAB9CBAB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{435F90A1-B2EC-4BD5-AF77-8FECAB9CBAB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{435F90A1-B2EC-4BD5-AF77-8FECAB9CBAB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11E3DC45-D29E-4D99-A649-216F627D5DAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11E3DC45-D29E-4D99-A649-216F627D5DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11E3DC45-D29E-4D99-A649-216F627D5DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11E3DC45-D29E-4D99-A649-216F627D5DAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Figures.Model\Figures.Model.csproj" />
-    <ProjectReference Include="..\InterfaceFigure.Services\InterfaceFigure.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,19 +7,22 @@ using System.Threading.Tasks;
 
 namespace Figures.ConsoleApp
 {
-    public class Converter
+    public class Reader
     {
-        public static double ReadDouble(string str, IUserInteractor userInteractor)
+        public static double ReadDouble(IUserInteractor userInteractor)
         {
-            double value;
-
-            while (!double.TryParse(str, out value))
+            do
             {
-                userInteractor.PrintMessage("Попробуй снова ввести");
-                str = userInteractor.ReadValue();
-            }
+                string str = userInteractor.ReadStr();
 
-            return value;
+                if (double.TryParse(str, out var value))
+                {
+                    return value;
+                }
+
+                userInteractor.PrintMessage("Попробуй снова ввести");
+            }
+            while (true);
         }
     }
 }

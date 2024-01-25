@@ -13,28 +13,21 @@ namespace Figures.Services
     {
         private readonly IUserInteractor _userInteractor;
         private readonly IGeometricEntitiesRepository _geometricEntitiesRepository;
-        private readonly EntitiesCreator _entitiesCreator;
+        private readonly IEntitiesCreator _entitiesCreator;
 
-        public FiguresAppLogic(EntitiesCreator entitiesCreator, IGeometricEntitiesRepository geometricEntitiesRepository, IUserInteractor userInteractor)
+        public FiguresAppLogic(IUserInteractor userInteractor, IGeometricEntitiesRepository geometricEntitiesRepository, IEntitiesCreator entitiesCreator)
         {
-            _entitiesCreator = entitiesCreator;
-            _geometricEntitiesRepository = geometricEntitiesRepository;
             _userInteractor = userInteractor;
+            _geometricEntitiesRepository = geometricEntitiesRepository;
+            _entitiesCreator = entitiesCreator;
         }
-
         public void Run()
         {
             while (true)
             {
-                MenuHelpers.PrintActions(_userInteractor);
+                var action = EnterAction();
 
-                if (!TryReadEnum(Console.ReadLine(), out Actions result))
-                {
-                    _userInteractor.PrintMessage("Попытайся заново");
-                    continue;
-                }
-
-                switch (result)
+                switch (action)
                 {
                     case Actions.Exit:
                         return;
@@ -54,6 +47,18 @@ namespace Figures.Services
             }
         }
 
+        private Actions EnterAction()
+        {
+            MenuHelpers.PrintActions(_userInteractor);
+
+            if (!EnumHelpers.TryReadEnum(_userInteractor.ReadStr(), out Actions action))
+            {
+                _userInteractor.PrintMessage("Попытайся заново");
+                return Actions.None;
+            }
+            return action;
+        }
+
         private void AddEntity()
         {
             var type = EnterEntityType();
@@ -61,7 +66,7 @@ namespace Figures.Services
 
             try
             {
-                figure = CreateEntityByType(type);
+                figure = _entitiesCreator.CreateEntityByType(type);
             }
             catch (Exception ex)
             {
@@ -78,44 +83,19 @@ namespace Figures.Services
         {
             MenuHelpers.PrintGeometricEntityTypes(_userInteractor);
 
-            if (!TryReadEnum(_userInteractor.ReadValue(), out GeometricEntityTypes result))
+            if (!EnumHelpers.TryReadEnum(_userInteractor.ReadStr(), out GeometricEntityTypes type))
             {
                 return GeometricEntityTypes.None;
             }
 
-            return result;
+            return type;
         }
-
-        private bool TryReadEnum<T>(string str, out T type) where T : struct, Enum
-        {
-            if (!Enum.TryParse(str, out type))
-            {
-                return false;
-            }
-
-            if (!Enum.IsDefined(typeof(T), str))
-            {
-                return false;
-            }
-
-            return true;
-        }
-        private GeometricEntity CreateEntityByType(GeometricEntityTypes geometricFigure) => geometricFigure switch
-        {
-            GeometricEntityTypes.Circle =>  _entitiesCreator.CreateCircle(),
-            GeometricEntityTypes.LineSegment => _entitiesCreator.CreateLineSegment(),
-            GeometricEntityTypes.Rectangle => _entitiesCreator.CreateRectangle(),
-            GeometricEntityTypes.Ring => _entitiesCreator.CreateRing(),
-            GeometricEntityTypes.Triangle => _entitiesCreator.CreateTriangle(),
-            GeometricEntityTypes.Point => _entitiesCreator.CreatePoint(),
-            _ => throw new ArgumentException("There is no such figure."),
-        };
 
         private void PrintEntities()
         {
             foreach (var entity in _geometricEntitiesRepository.List())
             {
-                Console.WriteLine(entity.ToString());
+                _userInteractor.PrintMessage(entity.ToString());
             }
         }
     }

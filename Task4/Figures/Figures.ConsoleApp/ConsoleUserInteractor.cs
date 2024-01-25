@@ -14,7 +14,7 @@ namespace Figures.ConsoleApp
             Console.WriteLine(message);
         }
 
-        public string ReadValue()
+        public string ReadStr()
         {
             return Console.ReadLine();
         }

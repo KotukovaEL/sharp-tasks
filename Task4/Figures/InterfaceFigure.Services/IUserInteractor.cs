@@ -7,6 +7,6 @@ namespace InterfaceFigure.Services
     public interface IUserInteractor
     {
         void PrintMessage(string message);
-        string ReadValue();
+        string ReadStr();
     }
 }

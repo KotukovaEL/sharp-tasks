@@ -8,7 +8,8 @@ namespace Figures.ConsoleApp
 {
     public enum Actions
     {
-        Add = 1,
+        None,
+        Add,
         Output,
         Clear,
         Exit,

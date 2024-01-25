@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Figures.ConsoleApp
 {
-    public class EntitiesCreator
+    public class EntitiesCreator : IEntitiesCreator
     {
         private readonly IUserInteractor _userInteractor;
 
@@ -16,17 +16,28 @@ namespace Figures.ConsoleApp
         {
             _userInteractor = userInteractor;
         }
-        public Circle CreateCircle()
+
+        public GeometricEntity CreateEntityByType(GeometricEntityTypes geometricFigure) => geometricFigure switch
+        {
+            GeometricEntityTypes.Circle => CreateCircle(),
+            GeometricEntityTypes.LineSegment => CreateLineSegment(),
+            GeometricEntityTypes.Rectangle => CreateRectangle(),
+            GeometricEntityTypes.Ring => CreateRing(),
+            GeometricEntityTypes.Triangle => CreateTriangle(),
+            GeometricEntityTypes.Point => CreatePoint(),
+            _ => throw new ArgumentException("There is no such figure."),
+        };
+        private Circle CreateCircle()
         {
             _userInteractor.PrintMessage("Введите параметры фигуры Круг");
             _userInteractor.PrintMessage("Введите координаты центра:");
             var center = CreatePoint();
             _userInteractor.PrintMessage("Введите радиус круга:");
-            var radius = Converter.ReadDouble(_userInteractor.ReadValue(), _userInteractor);
+            var radius = Reader.ReadDouble(_userInteractor);
             return new Circle(center, radius);
         }
 
-        public LineSegment CreateLineSegment()
+        private LineSegment CreateLineSegment()
         {
             _userInteractor.PrintMessage("Введите параметры фигуры Линия");
             _userInteractor.PrintMessage("Введите координаты первой точки:");
@@ -36,7 +47,7 @@ namespace Figures.ConsoleApp
             return new LineSegment(point1, point2);
         }
 
-        public Rectangle CreateRectangle()
+        private Rectangle CreateRectangle()
         {
             _userInteractor.PrintMessage("Введите параметры фигуры Прямоугольник");
             _userInteractor.PrintMessage("Введите координаты первой точки:");
@@ -50,19 +61,19 @@ namespace Figures.ConsoleApp
             return new Rectangle(point1, point2, point3, point4);
         }
 
-        public Ring CreateRing()
+        private Ring CreateRing()
         {
             _userInteractor.PrintMessage("Введите параметры фигуры Кольцо");
             _userInteractor.PrintMessage("Введите координаты центра:");
             var center = CreatePoint();
             _userInteractor.PrintMessage("Введите радиус большего круга:");
-            var longRadius = Converter.ReadDouble(_userInteractor.ReadValue(), _userInteractor);
+            var longRadius = Reader.ReadDouble(_userInteractor);
             _userInteractor.PrintMessage("Введите радиус меньшего круга:");
-            var shortRadius = Converter.ReadDouble(_userInteractor.ReadValue(), _userInteractor);
+            var shortRadius = Reader.ReadDouble(_userInteractor);
             return new Ring(center, longRadius, shortRadius);
         }
 
-        public Triangle CreateTriangle()
+        private Triangle CreateTriangle()
         {
             _userInteractor.PrintMessage("Введите параметры фигуры Треугольник");
             _userInteractor.PrintMessage("Введите координаты первой точки:");
@@ -74,12 +85,12 @@ namespace Figures.ConsoleApp
             return new Triangle(point1, point2, point3);
         }
 
-        public Point CreatePoint()
+        private Point CreatePoint()
         {
             _userInteractor.PrintMessage("Введите координаты X:");
-            double x = Converter.ReadDouble(_userInteractor.ReadValue(), _userInteractor);
+            double x = Reader.ReadDouble(_userInteractor);
             _userInteractor.PrintMessage("Введите координаты Y:");
-            double y = Converter.ReadDouble(_userInteractor.ReadValue(), _userInteractor);
+            double y = Reader.ReadDouble(_userInteractor);
             return new Point(x, y);
         }
     }

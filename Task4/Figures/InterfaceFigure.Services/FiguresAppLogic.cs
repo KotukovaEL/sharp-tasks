@@ -61,34 +61,16 @@ namespace Figures.Services
 
         private void AddEntity()
         {
-            var type = EnterEntityType();
-            GeometricEntity figure;
-
             try
             {
-                figure = _entitiesCreator.CreateEntityByType(type);
+                var figure = _entitiesCreator.CreateEntity();
+                _geometricEntitiesRepository.Add(figure);
+                _userInteractor.PrintMessage($"Фигура {figure.GetType().Name} создана!");
             }
             catch (Exception ex)
             {
-                _userInteractor.PrintMessage("Произошла ошибка");
-                _userInteractor.PrintMessage(ex.Message);
-                return;
+                _userInteractor.PrintMessage($"Произошла ошибка {ex.Message}.");
             }
-
-            _geometricEntitiesRepository.Add(figure);
-            _userInteractor.PrintMessage($"Фигура {type} создана!");
-        }
-
-        private GeometricEntityTypes EnterEntityType()
-        {
-            MenuHelpers.PrintGeometricEntityTypes(_userInteractor);
-
-            if (!EnumHelpers.TryReadEnum(_userInteractor.ReadStr(), out GeometricEntityTypes type))
-            {
-                return GeometricEntityTypes.None;
-            }
-
-            return type;
         }
 
         private void PrintEntities()

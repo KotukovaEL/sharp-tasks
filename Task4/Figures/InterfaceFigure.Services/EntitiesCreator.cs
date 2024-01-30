@@ -17,7 +17,25 @@ namespace Figures.ConsoleApp
             _userInteractor = userInteractor;
         }
 
-        public GeometricEntity CreateEntityByType(GeometricEntityTypes geometricFigure) => geometricFigure switch
+        public GeometricEntity CreateEntity()
+        {
+            var type = ReadEntityType();
+            return CreateEntityByType(type);
+        }
+
+        private GeometricEntityTypes ReadEntityType()
+        {
+            MenuHelpers.PrintGeometricEntityTypes(_userInteractor);
+
+            if (!EnumHelpers.TryReadEnum(_userInteractor.ReadStr(), out GeometricEntityTypes type))
+            {
+                return GeometricEntityTypes.None;
+            }
+
+            return type;
+        }
+
+        private GeometricEntity CreateEntityByType(GeometricEntityTypes geometricFigure) => geometricFigure switch
         {
             GeometricEntityTypes.Circle => CreateCircle(),
             GeometricEntityTypes.LineSegment => CreateLineSegment(),
@@ -27,6 +45,7 @@ namespace Figures.ConsoleApp
             GeometricEntityTypes.Point => CreatePoint(),
             _ => throw new ArgumentException("There is no such figure."),
         };
+
         private Circle CreateCircle()
         {
             _userInteractor.PrintMessage("Введите параметры фигуры Круг");

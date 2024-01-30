@@ -11,12 +11,12 @@ namespace Figures.ConsoleApp
     {
         public static void PrintActions(IUserInteractor userInteractor)
         {
-            userInteractor.PrintMessage("Выберите действие: \n\t 1. Добавить фигуру \n\t 2. Вывести фигуры \n\t 3. Очистить холст \n\t 4. Выход");
+            userInteractor.PrintMessage("Выберите действие:\n\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Выход");
         }
 
         public static void PrintGeometricEntityTypes(IUserInteractor userInteractor)
         {
-            userInteractor.PrintMessage("Выберите тип фигуры: \n\t 1. Круг \n\t 2. Линия \n\t 3. Прямоугольник \n\t 4. Кольцо \n\t 5. Треугольник \n\t 6. Точка");
+            userInteractor.PrintMessage("Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка");
         }
     }
 }

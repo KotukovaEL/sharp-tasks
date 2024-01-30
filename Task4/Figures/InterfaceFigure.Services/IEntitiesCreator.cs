@@ -4,6 +4,6 @@ namespace Figures.ConsoleApp
 {
     public interface IEntitiesCreator
     {
-        GeometricEntity CreateEntityByType(GeometricEntityTypes geometricFigure);
+        GeometricEntity CreateEntity();
     }
 }

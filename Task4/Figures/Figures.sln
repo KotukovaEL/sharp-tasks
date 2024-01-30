@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Figures.Repositories", "Fig
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Figures.ConsoleApp", "Figures.ConsoleApp\Figures.ConsoleApp.csproj", "{435F90A1-B2EC-4BD5-AF77-8FECAB9CBAB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfaceFigure.Services", "InterfaceFigure.Services\InterfaceFigure.Services.csproj", "{11E3DC45-D29E-4D99-A649-216F627D5DAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterfaceFigure.Services", "InterfaceFigure.Services\InterfaceFigure.Services.csproj", "{11E3DC45-D29E-4D99-A649-216F627D5DAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfaceFigure.Services.Tests", "InterfaceFigure.Services.Tests\InterfaceFigure.Services.Tests.csproj", "{064D5055-68E3-4DC8-8BC4-9B0FEDBEAEA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{11E3DC45-D29E-4D99-A649-216F627D5DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11E3DC45-D29E-4D99-A649-216F627D5DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11E3DC45-D29E-4D99-A649-216F627D5DAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{064D5055-68E3-4DC8-8BC4-9B0FEDBEAEA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{064D5055-68E3-4DC8-8BC4-9B0FEDBEAEA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{064D5055-68E3-4DC8-8BC4-9B0FEDBEAEA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{064D5055-68E3-4DC8-8BC4-9B0FEDBEAEA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

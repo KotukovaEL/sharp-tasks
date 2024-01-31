@@ -1,8 +1,5 @@
-﻿using Figures.Model;
-using Figures.Repositories;
+﻿using Figures.Repositories;
 using Figures.Services;
-using System;
-using System.Collections.Generic;
 
 namespace Figures.ConsoleApp
 {

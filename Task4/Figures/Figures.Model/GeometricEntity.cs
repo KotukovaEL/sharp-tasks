@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Figures.Model
+﻿namespace Figures.Model
 {
     public abstract class GeometricEntity
     {

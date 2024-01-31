@@ -1,6 +1,5 @@
 ﻿using Figures.Model;
-using InterfaceFigure.Services;
-using System;
+using Figures.Services;
 using System.Collections.Generic;
 
 namespace Figures.Repositories

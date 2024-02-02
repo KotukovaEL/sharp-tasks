@@ -28,8 +28,8 @@ namespace Figures.Services.Tests
         public void Should_create_point_correctly()
         {
             _inputs = new[] { "6","2", "3" };
-            var logic = CreateEntitiesCreator();
-            var figure = logic.CreateEntity();
+            var creator = CreateEntitiesCreator();
+            var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
                 "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
@@ -38,15 +38,15 @@ namespace Figures.Services.Tests
             var expectedEntity = new Point(2, 3);
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
-            Assert.Equivalent(expectedEntity, figure);
+            entity.Should().BeEquivalentTo(expectedEntity);
         }
 
         [Fact]
         public void Should_create_circle_correctly()
         {
             _inputs = new[] { "1", "2", "3", "5" };
-            var logic = CreateEntitiesCreator();
-            var entity = logic.CreateEntity();
+            var creator = CreateEntitiesCreator();
+            var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
                 "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
@@ -60,15 +60,15 @@ namespace Figures.Services.Tests
             var expectedEntity = new Circle(point, 5);
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
-            Assert.Equivalent(expectedEntity, entity);
+            entity.Should().BeEquivalentTo(expectedEntity);
         }
 
         [Fact]
         public void Should_create_line_segment_correctly()
         {
             _inputs = new[] { "2", "2", "3", "5", "6" };
-            var logic = CreateEntitiesCreator();
-            var entity = logic.CreateEntity();
+            var creator = CreateEntitiesCreator();
+            var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
                 "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
@@ -85,15 +85,15 @@ namespace Figures.Services.Tests
             var expectedEntity = new LineSegment(point1, point2);
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
-            Assert.Equivalent(expectedEntity, entity);
+            entity.Should().BeEquivalentTo(expectedEntity);
         }
 
         [Fact]
         public void Should_create_rectangle_correctly()
         {
             _inputs = new[] { "3", "-1", "-3", "-1", "1", "5", "1", "5", "-3" };
-            var logic = CreateEntitiesCreator();
-            var entity = logic.CreateEntity();
+            var creator = CreateEntitiesCreator();
+            var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
                 "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
@@ -118,15 +118,15 @@ namespace Figures.Services.Tests
             var expectedEntity = new Rectangle(point1, point2, point3, point4);
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
-            Assert.Equivalent(expectedEntity, entity);
+            entity.Should().BeEquivalentTo(expectedEntity);
         }
 
         [Fact]
         public void Should_create_ring_correctly()
         {
             _inputs = new[] { "4", "1", "3", "5", "1" };
-            var logic = CreateEntitiesCreator();
-            var entity = logic.CreateEntity();
+            var creator = CreateEntitiesCreator();
+            var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
                 "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
@@ -141,15 +141,15 @@ namespace Figures.Services.Tests
             var expectedEntity = new Ring(point, 5, 1);
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
-            Assert.Equivalent(expectedEntity, entity);
+            entity.Should().BeEquivalentTo(expectedEntity);
         }
 
         [Fact]
         public void Should_create_triangle_correctly()
         {
             _inputs = new[] { "5", "1", "3", "1", "1", "5", "1" };
-            var logic = CreateEntitiesCreator();
-            var entity = logic.CreateEntity();
+            var creator = CreateEntitiesCreator();
+            var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
                 "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
@@ -170,7 +170,7 @@ namespace Figures.Services.Tests
             var expectedEntity = new Triangle(point1, point2, point3);
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
-            Assert.Equivalent(expectedEntity, entity);
+            entity.Should().BeEquivalentTo(expectedEntity);
         }
         private EntitiesCreator CreateEntitiesCreator()
         {

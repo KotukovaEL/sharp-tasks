@@ -6,6 +6,8 @@
         Add,
         Output,
         Clear,
+        ChangeUser,
         Exit,
+        
     }
 }

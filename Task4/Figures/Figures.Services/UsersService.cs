@@ -10,38 +10,43 @@ namespace Figures.Services
 {
     public class UsersService
     {
-        private readonly Dictionary<string, List<GeometricEntity>> _dictionary;
+        private readonly Dictionary<string, User> _userMap;
 
         public UsersService()
         {
-            _dictionary = new Dictionary<string, List<GeometricEntity>>();
+            _userMap = new Dictionary<string, User>();
         }
         public void AddFigures(string name, GeometricEntity geometricEntity)
         {
-            var user = _dictionary.SingleOrDefault(u => u.Key == name);
-            user.Value.Add(geometricEntity);
+            var user = GetUser(name);
+            user.GeometricEntities.Add(geometricEntity);
         }
         
         public List<GeometricEntity> ListFigures(string name)
         {
-            var user = _dictionary.SingleOrDefault(u => u.Key == name);
-            return new List<GeometricEntity>(user.Value);
+            var user = GetUser(name);
+            return new List<GeometricEntity>(user.GeometricEntities);
         }
 
         public void ClearFigures(string name)
         {
-            var user = _dictionary.SingleOrDefault(u => u.Key == name);
-            user.Value.Clear();
+            var user = GetUser(name);
+            user.GeometricEntities.Clear();
         }
 
         public void Authorize(string name)
         {
-            var user = _dictionary.SingleOrDefault(u => u.Key == name);
+            _userMap.TryAdd(name, new User(name));
+        }
 
-            if (user.Key is null)
+        private User GetUser(string name)
+        {
+            if (!_userMap.TryGetValue(name, out User user))
             {
-                _dictionary.Add(name, new List<GeometricEntity>());
+                throw new ArgumentException($"User {name} was not found");
             }
+
+            return user;
         }
     }
 }

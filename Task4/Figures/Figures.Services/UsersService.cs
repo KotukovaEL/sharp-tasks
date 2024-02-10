@@ -10,37 +10,37 @@ namespace Figures.Services
 {
     public class UsersService
     {
-        private readonly List<User> _users;
+        private readonly Dictionary<string, List<GeometricEntity>> _dictionary;
 
         public UsersService()
         {
-            _users = new List<User>();
+            _dictionary = new Dictionary<string, List<GeometricEntity>>();
         }
         public void AddFigures(string name, GeometricEntity geometricEntity)
         {
-            var user = _users.SingleOrDefault(u => u.Name == name);
-            user.GeometricEntities.Add(geometricEntity);
+            var user = _dictionary.SingleOrDefault(u => u.Key == name);
+            user.Value.Add(geometricEntity);
         }
         
         public List<GeometricEntity> ListFigures(string name)
         {
-            var user = _users.SingleOrDefault(u => u.Name == name);
-            return new List<GeometricEntity>(user.GeometricEntities);
+            var user = _dictionary.SingleOrDefault(u => u.Key == name);
+            return new List<GeometricEntity>(user.Value);
         }
 
         public void ClearFigures(string name)
         {
-            var user = _users.SingleOrDefault(u => u.Name == name);
-            user.GeometricEntities.Clear();
+            var user = _dictionary.SingleOrDefault(u => u.Key == name);
+            user.Value.Clear();
         }
 
         public void Authorize(string name)
         {
-            var user = _users.SingleOrDefault(u => u.Name == name);
+            var user = _dictionary.SingleOrDefault(u => u.Key == name);
 
-            if (user is null)
+            if (user.Key is null)
             {
-                _users.Add(new User(name));
+                _dictionary.Add(name, new List<GeometricEntity>());
             }
         }
     }

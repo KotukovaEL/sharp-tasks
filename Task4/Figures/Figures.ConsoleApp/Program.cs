@@ -11,8 +11,8 @@ namespace Figures.ConsoleApp
         {
             var interactor = new ConsoleUserInteractor();
             var entitiesCreator = new EntitiesCreator(interactor);
-            var usersService = new UsersService();
-            var logic = new FiguresAppLogic(interactor, entitiesCreator, usersService);
+            var geometricEntitiesRepository = new GeometricEntitiesRepository();
+            var logic = new FiguresAppLogic(interactor, entitiesCreator, geometricEntitiesRepository);
             logic.Run();
         }
     }

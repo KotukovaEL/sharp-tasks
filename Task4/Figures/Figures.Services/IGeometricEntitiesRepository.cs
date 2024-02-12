@@ -8,5 +8,6 @@ namespace Figures.Services
         void Add(GeometricEntity geometricEntity);
         List<GeometricEntity> List();
         void DeleteAll();
+        void ReadFile();
     }
 }

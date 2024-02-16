@@ -16,8 +16,6 @@ namespace Figures.Services
         }
         public void Run()
         {
-            _geometricEntitiesRepository.ReadFile();
-
             while (true)
             {
                 var action = EnterAction();

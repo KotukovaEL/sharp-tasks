@@ -16,23 +16,18 @@ namespace Figures.Repositories
 
         public void Add(GeometricEntity geometricEntity)
         {
-            _context.Points.Add(geometricEntity as Point);
+            _context.GeometricEntities.Add(geometricEntity);
             _context.SaveChange();
         }
 
         public List<GeometricEntity> List()
         {
-            return new List<GeometricEntity>(_context.Points);
+            return new List<GeometricEntity>(_context.GeometricEntities);
         }
 
         public void DeleteAll()
         {
-            _context.Points.Clear();
-        }
-
-        public void ReadFile()
-        {
-            _context.ReadFile();
+            _context.GeometricEntities.Clear();
         }
     }
 }

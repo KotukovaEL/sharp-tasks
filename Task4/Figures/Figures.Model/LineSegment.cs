@@ -23,7 +23,7 @@ namespace Figures.Model
 
         public override string ToString()
         {
-            return $"Линия: точка А: '{A.X}','{A.Y}'; точка B: '{B.X}','{B.Y}'.";
+            return $"Id линии: {Id}. Линия: точка А: '{A.X}','{A.Y}'; точка B: '{B.X}','{B.Y}'.";
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Figures.Model
 
         public override string ToString()
         {
-            return $"Точка: координаты: '{X}','{Y}'.";
+            return $"Id точки: {Id}. Точка: координаты: '{X}','{Y}'.";
         }
     }
 }

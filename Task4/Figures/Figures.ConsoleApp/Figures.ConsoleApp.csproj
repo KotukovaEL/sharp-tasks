@@ -6,6 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Entities.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Entities.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Figures.Model\Figures.Model.csproj" />
     <ProjectReference Include="..\Figures.Repositories\Figures.Repositories.csproj" />
   </ItemGroup>

@@ -1,45 +1,44 @@
-- Point
  Id: 2
  X: 545
  Y: 5
-
 - Point
+
  Id: 3
  X: 1
  Y: 25
-
-- LineSegment
- Id: 1
- A: Point; 2
- B: Point; 3
-
 - Point
+
+ Id: 1
+ A: 2
+ B: 3
+- LineSegment
+
  Id: 4
  X: 6
  Y: 5
-
 - Point
+
  Id: 5
  X: 5
  Y: 4
-
 - Point
+
  Id: 6
  X: 4
  Y: 8
-
 - Point
+
  Id: 8
  X: 5
  Y: 4
-
 - Point
+
  Id: 9
  X: 1
  Y: 6
+- Point
 
-- LineSegment
  Id: 7
- A: Point; 8
- B: Point; 9
-
+ A: 8
+ B: 9
+- LineSegment

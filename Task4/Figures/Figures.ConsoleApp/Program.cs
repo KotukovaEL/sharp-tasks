@@ -11,7 +11,9 @@ namespace Figures.ConsoleApp
         {
             var interactor = new ConsoleUserInteractor();
             var entitiesCreator = new EntitiesCreator(interactor);
-            var geometricEntitiesRepository = new GeometricEntitiesRepository();
+            var filePath = "Entities.txt";
+            var context = new TxtDbContext(filePath);
+            var geometricEntitiesRepository = new GeometricEntitiesRepository(context);
             var logic = new FiguresAppLogic(interactor, entitiesCreator, geometricEntitiesRepository);
             logic.Run();
         }

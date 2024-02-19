@@ -11,14 +11,14 @@ namespace Figures.Repositories
     public class TxtDbContext
     {
         private readonly Dictionary<int, GeometricEntity> _entitiesMap;
+        private readonly string _filePath;
 
-        public TxtDbContext()
+        public TxtDbContext(string filePath)
         {
             _entitiesMap = new();
-            ReadFile();
+            _filePath = filePath;
+            ReadFile();            
         }
-        //должен принимать список поинтов (метод), конвертировать в определенный формат, записывать в файл
-        //из файла создать список поинтов и вернуть
 
         public List<GeometricEntity> List()
         {
@@ -38,8 +38,7 @@ namespace Figures.Repositories
 
         public void SaveChanges()
         {
-            var path = @"C:\Users\Дмитрий\source\repos\sharp-tasks\Task4\Figures\MyFile.txt";
-            using var fs = new FileStream(path, FileMode.Create);
+            using var fs = new FileStream(_filePath, FileMode.Create);
             using var stream = new StreamWriter(fs);
 
             foreach (var entity in _entitiesMap)
@@ -60,107 +59,72 @@ namespace Figures.Repositories
 
         public void ReadFile() 
         {
-            var path = @"C:\Users\Дмитрий\source\repos\sharp-tasks\Task4\Figures\MyFile.txt";
-            using var fs = new StreamReader(path);
-            string[] lines = File.ReadAllLines(path);
-            var list = new List<string>();
+            string[] lines = File.ReadAllLines(_filePath);
+            var map = new Dictionary<string, string>();
 
-            foreach (var str in lines)
+            foreach (var line in lines)
             {
-                if (!string.IsNullOrWhiteSpace(str))
+                if (line.Contains("Point"))
                 {
-                    list.Add(str);
+                    var point = ReadPoint(map);
+                    _entitiesMap.Add(point.Id, point);
+                    map.Clear();
                     continue;
                 }
 
-                if (list[0].Contains("Point"))
+                if (line.Contains("LineSegment"))
                 {
-                    ReadPoint(list);
-                    list.Clear();
+                    var lineSegment = ReadLineSegment(map);
+                    _entitiesMap.Add(lineSegment.Id, lineSegment);
+                    map.Clear();
                     continue;
                 }
 
-                if (list[0].Contains("LineSegment"))
+                if (!string.IsNullOrWhiteSpace(line))
                 {
-                    ReadLineSegment(list);
-                    list.Clear();
+                    var str = line.Trim();
+                    var separator = ": ";
+                    var separatorIndex = str.IndexOf(separator);
+                    var key = str.Substring(0, separatorIndex);
+                    var value = str.Substring(separatorIndex + separator.Length);
+                    map.Add(key, value);
                     continue;
                 }
             }
         }
 
-        private void ReadPoint(List<string> list)
+        private Point ReadPoint(Dictionary<string, string> map)
         {
-            double? x = null;
-            double? y = null;
-            int id = 0;
-
-            foreach (var line in list)
-            {
-                if (line.Contains("Id: "))
-                {
-                    id = ReadId(line);
-                }
-
-                if (line.Contains('X'))
-                {
-                    var str = ReadStrForPoint(line, "X: ");
-                    x = double.Parse(str);
-                }
-
-                if (line.Contains('Y'))
-                {
-                    var str = ReadStrForPoint(line, "Y: ");
-                    y = double.Parse(str);
-                }
-
-                if (x is not null & y is not null)
-                {
-                    var point = new Point(x.Value, y.Value);
-                    point.Id = id;
-                    _entitiesMap.Add(id, point);
-                    x = null; y = null;
-                }
-            }
+            var x = double.Parse(GetFieldValue(map, "X"));
+            var y = double.Parse(GetFieldValue(map, "Y"));
+            var point = new Point(x, y);
+            point.Id = int.Parse(GetFieldValue(map, "Id")); ;
+            return point;
         }
 
-        private void ReadLineSegment(List<string> list)
+        private string GetFieldValue(Dictionary<string, string> map, string key)
         {
-            int id = 0;
-            Point? point1 = null;
-            Point? point2 = null;
-
-            foreach (var line in list)
+            if (!map.TryGetValue(key, out var value))
             {
-                if (line.Contains("Id: "))
-                {
-                    id = ReadId(line);
-                }
-
-                if (line.Contains("A: "))
-                {
-                    var str = ReadStrForLineSegment(line, "A: ", "; ");
-                    point1 = GetEntityById(str.id) as Point;
-                }
-
-                if (line.Contains("B: "))
-                {
-                    var str = ReadStrForLineSegment(line, "B: ", "; ");
-                    point2 = GetEntityById(str.id) as Point;
-                }
-
-                if (point1 is not null & point2 is not null)
-                {
-                    var lineSegment = new LineSegment(point1, point2);
-                    lineSegment.Id = id;
-                    _entitiesMap.Add(id, lineSegment);
-                    _entitiesMap.Remove(point1.Id);
-                    _entitiesMap.Remove(point2.Id);
-                    point1 = null; point2 = null;
-                }
-
+                throw new ArgumentException($"Field {key} was not found.");
             }
+
+            return value;
         }
+
+        private LineSegment ReadLineSegment(Dictionary<string, string> map)
+        {
+            var idA = int.Parse(GetFieldValue(map, "A"));
+            var idB = int.Parse(GetFieldValue(map, "B"));
+            var pointA = (Point)GetEntityById(idA);
+            var pointB = (Point)GetEntityById(idB);
+            _entitiesMap.Remove(idA);
+            _entitiesMap.Remove(idB);
+            var lineSegment = new LineSegment(pointA, pointB);
+            lineSegment.Id = int.Parse(GetFieldValue(map, "Id"));            
+            return lineSegment;
+        }
+
 
         private GeometricEntity GetEntityById(int id)
         {
@@ -172,47 +136,14 @@ namespace Figures.Repositories
             return entity;
         }
 
-        private (string type, int id) ReadStrForLineSegment(string line, string key1, string key2)
-        {
-            var startIndexKey1 = line.IndexOf(key1);
-            var lengthKey1 = key1.Length;
-            var lastIndexKey1 = lengthKey1 + startIndexKey1;
-            var startIndexKey2 = line.IndexOf(key2);
-            var lengthKey2 = key2.Length;
-            var number1 = line.Substring(lastIndexKey1, startIndexKey2 - lastIndexKey1);
-            var number2 = line.Substring(startIndexKey2 + lengthKey2);
-            var idPoint1 = int.Parse(number2);
-
-            return (number1, idPoint1);
-        }
-
-        private string ReadStrForPoint(string line, string str)
-        {
-            var key = str;
-            var startIndexKey = line.IndexOf(key);
-            var lengthKey = key.Length;
-            return line.Substring(startIndexKey + lengthKey);
-        }
-
-        private int ReadId(string line)
-        {
-            var key = "Id: ";
-            var startIndexKey = line.IndexOf(key);
-            var lengthKey = key.Length;
-            var number = line.Substring(startIndexKey + lengthKey);
-            var id = int.Parse(number);
-            return id;
-        }
-
         private int SavePoint(StreamWriter stream, Point point)
         {
-            var id = GenerateId();
-            stream.WriteLine("- Point");
+            var id = GenerateId();            
             stream.WriteLine($" Id: {id}");
             stream.WriteLine($" X: {point.X}");
             stream.WriteLine($" Y: {point.Y}");
+            stream.WriteLine("- Point");
             stream.WriteLine();
-
             return id;
         }
 
@@ -221,12 +152,11 @@ namespace Figures.Repositories
             var id = GenerateId();
             var AId = SavePoint(stream, line.A);
             var BId = SavePoint(stream, line.B);
-            stream.WriteLine("- LineSegment");
             stream.WriteLine($" Id: {id}");
-            stream.WriteLine($" A: Point; {AId}");
-            stream.WriteLine($" B: Point; {BId}");
+            stream.WriteLine($" A: {AId}");
+            stream.WriteLine($" B: {BId}");
+            stream.WriteLine("- LineSegment");
             stream.WriteLine();
-
             return id;
         }
 

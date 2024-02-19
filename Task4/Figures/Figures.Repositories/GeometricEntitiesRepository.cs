@@ -9,9 +9,9 @@ namespace Figures.Repositories
     {
         private readonly TxtDbContext _context;
 
-        public GeometricEntitiesRepository()
+        public GeometricEntitiesRepository(TxtDbContext context)
         {
-            _context = new TxtDbContext();
+            _context = context;
         }
 
         public void Add(GeometricEntity geometricEntity)

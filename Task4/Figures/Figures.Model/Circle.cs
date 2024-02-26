@@ -35,7 +35,7 @@ namespace Figures.Model
 
         public override string ToString()
         {
-            return $"Круг: центр: '{Center.X}','{Center.Y}'; радиус: '{Radius}'. {base.ToString()}";
+            return $"Id круга: {Id}. Круг: центр: '{Center.X}','{Center.Y}'; радиус: '{Radius}'. {base.ToString()}";
         }
     }
 }

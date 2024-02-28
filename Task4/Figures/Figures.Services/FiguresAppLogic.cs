@@ -6,19 +6,21 @@ namespace Figures.Services
     {
         private readonly IUserInteractor _userInteractor;
         private readonly IEntitiesCreator _entitiesCreator;
-        private readonly IGeometricEntitiesRepository _geometricEntitiesRepository;
+        private readonly UsersService _usersService;
 
-        public FiguresAppLogic(IUserInteractor userInteractor, IEntitiesCreator entitiesCreator, IGeometricEntitiesRepository geometricEntitiesRepository)
+        public FiguresAppLogic(IUserInteractor userInteractor, IEntitiesCreator entitiesCreator, UsersService usersService)
         {
             _userInteractor = userInteractor;
             _entitiesCreator = entitiesCreator;
-            _geometricEntitiesRepository = geometricEntitiesRepository;
+            _usersService = usersService;
         }
         public void Run()
         {
+            var user = Authorize();
+
             while (true)
-            {
-                var action = EnterAction();
+            {                
+                var action = EnterAction(user);
 
                 switch (action)
                 {
@@ -26,28 +28,28 @@ namespace Figures.Services
                         return;
 
                     case Actions.Add:
-                        AddEntity();
+                        AddEntity(user);
                         break;
 
                     case Actions.Output:
-                        PrintEntities();
+                        PrintEntities(user);
                         break;
 
-                    //case Actions.ChangeUser:
-                    //    user = Authorize();
-                    //    break;
+                    case Actions.ChangeUser:
+                        user = Authorize();
+                        break;
 
                     case Actions.Clear:
-                        _geometricEntitiesRepository.DeleteAll();
+                        _usersService.DeleteFigures(user);
                         break;
 
                 }
             }
         }
 
-        private Actions EnterAction()
+        private Actions EnterAction(string name)
         {
-            _userInteractor.PrintMessage($"Выберите действие: ");
+            _userInteractor.PrintMessage($"{name}, выберите действие: ");
             MenuHelpers.PrintActions(_userInteractor);
 
             if (!EnumHelpers.TryReadEnum(_userInteractor.ReadStr(), out Actions action))
@@ -58,13 +60,14 @@ namespace Figures.Services
             return action;
         }
 
-        private void AddEntity()
+        private void AddEntity(string name)
         {
-            _userInteractor.PrintMessage($"Выберите тип фигуры: ");
+            _userInteractor.PrintMessage($"{name}, выберите тип фигуры: ");
+
             try
             {
                 var figure = _entitiesCreator.CreateEntity();
-                _geometricEntitiesRepository.Add(figure);
+                _usersService.AddFigure(name, figure);
                 _userInteractor.PrintMessage($"Фигура {figure.GetType().Name} создана!");
             }
             catch (Exception ex)
@@ -73,36 +76,43 @@ namespace Figures.Services
             }
         }
 
-        private void PrintEntities()
+        private void PrintEntities(string name)
         {
-            foreach (var entity in _geometricEntitiesRepository.List())
+            _userInteractor.PrintMessage($"Список фигур пользователя {name}");
+
+            foreach (var entity in _usersService.ListFigures(name))
             {
                 _userInteractor.PrintMessage(entity.ToString());
             }
+
+            if (_usersService.ListFigures(name).Count == 0)
+            {
+                _userInteractor.PrintMessage("Список Пуст");
+            }
         }
 
-        //private string Authorize()
-        //{
-        //    var name = ReadUserName();
-        //    _usersService.Authorize(name);
-        //    return name;
-        //}
+        private string Authorize()
+        {
+            var name = ReadUserName();
+            _usersService.Authorize(name);
+            return name;
+        }
 
-        //private string ReadUserName()
-        //{
-        //    do
-        //    {
-        //        _userInteractor.PrintMessage("Введите имя пользователя: ");
-        //        var nameUser = _userInteractor.ReadStr();
+        private string ReadUserName()
+        {
+            do
+            {
+                _userInteractor.PrintMessage("Введите имя пользователя: ");
+                var nameUser = _userInteractor.ReadStr();
 
-        //        if (!string.IsNullOrWhiteSpace(nameUser))
-        //        {
-        //            return nameUser;
-        //        }
+                if (!string.IsNullOrWhiteSpace(nameUser))
+                {
+                    return nameUser;
+                }
 
-        //        _userInteractor.PrintMessage("Попытайтесь заново");
-        //    }
-        //    while (true);
-        //}
+                _userInteractor.PrintMessage("Попытайтесь заново");
+            }
+            while (true);
+        }
     }
 }

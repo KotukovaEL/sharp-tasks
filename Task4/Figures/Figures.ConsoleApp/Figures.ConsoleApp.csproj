@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Figures.Model\Figures.Model.csproj" />
     <ProjectReference Include="..\Figures.Repositories\Figures.Repositories.csproj" />
+    <ProjectReference Include="..\Figures.Services\Figures.Services.csproj" />
   </ItemGroup>
 
 </Project>

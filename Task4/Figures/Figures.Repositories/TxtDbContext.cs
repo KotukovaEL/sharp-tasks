@@ -29,7 +29,7 @@ namespace Figures.Repositories
             _entitiesMap.Add(entity.Id, entity);
         }
 
-        public void DeleteAll()
+        public void DeleteAll(string name)
         {
             _entitiesMap.Clear();
         }
@@ -58,6 +58,9 @@ namespace Figures.Repositories
                     case Triangle triangle:
                         SaveTriangle(stream, triangle);
                         break;
+                    case Ring ring:
+                        SaveRing(stream, ring);
+                        break;
                     default: 
                         throw new ArgumentException($"Unknown entity type {entity.GetType().Name}.");
                 }
@@ -66,54 +69,34 @@ namespace Figures.Repositories
 
         public void ReadFile() 
         {
-            string[] lines = File.ReadAllLines(_filePath);
+            var lines = File.ReadAllLines(_filePath);
             var map = new Dictionary<string, string>();
 
             foreach (var line in lines)
             {
-                if (line.Contains("Point"))
+                var str = line.Trim();
+
+                GeometricEntity? entity = str switch
+
                 {
-                    var point = ReadPoint(map);
-                    _entitiesMap.Add(point.Id, point);
+                    "- Point" => ReadPoint(map),
+                    "- LineSegment" => ReadLineSegment(map),
+                    "- Circle" => ReadCircle(map),
+                    "- Rectangle" => ReadRectangle(map),
+                    "- Triangle" => ReadTriangle(map),
+                    "- Ring" => ReadRing(map),
+                    _ => null,
+                };
+
+                if (entity is not null)
+                {
+                    _entitiesMap.Add(entity.Id, entity);
                     map.Clear();
                     continue;
                 }
 
-                if (line.Contains("LineSegment"))
+                if (!string.IsNullOrWhiteSpace(str))
                 {
-                    var lineSegment = ReadLineSegment(map);
-                    _entitiesMap.Add(lineSegment.Id, lineSegment);
-                    map.Clear();
-                    continue;
-                }
-
-                if (line.Contains("Circle"))
-                {
-                    var circle = ReadCircle(map);
-                    _entitiesMap.Add(circle.Id, circle);
-                    map.Clear();
-                    continue;
-                }
-
-                if (line.Contains("Rectangle"))
-                {
-                    var rectangle = ReadRectangle(map);
-                    _entitiesMap.Add(rectangle.Id, rectangle);
-                    map.Clear();
-                    continue;
-                }
-
-                if (line.Contains("Triangle"))
-                {
-                    var triangle = ReadTriangle(map);
-                    _entitiesMap.Add(triangle.Id, triangle);
-                    map.Clear();
-                    continue;
-                }
-
-                if (!string.IsNullOrWhiteSpace(line))
-                {
-                    var str = line.Trim();
                     var separator = ": ";
                     var separatorIndex = str.IndexOf(separator);
                     var key = str.Substring(0, separatorIndex);
@@ -134,16 +117,6 @@ namespace Figures.Repositories
             var point = new Point(x, y);
             point.Id = int.Parse(GetFieldValue(map, "Id"));
             return point;
-        }
-
-        private string GetFieldValue(Dictionary<string, string> map, string key)
-        {
-            if (!map.TryGetValue(key, out var value))
-            {
-                throw new ArgumentException($"Field {key} was not found.");
-            }
-
-            return value;
         }
 
         private LineSegment ReadLineSegment(Dictionary<string, string> map)
@@ -206,8 +179,29 @@ namespace Figures.Repositories
             return triangle;
         }
 
+        private Ring ReadRing(Dictionary<string, string> map)
+        {
+            var idPoint = int.Parse(GetFieldValue(map, "Center"));
+            var center = (Point)GetEntityById(idPoint);
+            var longRadius = double.Parse(GetFieldValue(map, "Long radius"));
+            var shortRadius = double.Parse(GetFieldValue(map, "Short radius"));
+            _entitiesMap.Remove(idPoint);
+            var ring = new Ring(center, longRadius, shortRadius);
+            ring.Id = int.Parse(GetFieldValue(map, "Id"));
+            return ring;
+        }
 
-        private GeometricEntity GetEntityById(int id)
+        public string GetFieldValue(Dictionary<string, string> map, string key)
+        {
+            if (!map.TryGetValue(key, out var value))
+            {
+                throw new ArgumentException($"Field {key} was not found.");
+            }
+
+            return value;
+        }
+
+        public GeometricEntity GetEntityById(int id)
         {
             if (!_entitiesMap.TryGetValue(id, out var entity))
             {
@@ -283,6 +277,18 @@ namespace Figures.Repositories
             stream.WriteLine($" B: {triangle.B.Id}");
             stream.WriteLine($" C: {triangle.C.Id}");
             stream.WriteLine("- Triangle");
+            stream.WriteLine();
+        }
+
+        private void SaveRing(StreamWriter stream, Ring ring)
+        {
+            ring.Center.Id = _idGenerator.Generate();
+            SavePoint(stream, ring.Center);
+            stream.WriteLine($" Id: {ring.Id}");
+            stream.WriteLine($" Center: {ring.Center.Id}");
+            stream.WriteLine($" Long radius: {ring.BigCircle.Radius}");
+            stream.WriteLine($" Short radius: {ring.SmallCircle.Radius}");
+            stream.WriteLine("- Ring");
             stream.WriteLine();
         }
 

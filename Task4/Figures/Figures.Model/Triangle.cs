@@ -54,7 +54,7 @@ namespace Figures.Model
 
         public override string ToString()
         {
-            return $"Треугольник: точка А: '{A.X}','{A.Y}'; точка B: '{B.X}','{B.Y}'; точка C: '{C.X}','{C.Y}'. {base.ToString()}";
+            return $"Id треугольника: {Id}. Треугольник: точка А: '{A.X}','{A.Y}'; точка B: '{B.X}','{B.Y}'; точка C: '{C.X}','{C.Y}'. {base.ToString()}";
         }
     }
 }

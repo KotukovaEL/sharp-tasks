@@ -41,7 +41,7 @@ namespace Figures.Model
 
         public override string ToString()
         {
-            return $"Кольцо: центр: '{Center.X}','{Center.Y}'; радиус первого круга: '{BigCircle.Radius}'; радиус второго круга: '{SmallCircle.Radius}'. {base.ToString()}";
+            return $"Id кольца: {Id}. Кольцо: центр: '{Center.X}','{Center.Y}'; радиус первого круга: '{BigCircle.Radius}'; радиус второго круга: '{SmallCircle.Radius}'. {base.ToString()}";
         }
     }
 }

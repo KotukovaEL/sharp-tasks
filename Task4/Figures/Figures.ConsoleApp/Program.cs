@@ -13,8 +13,8 @@ namespace Figures.ConsoleApp
             var entitiesCreator = new EntitiesCreator(interactor);
             var filePath = "Entities.txt";
             var context = new TxtDbContext(filePath);
-            var geometricEntitiesRepository = new GeometricEntitiesRepository(context);
-            var logic = new FiguresAppLogic(interactor, entitiesCreator, geometricEntitiesRepository);
+            var userService = new UsersService("Users.txt", context);
+            var logic = new FiguresAppLogic(interactor, entitiesCreator, userService);
             logic.Run();
         }
     }

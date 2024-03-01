@@ -29,9 +29,12 @@ namespace Figures.Repositories
             _entitiesMap.Add(entity.Id, entity);
         }
 
-        public void DeleteAll(string name)
+        public void DeleteFiguresByIds(List<int> list)
         {
-            _entitiesMap.Clear();
+            foreach (int id in list)
+            {
+                _entitiesMap.Remove(id);
+            }
         }
 
         public void SaveChanges()

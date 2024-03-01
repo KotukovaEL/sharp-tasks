@@ -1,22 +1,21 @@
 ﻿using Figures.Model;
+using Figures.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Figures.Repositories;
 using System.Linq;
 
 namespace Figures.Services
 {
     public class UsersService
     {
-        private readonly Dictionary<string, User> _userMap;
+        private readonly Dictionary<string, User> _userMap = new();
         private readonly string _filePath;
         private readonly TxtDbContext _txtDbContext;
 
         public UsersService(string filePath, TxtDbContext txtDbContext)
         {
             _filePath = filePath;
-            _userMap = new Dictionary<string, User>();
             _txtDbContext = txtDbContext;
             ReadFile();
         }
@@ -33,7 +32,6 @@ namespace Figures.Services
         {
             var idFigures = new List<GeometricEntity>();
             var user = GetUser(name);
-            _txtDbContext.SaveChanges();
 
             foreach (var idEntity in user.IdGeometricEntities)
             {
@@ -41,12 +39,13 @@ namespace Figures.Services
                 idFigures.Add(entity);
             }
 
-            return idFigures;//выводить список фигур
+            return idFigures;
         }
 
         public void DeleteFigures(string name)
         {
             var user = GetUser(name);
+            _txtDbContext.DeleteFiguresByIds(user.IdGeometricEntities);
             user.IdGeometricEntities.Clear();
             _txtDbContext.SaveChanges();
             SaveChanges();
@@ -72,79 +71,52 @@ namespace Figures.Services
         {
             using var fs = new FileStream(_filePath, FileMode.Create);
             using var stream = new StreamWriter(fs);
-            
+
             foreach (var user in _userMap.Values)
             {
                 stream.WriteLine($" Name: {user.Name}");
                 stream.WriteLine($" Figures: {string.Join(',', user.IdGeometricEntities)}");
                 stream.WriteLine();
-            } 
+            }
         }
 
-        public void ReadFile() 
+        public void ReadFile()
         {
             var lines = File.ReadAllLines(_filePath);
-            var map = new Dictionary<string, string>();
+            var name = "";
+            var entityIdsStr = "";
 
             foreach (var line in lines)
             {
-                var str = line.Trim();
-                string name = "";
-                User? user = null;
-
-                if (!string.IsNullOrWhiteSpace(str))
+                if (!string.IsNullOrWhiteSpace(line))
                 {
-                    var value = "0";
-                    var separator = ":";
-                    var separatorIndex = str.IndexOf(separator);
-                    var key = str.Substring(0, separatorIndex);
-
-                    if (str.EndsWith(separator))
-                    {
-                        value = string.Empty;
-                        continue;
-                    }
-
-                    value = str.Substring(separatorIndex + 1 + separator.Length);
-                    map.Add(key, value);
+                    TryGetValue(line, "Name", out name);
+                    TryGetValue(line, "Figures", out entityIdsStr);
                     continue;
                 }
 
-                if (map.Count != 0)
+                var user = new User (name);
+
+                if (entityIdsStr != string.Empty)
                 {
-                    var figureIdsStr = "";
-                    name = _txtDbContext.GetFieldValue(map, "Name");
-
-                    try
-                    {
-                        figureIdsStr = _txtDbContext.GetFieldValue(map, "Figures");
-                    }
-                    catch (Exception ex) 
-                    {
-                        figureIdsStr = "0";
-                    }
-
-                    List<int> entityList = new List<int>();
-
-                    if (figureIdsStr != "0")
-                    {
-                        entityList = figureIdsStr.Split(",").Select(int.Parse).ToList();
-                        user = new User(name);
-                        user.IdGeometricEntities.AddRange(entityList);
-                    }
-
-                    user = new User(name);
+                    var entityList = entityIdsStr.Split(",").Select(int.Parse).ToList();
                     user.IdGeometricEntities.AddRange(entityList);
-
                 }
 
-                if (name is not null && user is not null)
-                {
-                    _userMap.Add(name, user);
-                    map.Clear();
-                    continue;
-                }
+                
+                _userMap.Add(name, user);
+                name = null;
+                entityIdsStr = null;
             }
+        }
+
+        private bool TryGetValue(string str, string key, out string value)
+        {
+            if ()
+
+            var indexKey = str.IndexOf(key);
+            value = str.Substring(indexKey + key.Length + 2);
+            return true;
         }
     }
 }

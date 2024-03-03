@@ -21,32 +21,33 @@ namespace Figures.Services
         }
         public void AddFigure(string name, GeometricEntity geometricEntity)
         {
-            var user = GetUser(name);
             _txtDbContext.Add(geometricEntity);
-            user.IdGeometricEntities.Add(geometricEntity.Id);
             _txtDbContext.SaveChanges();
+
+            var user = GetUser(name);
+            user.EntityIdList.Add(geometricEntity.Id);
             SaveChanges();
         }
 
         public List<GeometricEntity> ListFigures(string name)
         {
-            var idFigures = new List<GeometricEntity>();
+            var entities = new List<GeometricEntity>();
             var user = GetUser(name);
 
-            foreach (var idEntity in user.IdGeometricEntities)
+            foreach (var id in user.EntityIdList)
             {
-                var entity = _txtDbContext.GetEntityById(idEntity);
-                idFigures.Add(entity);
+                var entity = _txtDbContext.GetEntityById(id);
+                entities.Add(entity);
             }
 
-            return idFigures;
+            return entities;
         }
 
         public void DeleteFigures(string name)
         {
             var user = GetUser(name);
-            _txtDbContext.DeleteFiguresByIds(user.IdGeometricEntities);
-            user.IdGeometricEntities.Clear();
+            _txtDbContext.DeleteFiguresByIds(user.EntityIdList);
+            user.EntityIdList.Clear();
             _txtDbContext.SaveChanges();
             SaveChanges();
         }
@@ -70,13 +71,13 @@ namespace Figures.Services
         private void SaveChanges()
         {
             using var fs = new FileStream(_filePath, FileMode.Create);
-            using var stream = new StreamWriter(fs);
+            using var writer = new StreamWriter(fs);
 
-            foreach (var user in _userMap.Values)
+            foreach(var user in _userMap.Values)
             {
-                stream.WriteLine($" Name: {user.Name}");
-                stream.WriteLine($" Figures: {string.Join(',', user.IdGeometricEntities)}");
-                stream.WriteLine();
+                writer.WriteLine($" Name: {user.Name}");
+                writer.WriteLine($" Figures: {string.Join(',', user.EntityIdList)}");
+                writer.WriteLine();
             }
         }
 
@@ -95,12 +96,12 @@ namespace Figures.Services
                     continue;
                 }
 
-                var user = new User (name);
+                var user = new User(name);
 
                 if (entityIdsStr != string.Empty)
                 {
                     var entityList = entityIdsStr.Split(",").Select(int.Parse).ToList();
-                    user.IdGeometricEntities.AddRange(entityList);
+                    user.EntityIdList.AddRange(entityList);
                 }
 
                 

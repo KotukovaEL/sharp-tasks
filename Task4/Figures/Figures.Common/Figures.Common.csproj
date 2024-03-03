@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<LangVersion>9.0</LangVersion>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Figures.Common\Figures.Common.csproj" />
+    <ProjectReference Include="..\Figures.Model\Figures.Model.csproj" />
   </ItemGroup>
 
 </Project>

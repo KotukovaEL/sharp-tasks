@@ -1,4 +1,5 @@
-﻿using Figures.Services;
+﻿using Figures.Handlers;
+using Figures.Services;
 using System;
 
 namespace Figures.ConsoleApp

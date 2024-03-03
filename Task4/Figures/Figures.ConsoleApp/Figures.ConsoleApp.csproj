@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Figures.Handlers\Figures.Handlers.csproj" />
     <ProjectReference Include="..\Figures.Model\Figures.Model.csproj" />
     <ProjectReference Include="..\Figures.Repositories\Figures.Repositories.csproj" />
     <ProjectReference Include="..\Figures.Services\Figures.Services.csproj" />

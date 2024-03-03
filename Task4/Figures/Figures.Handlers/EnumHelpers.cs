@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Figures.Services
+namespace Figures.Handlers
 {
     public static class EnumHelpers
     {

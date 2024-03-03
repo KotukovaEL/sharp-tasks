@@ -1,4 +1,5 @@
-﻿using Figures.Model;
+﻿using Figures.Common.Interfaces;
+using Figures.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,13 +7,13 @@ using System.Linq;
 
 namespace Figures.Repositories
 {
-    public class TxtDbContext
+    public class GeometricEntitiesRepository : IGeometricEntitiesRepository
     {
         private readonly IdGenerator _idGenerator = new();
         private readonly Dictionary<int, GeometricEntity> _entitiesMap = new();
         private readonly string _filePath;        
 
-        public TxtDbContext(string filePath)
+        public GeometricEntitiesRepository(string filePath)
         {
             _filePath = filePath;
             ReadFile();
@@ -21,6 +22,16 @@ namespace Figures.Repositories
         public List<GeometricEntity> List()
         {
             return _entitiesMap.Select(x => x.Value).OrderBy(x => x.Id).ToList();
+        }
+
+        public GeometricEntity GetEntityById(int id)
+        {
+            if (!_entitiesMap.TryGetValue(id, out var entity))
+            {
+                throw new ArgumentException($"Entity with id '{id}' was not found.");
+            }
+
+            return entity;
         }
 
         public void Add(GeometricEntity entity)
@@ -70,7 +81,7 @@ namespace Figures.Repositories
             }
         }
 
-        public void ReadFile() 
+        private void ReadFile() 
         {
             var lines = File.ReadAllLines(_filePath);
             var map = new Dictionary<string, string>();
@@ -100,11 +111,8 @@ namespace Figures.Repositories
 
                 if (!string.IsNullOrWhiteSpace(str))
                 {
-                    var separator = ": ";
-                    var separatorIndex = str.IndexOf(separator);
-                    var key = str.Substring(0, separatorIndex);
-                    var value = str.Substring(separatorIndex + separator.Length);
-                    map.Add(key, value);
+                    var parseStr = TxtDbHelpers.ParseDbRecord(str);
+                    map.Add(parseStr.key, parseStr.value);
                     continue;
                 }
 
@@ -115,43 +123,43 @@ namespace Figures.Repositories
 
         private Point ReadPoint(Dictionary<string, string> map)
         {
-            var x = double.Parse(GetFieldValue(map, "X"));
-            var y = double.Parse(GetFieldValue(map, "Y"));
+            var x = double.Parse(TxtDbHelpers.GetFieldValue(map, "X"));
+            var y = double.Parse(TxtDbHelpers.GetFieldValue(map, "Y"));
             var point = new Point(x, y);
-            point.Id = int.Parse(GetFieldValue(map, "Id"));
+            point.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
             return point;
         }
 
         private LineSegment ReadLineSegment(Dictionary<string, string> map)
         {
-            var idA = int.Parse(GetFieldValue(map, "A"));
-            var idB = int.Parse(GetFieldValue(map, "B"));
+            var idA = int.Parse(TxtDbHelpers.GetFieldValue(map, "A"));
+            var idB = int.Parse(TxtDbHelpers.GetFieldValue(map, "B"));
             var pointA = (Point)GetEntityById(idA);
             var pointB = (Point)GetEntityById(idB);
             _entitiesMap.Remove(idA);
             _entitiesMap.Remove(idB);
             var lineSegment = new LineSegment(pointA, pointB);
-            lineSegment.Id = int.Parse(GetFieldValue(map, "Id"));            
+            lineSegment.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));            
             return lineSegment;
         }
 
         private Circle ReadCircle(Dictionary<string, string> map)
         {
-            var idPoint = int.Parse(GetFieldValue(map, "Center"));
+            var idPoint = int.Parse(TxtDbHelpers.GetFieldValue(map, "Center"));
             var center = (Point)GetEntityById(idPoint);
-            var radius = double.Parse(GetFieldValue(map, "Radius"));
+            var radius = double.Parse(TxtDbHelpers.GetFieldValue(map, "Radius"));
             _entitiesMap.Remove(idPoint);
             var circle = new Circle(center, radius);
-            circle.Id = int.Parse(GetFieldValue(map, "Id"));
+            circle.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
             return circle;
         }
 
         private Rectangle ReadRectangle(Dictionary<string, string> map)
         {
-            var idA = int.Parse(GetFieldValue(map, "A"));
-            var idB = int.Parse(GetFieldValue(map, "B"));
-            var idC = int.Parse(GetFieldValue(map, "C"));
-            var idD = int.Parse(GetFieldValue(map, "D"));
+            var idA = int.Parse(TxtDbHelpers.GetFieldValue(map, "A"));
+            var idB = int.Parse(TxtDbHelpers.GetFieldValue(map, "B"));
+            var idC = int.Parse(TxtDbHelpers.GetFieldValue(map, "C"));
+            var idD = int.Parse(TxtDbHelpers.GetFieldValue(map, "D"));
             var pointA = (Point)GetEntityById(idA);
             var pointB = (Point)GetEntityById(idB);
             var pointC = (Point)GetEntityById(idC);
@@ -161,16 +169,16 @@ namespace Figures.Repositories
             _entitiesMap.Remove(idC);
             _entitiesMap.Remove(idD);
             var rectangle = new Rectangle(pointA, pointB, pointC, pointD);
-            rectangle.Id = int.Parse(GetFieldValue(map, "Id"));
+            rectangle.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
             return rectangle;
         }
 
 
         private Triangle ReadTriangle(Dictionary<string, string> map)
         {
-            var idA = int.Parse(GetFieldValue(map, "A"));
-            var idB = int.Parse(GetFieldValue(map, "B"));
-            var idC = int.Parse(GetFieldValue(map, "C"));
+            var idA = int.Parse(TxtDbHelpers.GetFieldValue(map, "A"));
+            var idB = int.Parse(TxtDbHelpers.GetFieldValue(map, "B"));
+            var idC = int.Parse(TxtDbHelpers.GetFieldValue(map, "C"));
             var pointA = (Point)GetEntityById(idA);
             var pointB = (Point)GetEntityById(idB);
             var pointC = (Point)GetEntityById(idC);
@@ -178,40 +186,20 @@ namespace Figures.Repositories
             _entitiesMap.Remove(idB);
             _entitiesMap.Remove(idC);
             var triangle = new Triangle(pointA, pointB, pointC);
-            triangle.Id = int.Parse(GetFieldValue(map, "Id"));
+            triangle.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
             return triangle;
         }
 
         private Ring ReadRing(Dictionary<string, string> map)
         {
-            var idPoint = int.Parse(GetFieldValue(map, "Center"));
+            var idPoint = int.Parse(TxtDbHelpers.GetFieldValue(map, "Center"));
             var center = (Point)GetEntityById(idPoint);
-            var longRadius = double.Parse(GetFieldValue(map, "Long radius"));
-            var shortRadius = double.Parse(GetFieldValue(map, "Short radius"));
+            var longRadius = double.Parse(TxtDbHelpers.GetFieldValue(map, "Long radius"));
+            var shortRadius = double.Parse(TxtDbHelpers.GetFieldValue(map, "Short radius"));
             _entitiesMap.Remove(idPoint);
             var ring = new Ring(center, longRadius, shortRadius);
-            ring.Id = int.Parse(GetFieldValue(map, "Id"));
+            ring.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
             return ring;
-        }
-
-        public string GetFieldValue(Dictionary<string, string> map, string key)
-        {
-            if (!map.TryGetValue(key, out var value))
-            {
-                throw new ArgumentException($"Field {key} was not found.");
-            }
-
-            return value;
-        }
-
-        public GeometricEntity GetEntityById(int id)
-        {
-            if (!_entitiesMap.TryGetValue(id, out var entity))
-            {
-                throw new ArgumentException($"Entity with id '{id}' was not found.");
-            }
-
-            return entity;
         }
 
         private void SavePoint(StreamWriter stream, Point point)

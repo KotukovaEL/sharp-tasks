@@ -8,7 +8,7 @@ namespace Figures.Model
     {
         public string Name { get; }
 
-        public List<int> IdGeometricEntities { get; }
+        public List<int> EntityIdList { get; }
 
         public User(string name)
         {
@@ -18,7 +18,7 @@ namespace Figures.Model
             }
 
             Name = name;
-            IdGeometricEntities = new List<int>();
+            EntityIdList = new List<int>();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Figures.Model;
 using System;
 
-namespace Figures.Services
+namespace Figures.Handlers
 {
     public class EntitiesCreator : IEntitiesCreator
     {
@@ -47,7 +47,7 @@ namespace Figures.Services
             _userInteractor.PrintMessage("Введите координаты центра:");
             var center = CreatePoint();
             _userInteractor.PrintMessage("Введите радиус круга:");
-            var radius = Reader.ReadDouble(_userInteractor);
+            var radius = ReadHelpers.ReadDouble(_userInteractor);
             return new Circle(center, radius);
         }
 
@@ -81,9 +81,9 @@ namespace Figures.Services
             _userInteractor.PrintMessage("Введите координаты центра:");
             var center = CreatePoint();
             _userInteractor.PrintMessage("Введите радиус большего круга:");
-            var longRadius = Reader.ReadDouble(_userInteractor);
+            var longRadius = ReadHelpers.ReadDouble(_userInteractor);
             _userInteractor.PrintMessage("Введите радиус меньшего круга:");
-            var shortRadius = Reader.ReadDouble(_userInteractor);
+            var shortRadius = ReadHelpers.ReadDouble(_userInteractor);
             return new Ring(center, longRadius, shortRadius);
         }
 
@@ -102,9 +102,9 @@ namespace Figures.Services
         private Point CreatePoint()
         {
             _userInteractor.PrintMessage("Введите координаты X:");
-            double x = Reader.ReadDouble(_userInteractor);
+            double x = ReadHelpers.ReadDouble(_userInteractor);
             _userInteractor.PrintMessage("Введите координаты Y:");
-            double y = Reader.ReadDouble(_userInteractor);
+            double y = ReadHelpers.ReadDouble(_userInteractor);
             return new Point(x, y);
         }
     }

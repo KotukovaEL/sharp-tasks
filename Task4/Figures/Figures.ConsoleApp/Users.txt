@@ -1,9 +1,8 @@
  Name: sds
- Figures: 
+ EntityList: 
 
  Name: gg
- Figures: 3,10,26
+ EntityList: 3,10,26
 
  Name: ddd
- Figures: 120
-
+ EntityList: 120

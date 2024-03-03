@@ -1,19 +1,21 @@
-﻿using System;
+﻿using Figures.Common.Interfaces;
+using System;
 
-namespace Figures.Services
+namespace Figures.Handlers
 {
-    public class FiguresAppLogic 
+    public class FiguresAppHandler 
     {
         private readonly IUserInteractor _userInteractor;
         private readonly IEntitiesCreator _entitiesCreator;
-        private readonly UsersService _usersService;
+        private readonly IUsersService _usersService;
 
-        public FiguresAppLogic(IUserInteractor userInteractor, IEntitiesCreator entitiesCreator, UsersService usersService)
+        public FiguresAppHandler(IUserInteractor userInteractor, IEntitiesCreator entitiesCreator, IUsersService usersService)
         {
             _userInteractor = userInteractor;
             _entitiesCreator = entitiesCreator;
             _usersService = usersService;
         }
+
         public void Run()
         {
             var user = Authorize();
@@ -42,7 +44,6 @@ namespace Figures.Services
                     case Actions.Clear:
                         _usersService.DeleteFigures(user);
                         break;
-
                 }
             }
         }

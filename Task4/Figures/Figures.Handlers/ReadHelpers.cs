@@ -1,6 +1,6 @@
-﻿namespace Figures.Services
+﻿namespace Figures.Handlers
 {
-    public class Reader
+    public class ReadHelpers
     {
         public static double ReadDouble(IUserInteractor userInteractor)
         {
@@ -19,3 +19,4 @@
         }
     }
 }
+    

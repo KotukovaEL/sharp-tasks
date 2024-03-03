@@ -1,4 +1,4 @@
-﻿namespace Figures.Services
+﻿namespace Figures.Handlers
 {
     public interface IUserInteractor
     {

@@ -1,4 +1,5 @@
-﻿using Figures.Model;
+﻿using Figures.Handlers;
+using Figures.Model;
 using FluentAssertions;
 using Moq;
 using System;
@@ -27,12 +28,12 @@ namespace Figures.Services.Tests
         [Fact]
         public void Should_create_point_correctly()
         {
-            _inputs = new[] { "6","2", "3" };
+            _inputs = new[] { "6", "2", "3" };
             var creator = CreateEntitiesCreator();
             var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
-                "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
+                "\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
                 "Введите координаты X:",
                 "Введите координаты Y:");
             var expectedEntity = new Point(2, 3);
@@ -49,7 +50,7 @@ namespace Figures.Services.Tests
             var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
-                "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
+                "\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
                 "Введите параметры фигуры Круг",
                 "Введите координаты центра:",
                 "Введите координаты X:",
@@ -71,7 +72,7 @@ namespace Figures.Services.Tests
             var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
-                "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
+                "\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
                 "Введите параметры фигуры Линия",
                 "Введите координаты первой точки:",
                 "Введите координаты X:",
@@ -96,7 +97,7 @@ namespace Figures.Services.Tests
             var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
-                "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
+                "\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
                 "Введите параметры фигуры Прямоугольник",
                 "Введите координаты первой точки:",
                 "Введите координаты X:",
@@ -129,7 +130,7 @@ namespace Figures.Services.Tests
             var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
-                "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
+                "\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
                 "Введите параметры фигуры Кольцо",
                 "Введите координаты центра:",
                 "Введите координаты X:",
@@ -152,7 +153,7 @@ namespace Figures.Services.Tests
             var entity = creator.CreateEntity();
 
             string expectedOutput = string.Join(null,
-                "Выберите тип фигуры:\n\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
+                "\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
                 "Введите параметры фигуры Треугольник",
                 "Введите координаты первой точки:",
                 "Введите координаты X:",

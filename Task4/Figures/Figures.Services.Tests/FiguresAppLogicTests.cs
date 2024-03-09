@@ -1,4 +1,6 @@
+using Figures.Common.Interfaces;
 using Figures.ConsoleApp;
+using Figures.Handlers;
 using Figures.Model;
 using Figures.Repositories;
 using Figures.Services;
@@ -6,6 +8,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 using Xunit;
 
 namespace Figures.Services.Tests
@@ -14,6 +17,10 @@ namespace Figures.Services.Tests
     {
         private readonly StringBuilder _outputSb;
         private readonly List<GeometricEntity> _entities;
+        private readonly List<User> _user;
+        private bool _calledAddFigure = false;
+        private bool _calledDeleteFigures = false;
+        private bool _calledAuthorize = false;
         private string[] _inputs;
         private int _inputIndex;
 
@@ -21,22 +28,27 @@ namespace Figures.Services.Tests
         {
             _outputSb = new StringBuilder();
             _entities = new List<GeometricEntity>();
+            _user = new List<User>();
             _inputIndex = 0;
         }
 
-       
+
         [Fact]
         public void Should_add_figure_correctly()
         {
-            _inputs = new[] {"1", "4",};
+            _inputs = new[] { "Name", "1", "5" };
 
             var logic = CreateLogic(() => new Point(2, 2));
             logic.Run();
 
             string expectedOutput = string.Join(null,
-                "Выберите действие:\n\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Выход",
+                "Введите имя пользователя: ",
+                "Name, выберите действие: ",
+                "\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Сменить пользователя\n\t5. Выход",
+                "Name, выберите тип фигуры: ",
                 "Фигура Point создана!",
-                "Выберите действие:\n\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Выход");
+                "Name, выберите действие: ",
+                "\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Сменить пользователя\n\t5. Выход");
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
         }
@@ -44,31 +56,40 @@ namespace Figures.Services.Tests
         [Fact]
         public void Should_list_figure_correctly()
         {
-            _inputs = new[] { "2", "4", };
+            _inputs = new[] { "Name", "2", "5", };
             _entities.Add(new Point(2, 2));
             var logic = CreateLogic(() => new Point(2, 2));
             logic.Run();
 
             string expectedOutput = string.Join(null,
-                "Выберите действие:\n\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Выход",
-                "Точка: координаты: '2','2'.",
-                "Выберите действие:\n\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Выход");
-
+                "Введите имя пользователя: ",
+                "Name, выберите действие: ",
+                "\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Сменить пользователя\n\t5. Выход",
+                "Список фигур пользователя Name",
+                "Id точки: 0. Точка: координаты: '2','2'.",
+                "Name, выберите действие: ",
+                "\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Сменить пользователя\n\t5. Выход");
             Assert.Equal(expectedOutput, _outputSb.ToString());
         }
 
         [Fact]
         public void Should_clear_figure_correctly()
         {
-            _inputs = new[] { "3", "4", };
+            _inputs = new[] { "Name", "3", "2", "5", };
 
             var logic = CreateLogic(() => new Point(2, 2));
             logic.Run();
 
             string expectedOutput = string.Join(null,
-                "Выберите действие:\n\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Выход",
-                "",
-                "Выберите действие:\n\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Выход");
+                "Введите имя пользователя: ",
+                "Name, выберите действие: ",
+                "\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Сменить пользователя\n\t5. Выход",
+                "Name, выберите действие: ",
+                "\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Сменить пользователя\n\t5. Выход",
+                "Список фигур пользователя Name",
+                "Список Пуст",
+                "Name, выберите действие: ",
+                "\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Сменить пользователя\n\t5. Выход");
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
         }
@@ -76,15 +97,18 @@ namespace Figures.Services.Tests
         [Fact]
         public void Should_print_error_message_incorrectly()
         {
-            _inputs = new[] { "5", "4", };
+            _inputs = new[] {"Name", "6", "5" };
 
             var logic = CreateLogic(() => new Point(2, 2));
             logic.Run();
 
             string expectedOutput = string.Join(null,
-               "Выберите действие:\n\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Выход",
-               "Попытайся заново",
-               "Выберите действие:\n\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Выход");
+                "Введите имя пользователя: ",
+                "Name, выберите действие: ",
+                "\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Сменить пользователя\n\t5. Выход",
+                "Попытайся заново",
+                "Name, выберите действие: ",
+                "\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Сменить пользователя\n\t5. Выход");
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
         }
@@ -92,20 +116,24 @@ namespace Figures.Services.Tests
         [Fact]
         public void Should_add_figure_incorrectly()
         {
-            _inputs = new[] { "1", "4", };
+            _inputs = new[] { "Name", "1", "5" };
 
             var logic = CreateLogic(() => throw new ArgumentException("There is no such figure."));
             logic.Run();
 
             string expectedOutput = string.Join(null,
-               "Выберите действие:\n\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Выход",
+               "Введите имя пользователя: ",
+               "Name, выберите действие: ",
+               "\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Сменить пользователя\n\t5. Выход",
+               "Name, выберите тип фигуры: ",
                "Произошла ошибка There is no such figure..",
-               "Выберите действие:\n\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Выход");
+               "Name, выберите действие: ",
+               "\t1. Добавить фигуру\n\t2. Вывести фигуры\n\t3. Очистить холст\n\t4. Сменить пользователя\n\t5. Выход");
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
         }
 
-        private FiguresAppLogic CreateLogic(Func<GeometricEntity> creatorFunc)
+        private FiguresAppHandler CreateLogic(Func<GeometricEntity> creatorFunc)
         {
             var interactor = new Mock<IUserInteractor>();
 
@@ -139,7 +167,7 @@ namespace Figures.Services.Tests
                 .Returns(_entities);
 
             geometricEntitiesRepository
-                .Setup(x => x.DeleteAll())
+                .Setup(x => x.DeleteFiguresByIds(It.IsAny<List<int>>()))
                 .Callback(() =>
                 {
                     _entities.Clear();
@@ -151,7 +179,37 @@ namespace Figures.Services.Tests
                 .Setup(x => x.CreateEntity())
                 .Returns(creatorFunc);
 
-            return new FiguresAppLogic(interactor.Object, geometricEntitiesRepository.Object, entitiesCreator.Object);
+            var usersService = new Mock<IUsersService>();
+
+            usersService
+                .Setup(x => x.AddFigure(It.IsAny<string>(), It.IsAny<GeometricEntity>()))
+                .Callback((string name, GeometricEntity geometricEntity) =>
+                {
+                    _calledAddFigure = true;
+                });
+
+            usersService
+                .Setup(x => x.ListFigures(It.IsAny<string>()))
+                .Returns((string name) =>
+                {
+                    return _entities;
+                });
+
+            usersService
+                .Setup(x => x.DeleteFigures(It.IsAny<string>()))
+                .Callback(() => 
+                { 
+                    _calledDeleteFigures = true; 
+                });
+
+            usersService
+                .Setup(x => x.Authorize(It.IsAny<string>()))
+                .Callback(() => 
+                { 
+                    _calledAuthorize = true; 
+                });
+
+            return new FiguresAppHandler(interactor.Object, entitiesCreator.Object, usersService.Object);
         }
     }
 }

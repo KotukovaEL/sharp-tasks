@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Figures.Services", "Figures
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Figures.Services.Tests", "Figures.Services.Tests\Figures.Services.Tests.csproj", "{C0216BEF-CB05-4E54-B4F2-5F8D1AEA5D55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Figures.Common", "Figures.Common\Figures.Common.csproj", "{6C35F2E7-B740-4C55-9C40-5173D9CC687D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Figures.Common", "Figures.Common\Figures.Common.csproj", "{6C35F2E7-B740-4C55-9C40-5173D9CC687D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Figures.Handlers", "Figures.Handlers\Figures.Handlers.csproj", "{510DF698-2618-4BBB-BEA8-E0D22FA6B49C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Figures.Handlers", "Figures.Handlers\Figures.Handlers.csproj", "{510DF698-2618-4BBB-BEA8-E0D22FA6B49C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

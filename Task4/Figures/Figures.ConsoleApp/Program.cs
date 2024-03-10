@@ -2,6 +2,7 @@
 using Figures.Model;
 using Figures.Repositories;
 using Figures.Services;
+using Microsoft.VisualBasic;
 using System.Collections.Generic;
 
 namespace Figures.ConsoleApp
@@ -10,8 +11,12 @@ namespace Figures.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var usersRepository = new UsersRepository("Users.txt");
-            var entitiesRepository = new GeometricEntitiesRepository("Entities.txt");
+            var usersContext = new UsersTxtDbContext("Users.txt");
+            var usersRepository = new UsersRepository(usersContext);
+
+            var idGenerator = new IdGenerator();
+            var entitiesContext = new GeometricEntitiesTxtDbContext("Entities.txt", idGenerator);
+            var entitiesRepository = new GeometricEntitiesRepository(entitiesContext);
 
             var userService = new UsersService(entitiesRepository, usersRepository);
 

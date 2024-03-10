@@ -11,6 +11,5 @@ namespace Figures.Common.Interfaces
         void Add(GeometricEntity entity);
         void DeleteFiguresByIds(List<int> list);
         GeometricEntity GetEntityById(int id);
-        void SaveChanges();
     }
 }

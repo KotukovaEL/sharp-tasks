@@ -21,8 +21,6 @@ namespace Figures.Services
             var user = _usersRepository.GetUser(name);
             _entitiesRepository.Add(geometricEntity);
             user.EntityIdList.Add(geometricEntity.Id);
-            _entitiesRepository.SaveChanges();
-            _usersRepository.SaveChanges();
         }
 
         public List<GeometricEntity> ListFigures(string name)
@@ -44,14 +42,11 @@ namespace Figures.Services
             var user = _usersRepository.GetUser(name);
             _entitiesRepository.DeleteFiguresByIds(user.EntityIdList);
             user.EntityIdList.Clear();
-            _entitiesRepository.SaveChanges();
-            _usersRepository.SaveChanges();
         }
 
         public void Authorize(string name)
         {
             _usersRepository.TryAdd(name);
-            _usersRepository.SaveChanges();
         }
     }
 }

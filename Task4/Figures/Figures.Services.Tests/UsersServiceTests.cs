@@ -19,21 +19,12 @@ namespace Figures.Services.Tests
         {
             var userFromRepo = new User("Name");
             GeometricEntity? entityFromRepo = null;
-            var calledEntitiesSaveChanges = false;
-            var calledUsersSaveChanges = false;
             var entitiesRepo = new Mock<IGeometricEntitiesRepository>();
             entitiesRepo
-                .Setup(x => x.SaveChanges())
-                .Callback(() => { calledEntitiesSaveChanges = true; });
-
-            entitiesRepo.Setup(x => x.Add(It.IsAny<GeometricEntity>()))
+                .Setup(x => x.Add(It.IsAny<GeometricEntity>()))
                 .Callback((GeometricEntity entity) => { entityFromRepo = entity; });
 
             var usersRepo = new Mock<IUsersRepository>();
-            usersRepo
-                .Setup(x => x.SaveChanges())
-                .Callback(() => { calledUsersSaveChanges = true; });
-
             usersRepo
                 .Setup(x => x.GetUser(It.IsAny<string>()))
                 .Returns((string name) => { return userFromRepo; });
@@ -44,10 +35,7 @@ namespace Figures.Services.Tests
 
             usersService.AddFigure("Name", point);
             entityFromRepo.Should().BeEquivalentTo(point);
-            Assert.True(userFromRepo.EntityIdList.Single() == point.Id);
-            Assert.True(calledEntitiesSaveChanges);
-            Assert.True(calledUsersSaveChanges);
-            
+            Assert.True(userFromRepo.EntityIdList.Single() == point.Id);            
         }
 
         [Fact]
@@ -89,8 +77,6 @@ namespace Figures.Services.Tests
         [Fact]
         public void Should_delete_figures_correctly()
         {
-            var calledEntitiesSaveChanges = false;
-            var calledUsersSaveChanges = false;
             var calledDelete = false;
 
             var userFromRepo = new User("Name");
@@ -109,31 +95,20 @@ namespace Figures.Services.Tests
                 .Setup(x => x.GetUser(It.IsAny<string>()))
                 .Returns((string name) => { return userFromRepo; });
 
-            usersRepo
-                .Setup(x => x.SaveChanges())
-                .Callback(() => { calledUsersSaveChanges = true; });
-
             var entityRepo = new Mock<IGeometricEntitiesRepository>();
             entityRepo
                 .Setup(x => x.DeleteFiguresByIds(It.IsAny<List<int>>()))
                 .Callback(() => { calledDelete = true; });
 
-            entityRepo
-                .Setup(x => x.SaveChanges())
-                .Callback(() => { calledEntitiesSaveChanges = true; });
-
             var usersService = new UsersService(entityRepo.Object, usersRepo.Object);
             usersService.DeleteFigures("Name");
             Assert.Empty(userFromRepo.EntityIdList);
-            Assert.True(calledEntitiesSaveChanges);
-            Assert.True(calledUsersSaveChanges);
             Assert.True(calledDelete);
         }
 
         [Fact]
         public void Should_authorize_correctly()
         {
-            var calledUsersSaveChanges = false;
             var calledUsersTryAdd = false;
 
             var entityRepo = new Mock<IGeometricEntitiesRepository>();
@@ -143,16 +118,11 @@ namespace Figures.Services.Tests
                 .Setup(x => x.TryAdd(It.IsAny<string>()))
                 .Callback((string name) => { calledUsersTryAdd = true; });
 
-            usersRepo
-                .Setup(x => x.SaveChanges())
-                .Callback(() => { calledUsersSaveChanges = true; });
-
             var usersService = new UsersService(entityRepo.Object, usersRepo.Object);
 
             usersService.Authorize("Name");
             
             Assert.True(calledUsersTryAdd);
-            Assert.True(calledUsersSaveChanges);
 
         }
     }

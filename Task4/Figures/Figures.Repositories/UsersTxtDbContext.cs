@@ -27,6 +27,11 @@ namespace Figures.Repositories
             return user;
         }
 
+        public void Add(User user)
+        {
+            EntitiesMap.TryAdd(user.Name, user);
+        }
+
         public void ReadFile()
         {
             var lines = File.ReadAllLines(_filePath);

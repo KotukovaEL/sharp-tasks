@@ -15,7 +15,7 @@ namespace Figures.Repositories
 
         public void TryAdd(string name)
         {
-            _usersContext.EntitiesMap.TryAdd(name, new User(name));
+            _usersContext.Add(new User(name));
             _usersContext.SaveChanges();
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Figures.Model;
+using System.Collections.Generic;
 
 namespace Figures.Common.Interfaces
 {
@@ -6,6 +7,7 @@ namespace Figures.Common.Interfaces
     {
         Dictionary<TKey, TValue> EntitiesMap { get; }
         TValue GetByKey(TKey key);
+        void Add(TValue value);
         void SaveChanges();
         void ReadFile();
     }

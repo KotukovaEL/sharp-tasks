@@ -9,12 +9,11 @@ namespace Figures.Repositories
     public class GeometricEntitiesTxtDbContext : ITxtDbContext<int, GeometricEntity>
     {
         private readonly string _filePath;
-        private readonly IdGenerator _idGenerator;
+        private readonly IdGenerator _idGenerator = new();
         public Dictionary<int, GeometricEntity> EntitiesMap { get; } = new();
-        public GeometricEntitiesTxtDbContext(string filePath, IdGenerator idGenerator)
+        public GeometricEntitiesTxtDbContext(string filePath)
         {
             _filePath = filePath;
-            _idGenerator = idGenerator;
             ReadFile();
         }
 
@@ -26,6 +25,12 @@ namespace Figures.Repositories
             }
 
             return entity;
+        }
+
+        public void Add(GeometricEntity entity)
+        {
+            entity.Id = _idGenerator.Generate();
+            EntitiesMap.Add(entity.Id, entity);
         }
 
         public void SaveChanges()

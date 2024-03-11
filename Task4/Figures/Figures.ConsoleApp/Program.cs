@@ -14,9 +14,8 @@ namespace Figures.ConsoleApp
             var usersContext = new UsersTxtDbContext("Users.txt");
             var usersRepository = new UsersRepository(usersContext);
 
-            var idGenerator = new IdGenerator();
-            var entitiesContext = new GeometricEntitiesTxtDbContext("Entities.txt", idGenerator);
-            var entitiesRepository = new GeometricEntitiesRepository(entitiesContext, idGenerator);
+            var entitiesContext = new GeometricEntitiesTxtDbContext("Entities.txt");
+            var entitiesRepository = new GeometricEntitiesRepository(entitiesContext);
 
             var userService = new UsersService(entitiesRepository, usersRepository);
 

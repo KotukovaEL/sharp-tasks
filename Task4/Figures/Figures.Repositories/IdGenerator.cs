@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Figures.Repositories
 {
-    public class IdGenerator : IIdGenerator
+    public class IdGenerator 
     {
         private readonly HashSet<int> _ids = new();
 

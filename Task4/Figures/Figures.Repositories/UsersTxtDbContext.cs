@@ -11,9 +11,6 @@ namespace Figures.Repositories
     {
         private readonly string _filePath;
         public Dictionary<string, User> EntitiesMap { get; } = new();
-
-        public IIdGenerator IdGenerator => throw new NotImplementedException();
-
         public UsersTxtDbContext(string filePath)
         {
             _filePath = filePath;

@@ -10,10 +10,12 @@ namespace Figures.Repositories
     public class GeometricEntitiesRepository : IGeometricEntitiesRepository
     {
         private readonly ITxtDbContext<int, GeometricEntity> _entitiesContext;
+        private readonly IdGenerator _idGenerator;
 
-        public GeometricEntitiesRepository(ITxtDbContext<int, GeometricEntity> entitiesContext)
+        public GeometricEntitiesRepository(ITxtDbContext<int, GeometricEntity> entitiesContext, IdGenerator idGenerator)
         {
             _entitiesContext = entitiesContext;
+            _idGenerator = idGenerator;
         }
 
         public List<GeometricEntity> List()
@@ -28,7 +30,7 @@ namespace Figures.Repositories
 
         public void Add(GeometricEntity entity)
         {
-            entity.Id = _entitiesContext.IdGenerator.Generate();
+            entity.Id = _idGenerator.Generate();
             _entitiesContext.EntitiesMap.Add(entity.Id, entity);
             _entitiesContext.SaveChanges();
         }

@@ -32,9 +32,9 @@ namespace Figures.Repositories
             _entitiesContext.SaveChanges();
         }
 
-        public void DeleteFiguresByIds(List<int> list)
+        public void DeleteFiguresByIds(List<int> idList)
         {
-            foreach (int id in list)
+            foreach (int id in idList)
             {
                 _entitiesContext.EntitiesMap.Remove(id);
             }

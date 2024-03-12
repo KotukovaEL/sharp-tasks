@@ -1,19 +1,15 @@
 using Figures.Common.Interfaces;
-using Figures.ConsoleApp;
 using Figures.Handlers;
 using Figures.Model;
-using Figures.Repositories;
-using Figures.Services;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml.Linq;
 using Xunit;
 
 namespace Figures.Services.Tests
 {
-    public class FiguresAppLogicTests
+    public class FiguresAppHandlerTests
     {
         private readonly StringBuilder _outputSb;
         private readonly List<GeometricEntity> _entities;
@@ -24,7 +20,7 @@ namespace Figures.Services.Tests
         private string[] _inputs;
         private int _inputIndex;
 
-        public FiguresAppLogicTests()
+        public FiguresAppHandlerTests()
         {
             _outputSb = new StringBuilder();
             _entities = new List<GeometricEntity>();

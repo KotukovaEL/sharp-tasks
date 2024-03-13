@@ -13,8 +13,8 @@ namespace Figures.ConsoleApp
         {
             var usersContext = new UsersTxtDbContext("Users.txt");
             var usersRepository = new UsersRepository(usersContext);
-
-            var entitiesContext = new GeometricEntitiesTxtDbContext("Entities.txt");
+            var sourceIO = new SourceIO("Entities.txt");
+            var entitiesContext = new GeometricEntitiesTxtDbContext(sourceIO);
             var entitiesRepository = new GeometricEntitiesRepository(entitiesContext);
 
             var userService = new UsersService(entitiesRepository, usersRepository);

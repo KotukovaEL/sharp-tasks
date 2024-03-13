@@ -8,12 +8,12 @@ namespace Figures.Repositories
 {
     public class GeometricEntitiesTxtDbContext : ITxtDbContext<int, GeometricEntity>
     {
-        private readonly string _filePath;
+        private readonly ISourceIO _sourceIO;
         private readonly IdGenerator _idGenerator = new();
         public Dictionary<int, GeometricEntity> EntitiesMap { get; } = new();
-        public GeometricEntitiesTxtDbContext(string filePath)
+        public GeometricEntitiesTxtDbContext(ISourceIO sourceIO)
         {
-            _filePath = filePath;
+            _sourceIO = sourceIO;
             ReadFile();
         }
 
@@ -35,8 +35,7 @@ namespace Figures.Repositories
 
         public void SaveChanges()
         {
-            using var fs = new FileStream(_filePath, FileMode.Create);
-            using var stream = new StreamWriter(fs);
+            using var stream = _sourceIO.CreateWriter();
 
             foreach (var entity in EntitiesMap)
             {
@@ -68,7 +67,7 @@ namespace Figures.Repositories
 
         public void ReadFile()
         {
-            var lines = File.ReadAllLines(_filePath);
+            var lines = _sourceIO.ReadAllLines();
             var map = new Dictionary<string, string>();
 
             foreach (var line in lines)
@@ -187,7 +186,7 @@ namespace Figures.Repositories
             return ring;
         }
 
-        private void SavePoint(StreamWriter stream, Point point)
+        private void SavePoint(TextWriter stream, Point point)
         {
             stream.WriteLine($" Id: {point.Id}");
             stream.WriteLine($" X: {point.X}");
@@ -196,7 +195,7 @@ namespace Figures.Repositories
             stream.WriteLine();
         }
 
-        private void SaveLineSegment(StreamWriter stream, LineSegment line)
+        private void SaveLineSegment(TextWriter stream, LineSegment line)
         {
             line.A.Id = _idGenerator.Generate();
             SavePoint(stream, line.A);
@@ -209,7 +208,7 @@ namespace Figures.Repositories
             stream.WriteLine();
         }
 
-        private void SaveCircle(StreamWriter stream, Circle circle)
+        private void SaveCircle(TextWriter stream, Circle circle)
         {
             circle.Center.Id = _idGenerator.Generate();
             SavePoint(stream, circle.Center);
@@ -220,7 +219,7 @@ namespace Figures.Repositories
             stream.WriteLine();
         }
 
-        private void SaveRectangle(StreamWriter stream, Rectangle rectangle)
+        private void SaveRectangle(TextWriter stream, Rectangle rectangle)
         {
             rectangle.A.Id = _idGenerator.Generate();
             SavePoint(stream, rectangle.A);
@@ -240,7 +239,7 @@ namespace Figures.Repositories
         }
 
 
-        private void SaveTriangle(StreamWriter stream, Triangle triangle)
+        private void SaveTriangle(TextWriter stream, Triangle triangle)
         {
             triangle.A.Id = _idGenerator.Generate();
             SavePoint(stream, triangle.A);
@@ -256,7 +255,7 @@ namespace Figures.Repositories
             stream.WriteLine();
         }
 
-        private void SaveRing(StreamWriter stream, Ring ring)
+        private void SaveRing(TextWriter stream, Ring ring)
         {
             ring.Center.Id = _idGenerator.Generate();
             SavePoint(stream, ring.Center);

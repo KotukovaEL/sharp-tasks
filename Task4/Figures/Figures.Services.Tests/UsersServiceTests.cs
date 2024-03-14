@@ -18,16 +18,15 @@ namespace Figures.Services.Tests
             var entitiesRepo = new Mock<IGeometricEntitiesRepository>();
             entitiesRepo
                 .Setup(x => x.Add(It.IsAny<GeometricEntity>()))
-                .Callback((GeometricEntity entity) => { entityFromRepo = entity; });
+                .Callback((GeometricEntity entity) => entityFromRepo = entity);
 
             var usersRepo = new Mock<IUsersRepository>();
             usersRepo
                 .Setup(x => x.GetUser(It.IsAny<string>()))
-                .Returns((string name) => { return userFromRepo; });
+                .Returns(userFromRepo);
 
             var usersService = new UsersService(entitiesRepo.Object, usersRepo.Object);
-            var point = new Point(6, 8);
-            point.Id = 1;
+            var point = new Point(6, 8) { Id = 1 };
 
             usersService.AddFigure("Name", point);
             entityFromRepo.Should().BeEquivalentTo(point);
@@ -51,12 +50,12 @@ namespace Figures.Services.Tests
             var usersRepo = new Mock<IUsersRepository>();
             usersRepo
                 .Setup(x => x.GetUser(It.IsAny<string>()))
-                .Returns((string name) => { return userFromRepo; });
+                .Returns(userFromRepo);
 
             var entityRepo = new Mock<IGeometricEntitiesRepository>();
             entityRepo
                 .Setup(x => x.GetEntityById(It.IsAny<int>()))
-                .Returns((int entityId) => { return entitiesFromRepo.Single(x => x.Id == entityId); });
+                .Returns((int entityId) => entitiesFromRepo.Single(x => x.Id == entityId));
 
             var usersService = new UsersService(entityRepo.Object, usersRepo.Object);
             var results = usersService.ListFigures("Name");
@@ -74,7 +73,6 @@ namespace Figures.Services.Tests
         public void Should_delete_figures_correctly()
         {
             var calledDelete = false;
-
             var userFromRepo = new User("Name");
             userFromRepo.EntityIdList.AddRange(new[] { 1, 2, 3, 4 });
 
@@ -89,12 +87,12 @@ namespace Figures.Services.Tests
             var usersRepo = new Mock<IUsersRepository>();
             usersRepo
                 .Setup(x => x.GetUser(It.IsAny<string>()))
-                .Returns((string name) => { return userFromRepo; });
+                .Returns(userFromRepo);
 
             var entityRepo = new Mock<IGeometricEntitiesRepository>();
             entityRepo
                 .Setup(x => x.DeleteFiguresByIds(It.IsAny<List<int>>()))
-                .Callback(() => { calledDelete = true; });
+                .Callback(() => calledDelete = true);
 
             var usersService = new UsersService(entityRepo.Object, usersRepo.Object);
             usersService.DeleteFigures("Name");
@@ -112,14 +110,12 @@ namespace Figures.Services.Tests
             var usersRepo = new Mock<IUsersRepository>();
             usersRepo
                 .Setup(x => x.TryAdd(It.IsAny<string>()))
-                .Callback((string name) => { calledUsersTryAdd = true; });
+                .Callback((string name) => calledUsersTryAdd = true);
 
             var usersService = new UsersService(entityRepo.Object, usersRepo.Object);
 
             usersService.Authorize("Name");
-            
             Assert.True(calledUsersTryAdd);
-
         }
     }
 }

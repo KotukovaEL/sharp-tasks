@@ -40,13 +40,12 @@ namespace Figures.Services.Tests
         [Fact]
         public void Should_get_entity_by_id_correctly()
         {
-            var point = new Point(6, 8);
-            point.Id = 1;
+            var point = new Point(6, 8) { Id = 1};
 
             var context = new Mock<ITxtDbContext<int, GeometricEntity>>();
             context
                 .Setup(x => x.GetByKey(It.IsAny<int>()))
-                .Returns((int entityId) => { return point; });
+                .Returns((int entityId) => point);
 
             var entitiesRepository = new GeometricEntitiesRepository(context.Object);
             var result = entitiesRepository.GetEntityById(point.Id);
@@ -64,8 +63,7 @@ namespace Figures.Services.Tests
                 .Callback((GeometricEntity entity) => { entityFromRepo = entity; });
 
             var entitiesRepository = new GeometricEntitiesRepository(context.Object);
-            var point = new Point(6, 8);
-            point.Id = 1;
+            var point = new Point(6, 8) { Id = 1 };
             entitiesRepository.Add(point);
             entityFromRepo.Should().BeEquivalentTo(point);
         }
@@ -99,7 +97,7 @@ namespace Figures.Services.Tests
             };
 
             results.Should().BeEquivalentTo(expectedResults);
-            Assert.True( calledSaveChanges );
+            Assert.True(calledSaveChanges);
         }
     }
 }

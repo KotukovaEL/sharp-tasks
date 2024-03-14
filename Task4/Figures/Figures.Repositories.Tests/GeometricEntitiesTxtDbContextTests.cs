@@ -1,4 +1,5 @@
-﻿using Figures.Model;
+﻿using Figures.Handlers;
+using Figures.Model;
 using Moq;
 using System;
 using System.IO;
@@ -6,7 +7,7 @@ using Xunit;
 
 namespace Figures.Repositories.Tests
 {
-    public class GeometricEntitiesTxtDbContextTests 
+    public class GeometricEntitiesTxtDbContextTests
     {
         [Fact]
         public void Should_save_changes_for_point_correctly()
@@ -14,24 +15,17 @@ namespace Figures.Repositories.Tests
             using var memoryStream = new MemoryStream();
             using var writer = new TestTextWriter(memoryStream);
 
-            var sourceIO = new Mock<ISourceIO>();
-            sourceIO
-                .Setup(x => x.CreateWriter())
-                .Returns(writer);
+            var context = CreateContext(writer);
 
-            sourceIO
-                .Setup(x => x.ReadAllLines())
-                .Returns(new string[] {});
-
-            var context = new GeometricEntitiesTxtDbContext(sourceIO.Object);
-
-            var point = new Point(2, 2);
-            point.Id = 1;
+            var point = new Point(2, 2) { Id = 1 };
             context.Add(point);
             context.SaveChanges();
+
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            var results = new StreamReader(memoryStream).ReadToEnd();
+            var reader = new StreamReader(memoryStream);
+            var results = reader.ReadToEnd();
+
             var expectedResults = string.Join(Environment.NewLine,
                 " Id: 1",
                 " X: 2",
@@ -49,25 +43,19 @@ namespace Figures.Repositories.Tests
             using var memoryStream = new MemoryStream();
             using var writer = new TestTextWriter(memoryStream);
 
-            var sourceIO = new Mock<ISourceIO>();
-            sourceIO
-                .Setup(x => x.CreateWriter())
-                .Returns(writer);
+            var context = CreateContext(writer);
 
-            sourceIO
-                .Setup(x => x.ReadAllLines())
-                .Returns(new string[] { });
-
-            var context = new GeometricEntitiesTxtDbContext(sourceIO.Object);
-            
             var pointA = new Point(2, 2);
             var pointB = new Point(3, 3);
             var lineSegment = new LineSegment(pointA, pointB);
             context.Add(lineSegment);
             context.SaveChanges();
+
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            var results = new StreamReader(memoryStream).ReadToEnd();
+            using var reader = new StreamReader(memoryStream);
+            var results = reader.ReadToEnd();
+
             var expectedResults = string.Join(Environment.NewLine,
                 " Id: 2",
                 " X: 2",
@@ -95,24 +83,18 @@ namespace Figures.Repositories.Tests
             using var memoryStream = new MemoryStream();
             using var writer = new TestTextWriter(memoryStream);
 
-            var sourceIO = new Mock<ISourceIO>();
-            sourceIO
-                .Setup(x => x.CreateWriter())
-                .Returns(writer);
-
-            sourceIO
-                .Setup(x => x.ReadAllLines())
-                .Returns(new string[] { });
-
-            var context = new GeometricEntitiesTxtDbContext(sourceIO.Object);
+            var context = CreateContext(writer);
 
             var center = new Point(2, 2);
             var circle = new Circle(center, 5);
             context.Add(circle);
             context.SaveChanges();
+
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            var results = new StreamReader(memoryStream).ReadToEnd();
+            var reader = new StreamReader(memoryStream);
+            var results = reader.ReadToEnd();
+
             var expectedResults = string.Join(Environment.NewLine,
                 " Id: 2",
                 " X: 2",
@@ -135,16 +117,7 @@ namespace Figures.Repositories.Tests
             using var memoryStream = new MemoryStream();
             using var writer = new TestTextWriter(memoryStream);
 
-            var sourceIO = new Mock<ISourceIO>();
-            sourceIO
-                .Setup(x => x.CreateWriter())
-                .Returns(writer);
-
-            sourceIO
-                .Setup(x => x.ReadAllLines())
-                .Returns(new string[] { });
-
-            var context = new GeometricEntitiesTxtDbContext(sourceIO.Object);
+            var context = CreateContext(writer);
 
             var pointA = new Point(1, 1);
             var pointB = new Point(1, 2);
@@ -153,9 +126,12 @@ namespace Figures.Repositories.Tests
             var rectangle = new Rectangle(pointA, pointB, pointC, pointD);
             context.Add(rectangle);
             context.SaveChanges();
+
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            var results = new StreamReader(memoryStream).ReadToEnd();
+            var reader = new StreamReader(memoryStream);
+            var results = reader.ReadToEnd();
+
             var expectedResults = string.Join(Environment.NewLine,
                 " Id: 2",
                 " X: 1",
@@ -195,16 +171,7 @@ namespace Figures.Repositories.Tests
             using var memoryStream = new MemoryStream();
             using var writer = new TestTextWriter(memoryStream);
 
-            var sourceIO = new Mock<ISourceIO>();
-            sourceIO
-                .Setup(x => x.CreateWriter())
-                .Returns(writer);
-
-            sourceIO
-                .Setup(x => x.ReadAllLines())
-                .Returns(new string[] { });
-
-            var context = new GeometricEntitiesTxtDbContext(sourceIO.Object);
+            var context = CreateContext(writer);
 
             var pointA = new Point(1, 1);
             var pointB = new Point(1, 2);
@@ -212,9 +179,12 @@ namespace Figures.Repositories.Tests
             var triangle = new Triangle(pointA, pointB, pointC);
             context.Add(triangle);
             context.SaveChanges();
+
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            var results = new StreamReader(memoryStream).ReadToEnd();
+            var reader = new StreamReader(memoryStream);
+            var results = reader.ReadToEnd();
+
             var expectedResults = string.Join(Environment.NewLine,
                 " Id: 2",
                 " X: 1",
@@ -248,24 +218,18 @@ namespace Figures.Repositories.Tests
             using var memoryStream = new MemoryStream();
             using var writer = new TestTextWriter(memoryStream);
 
-            var sourceIO = new Mock<ISourceIO>();
-            sourceIO
-                .Setup(x => x.CreateWriter())
-                .Returns(writer);
-
-            sourceIO
-                .Setup(x => x.ReadAllLines())
-                .Returns(new string[] { });
-
-            var context = new GeometricEntitiesTxtDbContext(sourceIO.Object);
+            var context = CreateContext(writer);
 
             var center = new Point(1, 1);
             var ring = new Ring(center, 8, 5);
             context.Add(ring);
             context.SaveChanges();
+
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            var results = new StreamReader(memoryStream).ReadToEnd();
+            var reader = new StreamReader(memoryStream);
+            var results = reader.ReadToEnd();
+
             var expectedResults = string.Join(Environment.NewLine,
                 " Id: 2",
                 " X: 1",
@@ -281,6 +245,20 @@ namespace Figures.Repositories.Tests
                 "");
 
             Assert.Equal(expectedResults, results);
+        }
+
+        private GeometricEntitiesTxtDbContext CreateContext(TestTextWriter writer)
+        {
+            var sourceIO = new Mock<ISourceIO>();
+            sourceIO
+                .Setup(x => x.CreateWriter())
+                .Returns(writer);
+
+            sourceIO
+                .Setup(x => x.ReadAllLines())
+                .Returns(Array.Empty<string>);
+
+            return new GeometricEntitiesTxtDbContext(sourceIO.Object);
         }
     }
 }

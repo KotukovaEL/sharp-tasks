@@ -19,11 +19,11 @@ namespace Figures.Repositories.Tests
             var context = new Mock<ITxtDbContext<string, User>>();
             context
                 .Setup(x => x.Add(It.IsAny<User>()))
-                .Callback((User user) => { userFromRepo = user; });
+                .Callback((User user) => userFromRepo = user);
 
             context
                 .Setup(x => x.SaveChanges())
-                .Callback(() => { calledSaveChanges = true; });
+                .Callback(() => calledSaveChanges = true);
 
             var repo = new UsersRepository(context.Object);
             var expectedUser = new User("Name");
@@ -39,7 +39,7 @@ namespace Figures.Repositories.Tests
             var context = new Mock<ITxtDbContext<string, User>>();
             context
                 .Setup(x => x.GetByKey(It.IsAny<string>()))
-                .Returns((string name) => { return userFromRepo; });
+                .Returns(userFromRepo);
 
             var repo = new UsersRepository(context.Object);
             var expectedUser = repo.GetUser(userFromRepo.Name);

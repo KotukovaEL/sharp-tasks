@@ -1,13 +1,11 @@
-﻿using Figures.Handlers;
-using Figures.Model;
+﻿using Figures.Model;
 using FluentAssertions;
 using Moq;
 using System.Text;
 using Xunit;
 
-namespace Figures.Services.Tests
+namespace Figures.Handlers.Tests
 {
-
     public class EntitiesCreatorTests
     {
         private readonly StringBuilder _outputSb;
@@ -175,10 +173,7 @@ namespace Figures.Services.Tests
 
             interactor
                 .Setup(x => x.PrintMessage(It.IsAny<string>()))
-                .Callback((string message) =>
-                {
-                    _outputSb.Append(message);
-                });
+                .Callback((string message) => _outputSb.Append(message));
 
             interactor
                 .Setup(x => x.ReadStr())

@@ -21,7 +21,7 @@ namespace Figures.Repositories.Tests
         public override void WriteLine(string value)
         {
             var bytes = Encoding.GetBytes(value + Environment.NewLine);
-            _stream.Write(bytes, 0, bytes.Length);
+            _stream.Write(bytes);
         }
 
         public override void WriteLine()

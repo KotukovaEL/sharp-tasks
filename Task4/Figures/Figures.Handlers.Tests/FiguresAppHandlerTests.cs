@@ -1,5 +1,4 @@
 using Figures.Common.Interfaces;
-using Figures.Handlers;
 using Figures.Model;
 using Moq;
 using System;
@@ -7,13 +6,12 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace Figures.Services.Tests
+namespace Figures.Handlers.Tests
 {
     public class FiguresAppHandlerTests
     {
         private readonly StringBuilder _outputSb;
         private readonly List<GeometricEntity> _entities;
-        private readonly List<User> _user;
         private bool _calledAddFigure = false;
         private bool _calledDeleteFigures = false;
         private bool _calledAuthorize = false;
@@ -24,7 +22,6 @@ namespace Figures.Services.Tests
         {
             _outputSb = new StringBuilder();
             _entities = new List<GeometricEntity>();
-            _user = new List<User>();
             _inputIndex = 0;
         }
 
@@ -34,7 +31,7 @@ namespace Figures.Services.Tests
         {
             _inputs = new[] { "Name", "1", "5" };
 
-            var logic = CreateLogic(() => new Point(2, 2));
+            var logic = CreateHandler(() => new Point(2, 2));
             logic.Run();
 
             string expectedOutput = string.Join(null,
@@ -54,7 +51,7 @@ namespace Figures.Services.Tests
         {
             _inputs = new[] { "Name", "2", "5", };
             _entities.Add(new Point(2, 2));
-            var logic = CreateLogic(() => new Point(2, 2));
+            var logic = CreateHandler(() => new Point(2, 2));
             logic.Run();
 
             string expectedOutput = string.Join(null,
@@ -73,7 +70,7 @@ namespace Figures.Services.Tests
         {
             _inputs = new[] { "Name", "3", "2", "5", };
 
-            var logic = CreateLogic(() => new Point(2, 2));
+            var logic = CreateHandler(() => new Point(2, 2));
             logic.Run();
 
             string expectedOutput = string.Join(null,
@@ -95,7 +92,7 @@ namespace Figures.Services.Tests
         {
             _inputs = new[] {"Name", "6", "5" };
 
-            var logic = CreateLogic(() => new Point(2, 2));
+            var logic = CreateHandler(() => new Point(2, 2));
             logic.Run();
 
             string expectedOutput = string.Join(null,
@@ -114,7 +111,7 @@ namespace Figures.Services.Tests
         {
             _inputs = new[] { "Name", "1", "5" };
 
-            var logic = CreateLogic(() => throw new ArgumentException("There is no such figure."));
+            var logic = CreateHandler(() => throw new ArgumentException("There is no such figure."));
             logic.Run();
 
             string expectedOutput = string.Join(null,
@@ -129,16 +126,13 @@ namespace Figures.Services.Tests
             Assert.Equal(expectedOutput, _outputSb.ToString());
         }
 
-        private FiguresAppHandler CreateLogic(Func<GeometricEntity> creatorFunc)
+        private FiguresAppHandler CreateHandler(Func<GeometricEntity> creatorFunc)
         {
             var interactor = new Mock<IUserInteractor>();
 
             interactor
                 .Setup(x => x.PrintMessage(It.IsAny<string>()))
-                .Callback((string message) =>
-                {
-                    _outputSb.Append(message);
-                });
+                .Callback((string message) => _outputSb.Append(message));
 
             interactor
                 .Setup(x => x.ReadStr())
@@ -153,10 +147,7 @@ namespace Figures.Services.Tests
 
             geometricEntitiesRepository
                 .Setup(x => x.Add(It.IsAny<GeometricEntity>()))
-                .Callback((GeometricEntity geometricEntity) =>
-                {
-                    _entities.Add(geometricEntity);
-                });
+                .Callback((GeometricEntity geometricEntity) => _entities.Add(geometricEntity));
 
             geometricEntitiesRepository
                 .Setup(x => x.List())
@@ -164,10 +155,7 @@ namespace Figures.Services.Tests
 
             geometricEntitiesRepository
                 .Setup(x => x.DeleteFiguresByIds(It.IsAny<List<int>>()))
-                .Callback(() =>
-                {
-                    _entities.Clear();
-                });
+                .Callback(() => _entities.Clear());
 
             var entitiesCreator = new Mock<IEntitiesCreator>();
 
@@ -179,31 +167,19 @@ namespace Figures.Services.Tests
 
             usersService
                 .Setup(x => x.AddFigure(It.IsAny<string>(), It.IsAny<GeometricEntity>()))
-                .Callback((string name, GeometricEntity geometricEntity) =>
-                {
-                    _calledAddFigure = true;
-                });
+                .Callback((string name, GeometricEntity geometricEntity) => _calledAddFigure = true);
 
             usersService
                 .Setup(x => x.ListFigures(It.IsAny<string>()))
-                .Returns((string name) =>
-                {
-                    return _entities;
-                });
+                .Returns(_entities);
 
             usersService
                 .Setup(x => x.DeleteFigures(It.IsAny<string>()))
-                .Callback(() => 
-                { 
-                    _calledDeleteFigures = true; 
-                });
+                .Callback(() => _calledDeleteFigures = true);
 
             usersService
                 .Setup(x => x.Authorize(It.IsAny<string>()))
-                .Callback(() => 
-                { 
-                    _calledAuthorize = true; 
-                });
+                .Callback(() => _calledAuthorize = true);
 
             return new FiguresAppHandler(interactor.Object, entitiesCreator.Object, usersService.Object);
         }

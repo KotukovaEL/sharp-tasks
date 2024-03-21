@@ -17,13 +17,13 @@ namespace Figures.Repositories
         {
             _context = reader.ReadFile();
             _writer = writer;
-            
         }
 
         public List<GeometricEntity> List()
         {
             return _context.List();
         }
+
         public void Add(GeometricEntity entity)
         {
             _context.Add(entity);

@@ -15,6 +15,7 @@ namespace Figures.Repositories
         {
             _entitiesMap = new();
         }
+
         public GeometricEntitiesContext(Dictionary<int, GeometricEntity> entitiesMap)
         {
             _entitiesMap = entitiesMap;
@@ -35,6 +36,7 @@ namespace Figures.Repositories
         {
             return _entitiesMap.Select(x => x.Value).OrderBy(x => x.Id).ToList();
         }
+
         public void Add(GeometricEntity entity)
         {
             if (entity.Id == 0)
@@ -49,7 +51,7 @@ namespace Figures.Repositories
             _entitiesMap.Add(entity.Id, entity);
         }
 
-        internal void Remove(int id)
+        public void Remove(int id)
         {
             _entitiesMap.Remove(id);
         }

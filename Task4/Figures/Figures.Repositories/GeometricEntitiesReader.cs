@@ -52,7 +52,6 @@ namespace Figures.Repositories
             return context;
         }
 
-
         private Point ReadPoint(Dictionary<string, string> map)
         {
             var x = double.Parse(TxtDbHelpers.GetFieldValue(map, "X"));

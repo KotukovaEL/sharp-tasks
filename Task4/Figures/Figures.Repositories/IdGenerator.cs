@@ -22,14 +22,14 @@ namespace Figures.Repositories
 
         public void Add(int id)
         {
-            if(id < 0)
+            if (id <= 0)
             {
-                throw new ArgumentException("The id cannot be negative");
+                throw new ArgumentException("Id should be positive.");
             }
 
-            if (_ids.Contains(id))
+            if (!_ids.Add(id))
             {
-                throw new ArgumentException("There is already a figure with this id");
+                throw new ArgumentException("There is already a figure with this id.");
             }
 
             _ids.Add(id);

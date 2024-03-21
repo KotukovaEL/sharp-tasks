@@ -1,5 +1,6 @@
 ﻿using Figures.Common.Interfaces;
 using Figures.Model;
+using Figures.Repositories.Interface;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,37 +10,40 @@ namespace Figures.Repositories
 {
     public class GeometricEntitiesRepository : IGeometricEntitiesRepository
     {
-        private readonly ITxtDbContext<int, GeometricEntity> _entitiesContext;
+        private readonly GeometricEntitiesContext _context;
+        private readonly IGeometricEntitiesWriter _writer;
 
-        public GeometricEntitiesRepository(ITxtDbContext<int, GeometricEntity> entitiesContext)
+        public GeometricEntitiesRepository(IGeometricEntitiesWriter writer, IGeometricEntitiesReader reader)
         {
-            _entitiesContext = entitiesContext;
+            _context = reader.ReadFile();
+            _writer = writer;
+            
         }
 
         public List<GeometricEntity> List()
         {
-            return _entitiesContext.EntitiesMap.Select(x => x.Value).OrderBy(x => x.Id).ToList();
+            return _context.EntitiesMap.Select(x => x.Value).OrderBy(x => x.Id).ToList();
+        }
+        public void Add(GeometricEntity entity)
+        {
+            _context.Add(entity);
+            _writer.SaveChanges(_context);
+           
         }
 
         public GeometricEntity GetEntityById(int id)
         {
-            return _entitiesContext.GetByKey(id);
-        }
-
-        public void Add(GeometricEntity entity)
-        {
-            _entitiesContext.Add(entity);
-            _entitiesContext.SaveChanges();
+            return _context.GetByKey(id);
         }
 
         public void DeleteFiguresByIds(List<int> idList)
         {
             foreach (int id in idList)
             {
-                _entitiesContext.EntitiesMap.Remove(id);
+                _context.EntitiesMap.Remove(id);
             }
 
-            _entitiesContext.SaveChanges();
+            _writer.SaveChanges(_context);
         }
     }
 }

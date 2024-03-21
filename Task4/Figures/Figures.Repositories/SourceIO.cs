@@ -16,7 +16,7 @@ namespace Figures.Repositories
 
         public TextWriter CreateWriter()
         {
-            using var fs = new FileStream(_filePath, FileMode.Create);
+            var fs = new FileStream(_filePath, FileMode.Create);
             return new StreamWriter(fs);
         }
 

@@ -1,5 +1,6 @@
 ﻿using Figures.Common.Interfaces;
 using Figures.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,12 +12,27 @@ namespace Figures.Repositories
 
         public void Reload(Dictionary<int, GeometricEntity> entity)
         {
-            var id = entity.Keys.Select(x => x).ToList();
+            _ids.Clear();
 
-            foreach (var key in id)
+            foreach (var id in entity.Keys)
             {
-                _ids.Add(key);
+                _ids.Add(id);
             }
+        }
+
+        public void Add(int id)
+        {
+            if(id < 0)
+            {
+                throw new ArgumentException("The id cannot be negative");
+            }
+
+            if (_ids.Contains(id))
+            {
+                throw new ArgumentException("There is already a figure with this id");
+            }
+
+            _ids.Add(id);
         }
 
         public int Generate()

@@ -9,11 +9,21 @@ namespace Figures.Repositories
     public class GeometricEntitiesContext
     {
         public IdGenerator IdGenerator { get; } = new();
-        public Dictionary<int, GeometricEntity> EntitiesMap { get; } = new();
+        private readonly Dictionary<int, GeometricEntity> _entitiesMap;
+
+        public GeometricEntitiesContext()
+        {
+            _entitiesMap = new();
+        }
+        public GeometricEntitiesContext(Dictionary<int, GeometricEntity> entitiesMap)
+        {
+            _entitiesMap = entitiesMap;
+            IdGenerator.Reload(_entitiesMap);
+        }
 
         public GeometricEntity GetByKey(int id)
         {
-            if (!EntitiesMap.TryGetValue(id, out var entity))
+            if (!_entitiesMap.TryGetValue(id, out var entity))
             {
                 throw new ArgumentException($"Entity with id '{id}' was not found.");
             }
@@ -23,12 +33,25 @@ namespace Figures.Repositories
 
         public List<GeometricEntity> List()
         {
-            return EntitiesMap.Select(x => x.Value).OrderBy(x => x.Id).ToList();
+            return _entitiesMap.Select(x => x.Value).OrderBy(x => x.Id).ToList();
         }
         public void Add(GeometricEntity entity)
         {
-            entity.Id = IdGenerator.Generate();
-            EntitiesMap.Add(entity.Id, entity);
+            if (entity.Id == 0)
+            {
+                entity.Id = IdGenerator.Generate();
+            }
+            else
+            {
+                IdGenerator.Add(entity.Id);
+            }
+            
+            _entitiesMap.Add(entity.Id, entity);
+        }
+
+        internal void Remove(int id)
+        {
+            _entitiesMap.Remove(id);
         }
     }
 }

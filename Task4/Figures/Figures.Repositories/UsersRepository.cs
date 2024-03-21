@@ -19,10 +19,10 @@ namespace Figures.Repositories
             _usersContext.SaveChanges();
         }
 
-        public void AddFigure(string name, int idFigure)
+        public void AddFigure(string name, int figureId)
         {
             var user = GetUser(name);
-            user.EntityIdList.Add(idFigure);
+            user.EntityIdList.Add(figureId);
             _usersContext.SaveChanges();
         }
 

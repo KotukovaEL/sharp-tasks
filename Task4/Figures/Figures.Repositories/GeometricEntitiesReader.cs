@@ -24,7 +24,6 @@ namespace Figures.Repositories
                 var str = line.Trim();
 
                 GeometricEntity? entity = str switch
-
                 {
                     "- Point" => ReadPoint(map),
                     "- LineSegment" => ReadLineSegment(map, context),
@@ -37,7 +36,7 @@ namespace Figures.Repositories
 
                 if (entity is not null)
                 {
-                    context.EntitiesMap.Add(entity.Id, entity);
+                    context.Add(entity);
                     map.Clear();
                     continue;
                 }
@@ -48,8 +47,6 @@ namespace Figures.Repositories
                     map.Add(parseStr.key, parseStr.value);
                     continue;
                 }
-
-                context.IdGenerator.Reload(context.EntitiesMap);
             }
 
             return context;
@@ -71,8 +68,8 @@ namespace Figures.Repositories
             var idB = int.Parse(TxtDbHelpers.GetFieldValue(map, "B"));
             var pointA = (Point)context.GetByKey(idA);
             var pointB = (Point)context.GetByKey(idB);
-            context.EntitiesMap.Remove(idA);
-            context.EntitiesMap.Remove(idB);
+            context.Remove(idA);
+            context.Remove(idB);
             var lineSegment = new LineSegment(pointA, pointB);
             lineSegment.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
             return lineSegment;
@@ -83,7 +80,7 @@ namespace Figures.Repositories
             var idPoint = int.Parse(TxtDbHelpers.GetFieldValue(map, "Center"));
             var center = (Point)context.GetByKey(idPoint);
             var radius = double.Parse(TxtDbHelpers.GetFieldValue(map, "Radius"));
-            context.EntitiesMap.Remove(idPoint);
+            context.Remove(idPoint);
             var circle = new Circle(center, radius);
             circle.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
             return circle;
@@ -99,15 +96,14 @@ namespace Figures.Repositories
             var pointB = (Point)context.GetByKey(idB);
             var pointC = (Point)context.GetByKey(idC);
             var pointD = (Point)context.GetByKey(idD);
-            context.EntitiesMap.Remove(idA);
-            context.EntitiesMap.Remove(idB);
-            context.EntitiesMap.Remove(idC);
-            context.EntitiesMap.Remove(idD);
+            context.Remove(idA);
+            context.Remove(idB);
+            context.Remove(idC);
+            context.Remove(idD);
             var rectangle = new Rectangle(pointA, pointB, pointC, pointD);
             rectangle.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
             return rectangle;
         }
-
 
         private Triangle ReadTriangle(Dictionary<string, string> map, GeometricEntitiesContext context)
         {
@@ -117,9 +113,9 @@ namespace Figures.Repositories
             var pointA = (Point)context.GetByKey(idA);
             var pointB = (Point)context.GetByKey(idB);
             var pointC = (Point)context.GetByKey(idC);
-            context.EntitiesMap.Remove(idA);
-            context.EntitiesMap.Remove(idB);
-            context.EntitiesMap.Remove(idC);
+            context.Remove(idA);
+            context.Remove(idB);
+            context.Remove(idC);
             var triangle = new Triangle(pointA, pointB, pointC);
             triangle.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
             return triangle;
@@ -131,7 +127,7 @@ namespace Figures.Repositories
             var center = (Point)context.GetByKey(idPoint);
             var longRadius = double.Parse(TxtDbHelpers.GetFieldValue(map, "Long radius"));
             var shortRadius = double.Parse(TxtDbHelpers.GetFieldValue(map, "Short radius"));
-            context.EntitiesMap.Remove(idPoint);
+            context.Remove(idPoint);
             var ring = new Ring(center, longRadius, shortRadius);
             ring.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
             return ring;

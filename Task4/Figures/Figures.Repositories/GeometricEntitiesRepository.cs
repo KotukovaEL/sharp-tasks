@@ -22,13 +22,12 @@ namespace Figures.Repositories
 
         public List<GeometricEntity> List()
         {
-            return _context.EntitiesMap.Select(x => x.Value).OrderBy(x => x.Id).ToList();
+            return _context.List();
         }
         public void Add(GeometricEntity entity)
         {
             _context.Add(entity);
             _writer.SaveChanges(_context);
-           
         }
 
         public GeometricEntity GetEntityById(int id)
@@ -40,7 +39,7 @@ namespace Figures.Repositories
         {
             foreach (int id in idList)
             {
-                _context.EntitiesMap.Remove(id);
+                _context.Remove(id);
             }
 
             _writer.SaveChanges(_context);

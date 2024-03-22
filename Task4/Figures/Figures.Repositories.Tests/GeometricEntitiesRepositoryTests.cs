@@ -1,103 +1,122 @@
-﻿//using Moq;
-//using Xunit;
-//using Figures.Common.Interfaces;
-//using Newtonsoft.Json.Linq;
-//using Figures.Model;
-//using Figures.Repositories;
-//using System.Collections.Generic;
-//using System.Text;
-//using System.Linq;
-//using FluentAssertions;
+﻿using Moq;
+using Xunit;
+using Figures.Common.Interfaces;
+using Newtonsoft.Json.Linq;
+using Figures.Model;
+using Figures.Repositories;
+using System.Collections.Generic;
+using FluentAssertions;
+using Figures.Repositories.Interface;
 
-//namespace Figures.Services.Tests
-//{
-//    public class GeometricEntitiesRepositoryTests
-//    {
-//        [Fact]
-//        public void Should_list_entities_correctly()
-//        {
-//            var context = new Mock<ITxtDbContext<int, GeometricEntity>>();
-//            context
-//                .Setup(x => x.EntitiesMap)
-//                .Returns(new Dictionary<int, GeometricEntity>
-//                {
-//                    { 1, new Point(6, 8) { Id = 1 } },
-//                    { 4, new Point(12, 12) { Id = 4 } },
-//                }) ;
+namespace Figures.Services.Tests
+{
+    public class GeometricEntitiesRepositoryTests
+    {
+        [Fact]
+        public void Should_list_entities_correctly()
+        {
+            var entitiesMap = new Dictionary<int, GeometricEntity> 
+            { 
+                { 1, new Point(6, 8) { Id = 1 } },
+                { 4, new Point(12, 12) { Id = 4 } },
+            };
 
-//            var repo = new GeometricEntitiesRepository(context.Object);
-//            var results = repo.List();
+            var context = new GeometricEntitiesContext(entitiesMap);
 
-//            var expectedResults = new List<GeometricEntity>()
-//            {
-//                new Point(6, 8) { Id = 1 },
-//                new Point(12, 12) { Id = 4 },
-//            };
+            var writer = new Mock<IGeometricEntitiesWriter>();
 
-//            results.Should().BeEquivalentTo(expectedResults);
-//        }
+            var reader = new Mock<IGeometricEntitiesReader>();
+            reader
+                .Setup(x => x.ReadFile())
+                .Returns(() => context);
 
-//        [Fact]
-//        public void Should_get_entity_by_id_correctly()
-//        {
-//            var point = new Point(6, 8) { Id = 1};
+            var repo = new GeometricEntitiesRepository(writer.Object, reader.Object);
+            var results = repo.List();
 
-//            var context = new Mock<ITxtDbContext<int, GeometricEntity>>();
-//            context
-//                .Setup(x => x.GetByKey(It.IsAny<int>()))
-//                .Returns((int entityId) => point);
+            var expectedResults = new List<GeometricEntity>()
+            {
+                new Point(6, 8) { Id = 1 },
+                new Point(12, 12) { Id = 4 },
+            };
 
-//            var entitiesRepository = new GeometricEntitiesRepository(context.Object);
-//            var result = entitiesRepository.GetEntityById(point.Id);
-//            result.Should().BeEquivalentTo(point);
-//        }
+            results.Should().BeEquivalentTo(expectedResults);
+        }
 
-//        [Fact]
-//        public void Should_add_correctly()
-//        {
-//            GeometricEntity? entityFromRepo = null;
+        [Fact]
+        public void Should_get_entity_by_id_correctly()
+        {
+            var entitiesMap = new Dictionary<int, GeometricEntity> {};
+            var context = new GeometricEntitiesContext(entitiesMap);
 
-//            var context = new Mock<ITxtDbContext<int, GeometricEntity>>();
-//            context
-//                .Setup(x => x.Add(It.IsAny<GeometricEntity>()))
-//                .Callback((GeometricEntity entity) => { entityFromRepo = entity; });
+            var writer = new Mock<IGeometricEntitiesWriter>();
 
-//            var entitiesRepository = new GeometricEntitiesRepository(context.Object);
-//            var point = new Point(6, 8) { Id = 1 };
-//            entitiesRepository.Add(point);
-//            entityFromRepo.Should().BeEquivalentTo(point);
-//        }
+            var reader = new Mock<IGeometricEntitiesReader>();
+            reader
+                .Setup(x => x.ReadFile())
+                .Returns(() => context);
 
-//        [Fact]
-//        public void Should_delete_figures_by_ids_correctly()
-//        {
-//            var calledSaveChanges = false;
-//            var context = new Mock<ITxtDbContext<int, GeometricEntity>>();
-//            context
-//                .Setup(x => x.EntitiesMap)
-//                .Returns(new Dictionary<int, GeometricEntity>
-//                {
-//                    { 1, new Point(6, 8) { Id = 1 } },
-//                    { 4, new Point(12, 12) { Id = 4 } },
-//                    { 5, new Point(11, 11) { Id = 5 } },
-//                });
+            var repo = new GeometricEntitiesRepository(writer.Object, reader.Object);
+            var point = new Point(6, 8) { Id = 1 };
+            context.Add(point);
+            var result = repo.GetEntityById(1);
+            result.Should().BeEquivalentTo(point);
+        }
 
-//            context
-//                .Setup(x => x.SaveChanges())
-//                .Callback(() => calledSaveChanges = true);
+        [Fact]
+        public void Should_add_correctly()
+        {
+            var entitiesMap = new Dictionary<int, GeometricEntity> { };
+            var context = new GeometricEntitiesContext(entitiesMap);
+            var calledSaveChanges = false;
 
-//            var repo = new GeometricEntitiesRepository(context.Object);
-//            repo.DeleteFiguresByIds(new List<int>() {1, 4 });
+            var writer = new Mock<IGeometricEntitiesWriter>();
+            writer
+                .Setup(x => x.SaveChanges(It.IsAny<GeometricEntitiesContext>()))
+                .Callback(() => calledSaveChanges = true);
 
-//            var results = repo.List();
+            var reader = new Mock<IGeometricEntitiesReader>();
+            reader
+                .Setup(x => x.ReadFile())
+                .Returns(() => context);
 
-//            var expectedResults = new List<GeometricEntity>()
-//            {
-//                 new Point(11, 11) { Id = 5 }
-//            };
+            var repo = new GeometricEntitiesRepository(writer.Object, reader.Object);
+            var point = new Point(6, 8) { Id = 1 };
+            repo.Add(point);
+            Assert.True(calledSaveChanges);
+        }
 
-//            results.Should().BeEquivalentTo(expectedResults);
-//            Assert.True(calledSaveChanges);
-//        }
-//    }
-//}
+        [Fact]
+        public void Should_delete_figures_by_ids_correctly()
+        {
+            var entitiesMap = new Dictionary<int, GeometricEntity>
+            {
+                { 1, new Point(6, 8) { Id = 1 } },
+                { 4, new Point(12, 12) { Id = 4 } },
+            };
+
+            var context = new GeometricEntitiesContext(entitiesMap);
+            var calledSaveChanges = false;
+
+            var writer = new Mock<IGeometricEntitiesWriter>();
+            writer
+                .Setup(x => x.SaveChanges(It.IsAny<GeometricEntitiesContext>()))
+                .Callback(() => calledSaveChanges = true);
+
+            var reader = new Mock<IGeometricEntitiesReader>();
+            reader
+                .Setup(x => x.ReadFile())
+                .Returns(() => context);
+
+            var repo = new GeometricEntitiesRepository(writer.Object, reader.Object);
+            repo.DeleteFiguresByIds(new List<int>() {4 });
+            var results = repo.List();
+            var expectedResults = new List<GeometricEntity>()
+            {
+                new Point(6, 8) { Id = 1 }
+            };
+
+            Assert.True(calledSaveChanges);
+            results.Should().BeEquivalentTo(expectedResults);
+        }
+    }
+}

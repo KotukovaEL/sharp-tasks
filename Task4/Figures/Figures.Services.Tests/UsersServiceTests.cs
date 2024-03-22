@@ -30,7 +30,7 @@ namespace Figures.Services.Tests
 
             usersService.AddFigure("Name", point);
             entityFromRepo.Should().BeEquivalentTo(point);
-            Assert.True(userFromRepo.EntityIdList.Single() == point.Id);            
+            Assert.True(userFromRepo.EntityIdList.Single() == point.Id);
         }
 
         [Fact]
@@ -39,13 +39,13 @@ namespace Figures.Services.Tests
             var userFromRepo = new User("Name");
             userFromRepo.EntityIdList.AddRange(new int[] { 2, 4 });
 
-            var entitiesFromRepo = new List<GeometricEntity>() 
-            { 
+            var entitiesFromRepo = new List<GeometricEntity>()
+            {
                 new Point(6, 8) { Id = 1 },
                 new Circle(new Point(5, 4), 8) { Id = 2 },
                 new LineSegment(new Point(9, 11), new Point(10, 11)) { Id = 3 },
                 new Point(12, 12) { Id = 4 },
-            }; 
+            };
 
             var usersRepo = new Mock<IUsersRepository>();
             usersRepo
@@ -59,7 +59,7 @@ namespace Figures.Services.Tests
 
             var usersService = new UsersService(entityRepo.Object, usersRepo.Object);
             var results = usersService.ListFigures("Name");
-            
+
             var expectedResults = new List<GeometricEntity>()
             {
                 new Circle(new Point(5, 4), 8) { Id = 2 },

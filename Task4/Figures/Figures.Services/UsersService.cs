@@ -19,8 +19,7 @@ namespace Figures.Services
         public void AddFigure(string name, GeometricEntity geometricEntity)
         {
             _entitiesRepository.Add(geometricEntity);
-            _usersRepository.AddFigure(name, geometricEntity.Id);
-            
+            _usersRepository.AddFigure(name, geometricEntity.Id);            
         }
 
         public List<GeometricEntity> ListFigures(string name)

@@ -15,6 +15,8 @@ namespace Figures.Services.Tests
         {
             var userFromRepo = new User("Name");
             GeometricEntity? entityFromRepo = null;
+            var calledAddFigure = false;
+
             var entitiesRepo = new Mock<IGeometricEntitiesRepository>();
             entitiesRepo
                 .Setup(x => x.Add(It.IsAny<GeometricEntity>()))
@@ -22,15 +24,15 @@ namespace Figures.Services.Tests
 
             var usersRepo = new Mock<IUsersRepository>();
             usersRepo
-                .Setup(x => x.GetUser(It.IsAny<string>()))
-                .Returns(userFromRepo);
+                .Setup(x => x.AddFigure(It.IsAny<string>(), It.IsAny<int>()))
+                .Callback(() => calledAddFigure = true);
 
             var usersService = new UsersService(entitiesRepo.Object, usersRepo.Object);
             var point = new Point(6, 8) { Id = 1 };
 
             usersService.AddFigure("Name", point);
             entityFromRepo.Should().BeEquivalentTo(point);
-            Assert.True(userFromRepo.EntityIdList.Single() == point.Id);
+            Assert.True(calledAddFigure);
         }
 
         [Fact]

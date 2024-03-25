@@ -25,12 +25,12 @@ namespace Figures.Repositories
 
                 GeometricEntity? entity = str switch
                 {
-                    "- Point" => ReadPoint(map),
-                    "- LineSegment" => ReadLineSegment(map, context),
-                    "- Circle" => ReadCircle(map, context),
-                    "- Rectangle" => ReadRectangle(map, context),
-                    "- Triangle" => ReadTriangle(map, context),
-                    "- Ring" => ReadRing(map, context),
+                    "Point" => ReadPoint(map),
+                    "LineSegment" => ReadLineSegment(map, context),
+                    "Circle" => ReadCircle(map, context),
+                    "Rectangle" => ReadRectangle(map, context),
+                    "Triangle" => ReadTriangle(map, context),
+                    "Ring" => ReadRing(map, context),
                     _ => null,
                 };
 

@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Figures.Model\Figures.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Readers\" />
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,8 @@
 ﻿using Figures.Common.Interfaces;
 using Figures.Model;
+using Figures.Repositories.Readers;
 using Figures.Repositories.Writers;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Figures.Repositories
 {
@@ -19,15 +18,24 @@ namespace Figures.Repositories
                 { nameof(Point), new EntityWriter<Point>(pointWriter) },
                 { nameof(LineSegment), new EntityWriter<LineSegment>(new LineSegmentWriter(pointWriter)) },
                 { nameof(Circle), new EntityWriter<Circle>(new CircleWriter()) },
-                { nameof(Rectangle), new EntityWriter<Rectangle>(new RectangleWriter()) },
-                { nameof(Ring), new EntityWriter<Ring>(new RingWriter()) },
-                { nameof(Triangle), new EntityWriter<Triangle>(new TriangleWriter()) },
+                { nameof(Rectangle), new EntityWriter<Rectangle>(new RectangleWriter(pointWriter)) },
+                { nameof(Ring), new EntityWriter<Ring>(new RingWriter(pointWriter)) },
+                { nameof(Triangle), new EntityWriter<Triangle>(new TriangleWriter(pointWriter)) },
             };
 
             var writer = new GeometricEntitiesWriter(sourceIO, writersMap);
 
-            var reader = new GeometricEntitiesReader(sourceIO);
+            var readersMap = new Dictionary<string, IEntityReader<GeometricEntity>>            
+            {
+                { nameof(Point), new EntityReader<Point>(new PointReader()) },
+                { nameof(LineSegment), new EntityReader<LineSegment>(new LineSegmentReader()) },
+                { nameof(Circle), new EntityReader<Circle>(new CircleReader()) },
+                { nameof(Rectangle), new EntityReader<Rectangle>(new RectangleReader()) },
+                { nameof(Ring), new EntityReader<Ring>(new RingReader()) },
+                { nameof(Triangle), new EntityReader<Triangle>(new TriangleReader()) },
+            };
 
+            var reader = new GeometricEntitiesReader(sourceIO, readersMap);
             return new GeometricEntitiesRepository(writer, reader);
         }
     }

@@ -8,20 +8,27 @@ namespace Figures.Repositories.Writers
 {
     public class TriangleWriter : IEntityWriter<Triangle>
     {
+        private readonly IEntityWriter<Point> _writer;
+
+        public TriangleWriter(IEntityWriter<Point> writer)
+        {
+            _writer = writer;
+        }
+
         public void Save(TextWriter writer, Triangle triangle, IdGenerator idGenerator)
         {
             triangle.A.Id = idGenerator.Generate();
-            SavePoint(writer, triangle.A);
+            _writer.Save(writer, triangle.A, idGenerator);
             triangle.B.Id = idGenerator.Generate();
-            SavePoint(writer, triangle.B);
+            _writer.Save(writer, triangle.B, idGenerator);
             triangle.C.Id = idGenerator.Generate();
-            SavePoint(writer, triangle.C);
+            _writer.Save(writer, triangle.C, idGenerator);
             writer.WriteLine($" Id: {triangle.Id}");
             writer.WriteLine($" A: {triangle.A.Id}");
             writer.WriteLine($" B: {triangle.B.Id}");
             writer.WriteLine($" C: {triangle.C.Id}");
-            writer.WriteLine("- Triangle");
+            writer.WriteLine("Triangle");
             writer.WriteLine();
         }
     }
-]
+}

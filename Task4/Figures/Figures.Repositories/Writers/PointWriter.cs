@@ -13,7 +13,7 @@ namespace Figures.Repositories.Writers
             writer.WriteLine($" Id: {point.Id}");
             writer.WriteLine($" X: {point.X}");
             writer.WriteLine($" Y: {point.Y}");
-            writer.WriteLine("- Point");
+            writer.WriteLine("Point");
             writer.WriteLine();
         }
     }

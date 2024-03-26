@@ -24,7 +24,7 @@ namespace Figures.Repositories.Writers
             writer.WriteLine($" Id: {line.Id}");
             writer.WriteLine($" A: {line.A.Id}");
             writer.WriteLine($" B: {line.B.Id}");
-            writer.WriteLine("- LineSegment");
+            writer.WriteLine("LineSegment");
             writer.WriteLine();
         }
     }

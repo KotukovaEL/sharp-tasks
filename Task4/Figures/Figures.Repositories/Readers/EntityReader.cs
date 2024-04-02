@@ -14,9 +14,9 @@ namespace Figures.Repositories.Readers
             _reader = reader;
         }
 
-        public GeometricEntity Read(Dictionary<string, string> map, GeometricEntitiesContext context)
+        public GeometricEntity Read(Dictionary<string, string> fieldsMap, GeometricEntitiesContext context)
         {
-            return _reader.Read(map, context);
+            return _reader.Read(fieldsMap, context);
         }
     }
 }

@@ -20,21 +20,20 @@ namespace Figures.Repositories
         {
             var context = new GeometricEntitiesContext();
             var lines = _sourceIO.ReadAllLines();
-            var map = new Dictionary<string, string>();
+            var fieldsMap = new Dictionary<string, string>();
 
             foreach (var line in lines)
             {
                 var str = line.Trim();
 
-                if (IsNumberContains(str))
+                if (string.IsNullOrWhiteSpace(str))
                 {
-                    var parseStr = TxtDbHelpers.ParseDbRecord(str);
-                    map.Add(parseStr.key, parseStr.value);
                     continue;
                 }
 
-                if (string.IsNullOrWhiteSpace(str))
+                if (TxtDbHelpers.TryParseDbRecord(str, out var key, out var value))
                 {
+                    fieldsMap.Add(key, value);
                     continue;
                 }
 
@@ -43,29 +42,13 @@ namespace Figures.Repositories
                     throw new ArgumentException($"Entity reader for type {str} was not found.");
                 }
 
-                var entity = reader.Read(map, context);
-
-                if (entity is not null)
-                {
-                    context.Add(entity);
-                    map.Clear();
-                    continue;
-                }
+                var entity = reader.Read(fieldsMap, context);
+                context.Add(entity);
+                fieldsMap.Clear();
+                continue;
             }
 
             return context;
-        }
-        private bool IsNumberContains(string str)
-        {
-            foreach (char number in str)
-            {
-                if (Char.IsNumber(number))
-                {
-                    return true;
-                }                    
-            }
-
-            return false;
         }
     }
 }

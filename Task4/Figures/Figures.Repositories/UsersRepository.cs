@@ -1,34 +1,48 @@
 ﻿using Figures.Common.Interfaces;
 using Figures.Model;
+using Figures.Repositories.Interface;
 using System;
+using System.Collections.Generic;
 
 namespace Figures.Repositories
 {
     public class UsersRepository : IUsersRepository
     {
-        private readonly ITxtDbContext<string, User> _usersContext;
+        private readonly IUsersWriter _usersWriter;
+        private readonly Dictionary<string, User> _usersMap;
 
-        public UsersRepository(ITxtDbContext<string, User> usersContext)
+        public UsersRepository(IUsersWriter usersWriter, IUsersReader usersReader)
         {
-            _usersContext = usersContext;
+            _usersWriter = usersWriter;
+            _usersMap = usersReader.ReadFile();
         }
 
         public void TryAdd(string name)
         {
-            _usersContext.Add(new User(name));
-            _usersContext.SaveChanges();
+            _usersMap.TryAdd(name, new User(name));
+            _usersWriter.SaveChanges(_usersMap);
         }
 
         public void AddFigure(string name, int figureId)
         {
             var user = GetUser(name);
             user.EntityIdList.Add(figureId);
-            _usersContext.SaveChanges();
+            _usersWriter.SaveChanges(_usersMap);
         }
 
         public User GetUser(string name)
         {
-            return _usersContext.GetByKey(name);
+            return GetByKey(name);
+        }
+
+        public User GetByKey(string name)
+        {
+            if (!_usersMap.TryGetValue(name, out User user))
+            {
+                throw new ArgumentException($"User {name} was not found");
+            }
+
+            return user;
         }
     }
 }

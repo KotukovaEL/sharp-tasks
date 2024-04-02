@@ -8,6 +8,6 @@ namespace Figures.Repositories.Readers
 {
     public interface IEntityReader<T> where T : GeometricEntity
     {
-        T Read(Dictionary<string, string> map, GeometricEntitiesContext context);
+        T Read(Dictionary<string, string> fieldsMap, GeometricEntitiesContext context);
     }
 }

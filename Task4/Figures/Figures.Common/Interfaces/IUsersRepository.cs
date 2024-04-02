@@ -7,5 +7,6 @@ namespace Figures.Common.Interfaces
         User GetUser(string name);
         void TryAdd(string name);
         void AddFigure(string name, int figureId);
+        User GetByKey(string name);
     }
 }

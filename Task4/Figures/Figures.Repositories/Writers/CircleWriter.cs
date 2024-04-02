@@ -8,12 +8,17 @@ namespace Figures.Repositories.Writers
 {
     public class CircleWriter : IEntityWriter<Circle>
     {
-        private readonly IEntityWriter<Point> _writer;
+        private readonly IEntityWriter<Point> _pointWriter;
+
+        public CircleWriter(IEntityWriter<Point> writer)
+        {
+            _pointWriter = writer;
+        }
 
         public void Save(TextWriter writer, Circle circle, IdGenerator idGenerator)
         {
             circle.Center.Id = idGenerator.Generate();
-            _writer.Save(writer, circle.Center, idGenerator);
+            _pointWriter.Save(writer, circle.Center, idGenerator);
             writer.WriteLine($" Id: {circle.Id}");
             writer.WriteLine($" Center: {circle.Center.Id}");
             writer.WriteLine($" Radius: {circle.Radius}");

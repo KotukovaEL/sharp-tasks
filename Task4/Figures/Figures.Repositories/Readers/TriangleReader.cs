@@ -7,20 +7,21 @@ namespace Figures.Repositories.Readers
 {
     public class TriangleReader : IEntityReader<Triangle>
     {
-        public Triangle Read(Dictionary<string, string> map, GeometricEntitiesContext context)
+        public Triangle Read(Dictionary<string, string> fieldsMap, GeometricEntitiesContext context)
         {
-            var idA = int.Parse(TxtDbHelpers.GetFieldValue(map, "A"));
-            var idB = int.Parse(TxtDbHelpers.GetFieldValue(map, "B"));
-            var idC = int.Parse(TxtDbHelpers.GetFieldValue(map, "C"));
-            var pointA = (Point)context.GetByKey(idA);
-            var pointB = (Point)context.GetByKey(idB);
-            var pointC = (Point)context.GetByKey(idC);
-            context.Remove(idA);
-            context.Remove(idB);
-            context.Remove(idC);
-            var triangle = new Triangle(pointA, pointB, pointC);
-            triangle.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
-            return triangle;
+            var aId = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "A"));
+            var bId = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "B"));
+            var cId = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "C"));
+            var pointA = (Point)context.GetByKey(aId);
+            var pointB = (Point)context.GetByKey(bId);
+            var pointC = (Point)context.GetByKey(cId);
+            context.Remove(aId);
+            context.Remove(bId);
+            context.Remove(cId);
+            return new Triangle(pointA, pointB, pointC)
+            {
+                Id = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Id"))
+            };
         }
     }
 }

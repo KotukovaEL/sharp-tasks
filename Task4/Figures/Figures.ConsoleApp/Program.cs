@@ -1,6 +1,7 @@
 ﻿using Figures.Handlers;
 using Figures.Model;
 using Figures.Repositories;
+using Figures.Repositories.Interface;
 using Figures.Services;
 using Microsoft.VisualBasic;
 using System.Collections.Generic;
@@ -11,8 +12,7 @@ namespace Figures.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var usersContext = new UsersTxtDbContext("Users.txt");
-            var usersRepository = new UsersRepository(usersContext);
+            var usersRepository = RepositoriesCreator.CreateUsersRepository("Users.txt");
             var entitiesRepository = RepositoriesCreator.CreateEntitiesRepository("Entities.txt");
 
             var userService = new UsersService(entitiesRepository, usersRepository);

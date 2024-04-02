@@ -10,14 +10,14 @@ namespace Figures.Repositories
     {
         public static IGeometricEntitiesRepository CreateEntitiesRepository(string entitiesFilename)
         {
-            var sourceIO = new SourceIO("Entities.txt");
+            var sourceIO = new SourceIO(entitiesFilename);
 
             var pointWriter = new PointWriter();
             var writersMap = new Dictionary<string, IEntityWriter<GeometricEntity>>
             {
                 { nameof(Point), new EntityWriter<Point>(pointWriter) },
                 { nameof(LineSegment), new EntityWriter<LineSegment>(new LineSegmentWriter(pointWriter)) },
-                { nameof(Circle), new EntityWriter<Circle>(new CircleWriter()) },
+                { nameof(Circle), new EntityWriter<Circle>(new CircleWriter(pointWriter)) },
                 { nameof(Rectangle), new EntityWriter<Rectangle>(new RectangleWriter(pointWriter)) },
                 { nameof(Ring), new EntityWriter<Ring>(new RingWriter(pointWriter)) },
                 { nameof(Triangle), new EntityWriter<Triangle>(new TriangleWriter(pointWriter)) },
@@ -37,6 +37,15 @@ namespace Figures.Repositories
 
             var reader = new GeometricEntitiesReader(sourceIO, readersMap);
             return new GeometricEntitiesRepository(writer, reader);
+        }
+
+        public static IUsersRepository CreateUsersRepository(string usersFilename)
+        {
+            var sourceIO = new SourceIO(usersFilename);
+            var writer = new UsersWriter(sourceIO);
+            var reader = new UsersReader(sourceIO);
+
+            return new UsersRepository(writer, reader);
         }
     }
 }

@@ -7,17 +7,18 @@ namespace Figures.Repositories.Readers
 {
     public class LineSegmentReader : IEntityReader<LineSegment>
     {
-        public LineSegment Read(Dictionary<string, string> map, GeometricEntitiesContext context)
+        public LineSegment Read(Dictionary<string, string> fieldsMap, GeometricEntitiesContext context)
         {
-            var idA = int.Parse(TxtDbHelpers.GetFieldValue(map, "A"));
-            var idB = int.Parse(TxtDbHelpers.GetFieldValue(map, "B"));
-            var pointA = (Point)context.GetByKey(idA);
-            var pointB = (Point)context.GetByKey(idB);
-            context.Remove(idA);
-            context.Remove(idB);
-            var lineSegment = new LineSegment(pointA, pointB);
-            lineSegment.Id = int.Parse(TxtDbHelpers.GetFieldValue(map, "Id"));
-            return lineSegment;
+            var aId = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "A"));
+            var bId = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "B"));
+            var pointA = (Point)context.GetByKey(aId);
+            var pointB = (Point)context.GetByKey(bId);
+            context.Remove(aId);
+            context.Remove(bId);
+            return new LineSegment(pointA, pointB)
+            {
+                Id = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Id"))
+            };
         }
     }
 }

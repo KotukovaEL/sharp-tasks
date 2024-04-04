@@ -32,11 +32,6 @@ namespace Figures.Repositories
 
         public User GetUser(string name)
         {
-            return GetByKey(name);
-        }
-
-        public User GetByKey(string name)
-        {
             if (!_usersMap.TryGetValue(name, out User user))
             {
                 throw new ArgumentException($"User {name} was not found");

@@ -25,17 +25,16 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             pointWriter
                 .Setup(x => x.Save(It.IsAny<TextWriter>(), It.IsAny<Point>(), It.IsAny<IdGenerator>()))
                 .Callback(() => calledPointWriter = true);
-
+            
+            var rectangleWriter = new RectangleWriter(pointWriter.Object);
             var pointA = new Point(1, 1);
             var pointB = new Point(1, 3);
             var pointC = new Point(4, 3);
             var pointD = new Point(4, 1);
-            var rectangle = new Rectangle(pointA, pointB, pointC, pointD);
-            rectangle.Id = 1;
-
-            var rectangleWriter = new RectangleWriter(pointWriter.Object);
+            var rectangle = new Rectangle(pointA, pointB, pointC, pointD) { Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(rectangle.Id);
+
             rectangleWriter.Save(txtWriter, rectangle, idGenerator);
 
             memoryStream.Seek(0, SeekOrigin.Begin);

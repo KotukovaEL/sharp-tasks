@@ -25,15 +25,14 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             pointWriter
                 .Setup(x => x.Save(It.IsAny<TextWriter>(), It.IsAny<Point>(), It.IsAny<IdGenerator>()))
                 .Callback(() => calledPointWriter = true);
-
+            
+            var lineSegmentWriter = new LineSegmentWriter(pointWriter.Object);
             var pointA = new Point(2, 2);
             var pointB = new Point(3, 3);
-            var lineSegment = new LineSegment(pointA, pointB);
-            lineSegment.Id = 1;
-
-            var lineSegmentWriter = new LineSegmentWriter(pointWriter.Object);
+            var lineSegment = new LineSegment(pointA, pointB) { Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(lineSegment.Id);
+
             lineSegmentWriter.Save(txtWriter, lineSegment, idGenerator);
 
             memoryStream.Seek(0, SeekOrigin.Begin);

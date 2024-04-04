@@ -80,25 +80,5 @@ namespace Figures.Repositories.Tests
             repo.AddFigure("name", 1);
             Assert.True(calledSaveChanges);
         }
-
-        [Fact]
-        public void Should_get_by_key_correctly()
-        {
-            var usersWriter = new Mock<IUsersWriter>();
-            var usersMap = new Dictionary<string, User>
-            {
-                { "name", new User("name")},
-            };
-
-            var usersReader = new Mock<IUsersReader>();
-            usersReader
-                .Setup(x => x.ReadFile())
-                .Returns(usersMap);
-
-            var repo = new UsersRepository(usersWriter.Object, usersReader.Object);
-            var results = repo.GetByKey("name");
-            var expectedUser = new User("name");
-            results.Should().BeEquivalentTo(expectedUser);
-        }
     }
 }

@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
 {
-    public class EntityWriterTests
+    public class GeometricEntitiesWriterTests
     {
         [Fact]
         public void Should_save_changes_correctly()
@@ -40,8 +40,38 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             var context = new GeometricEntitiesContext(entitiesMap);
             geometricEntitiesWriter.SaveChanges(context);
             Assert.True(calledSave);
-
         }
+
+        //[Fact]
+        //public void Should_throw_ArgumentException_correctly()
+        //{
+        //    using var memoryStream = new MemoryStream();
+        //    using var writer = new TestTextWriter(memoryStream);
+        //    var calledSave = false;
+
+        //    var entityWriter = new Mock<IEntityWriter<Point>>();
+        //    entityWriter
+        //        .Setup(x => x.Save(It.IsAny<TestTextWriter>(), It.IsAny<Point>(), It.IsAny<IdGenerator>()))
+        //        .Callback(() => calledSave = true);
+
+        //    var writerMap = new Dictionary<string, IEntityWriter<GeometricEntity>>
+        //    {
+        //        {"Circle", new EntityWriter<Point>(entityWriter.Object)}
+        //    };
+
+        //    var geometricEntitiesWriter = CreateEntitiesWriter(writer, writerMap);
+
+        //    var entitiesMap = new Dictionary<int, GeometricEntity>
+        //    {
+        //        {1, new Point(1, 2) },
+        //    };
+
+        //    var context = new GeometricEntitiesContext(entitiesMap);
+        //    geometricEntitiesWriter.SaveChanges(context);
+        //    Func<Dictionary<int, GeometricEntity>> func = () => entitiesMap;
+        //    Assert.True(calledSave);
+        //    Assert.Throws<ArgumentException>(() => func());
+        //}
 
         private GeometricEntitiesWriter CreateEntitiesWriter(TestTextWriter writer, Dictionary<string, IEntityWriter<GeometricEntity>> writersMap)
         {

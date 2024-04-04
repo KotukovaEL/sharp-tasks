@@ -45,7 +45,7 @@ namespace Figures.Services.Tests
         [Fact]
         public void Should_get_entity_by_id_correctly()
         {
-            var entitiesMap = new Dictionary<int, GeometricEntity> {};
+            var entitiesMap = new Dictionary<int, GeometricEntity> {{ 1, new Point(6, 8) { Id = 1 } }};
             var context = new GeometricEntitiesContext(entitiesMap);
 
             var writer = new Mock<IGeometricEntitiesWriter>();
@@ -56,10 +56,9 @@ namespace Figures.Services.Tests
                 .Returns(() => context);
 
             var repo = new GeometricEntitiesRepository(writer.Object, reader.Object);
-            var point = new Point(6, 8) { Id = 1 };
-            context.Add(point);
             var result = repo.GetEntityById(1);
-            result.Should().BeEquivalentTo(point);
+            var expectedResult = new Point(6, 8) { Id = 1 };
+            result.Should().BeEquivalentTo(expectedResult);
         }
 
         [Fact]
@@ -82,6 +81,8 @@ namespace Figures.Services.Tests
             var repo = new GeometricEntitiesRepository(writer.Object, reader.Object);
             var point = new Point(6, 8) { Id = 1 };
             repo.Add(point);
+            var expectedResult = context.GetByKey(point.Id);
+            point.Should().BeEquivalentTo(expectedResult);
             Assert.True(calledSaveChanges);
         }
 

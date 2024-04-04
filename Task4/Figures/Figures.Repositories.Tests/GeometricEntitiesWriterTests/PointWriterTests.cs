@@ -19,13 +19,11 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             using var memorySystem = new MemoryStream();
             using var txtWriter = new TestTextWriter(memorySystem);
 
-
-            var point = new Point(1, 1);
-            point.Id = 1;
-
             var writer = new PointWriter();
+            var point = new Point(1, 1) { Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(point.Id);
+
             writer.Save(txtWriter, point, idGenerator);
 
             memorySystem.Seek(0, SeekOrigin.Begin);

@@ -22,7 +22,7 @@ namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
 
             var context = new GeometricEntitiesContext(entitiesMap);
 
-            var map = new Dictionary<string, string>
+            var fieldsMap = new Dictionary<string, string>
             {
                 { "Center", "2"},
                 { "Long radius", "3"},
@@ -31,8 +31,12 @@ namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
             };
 
             var ringReader = new RingReader();
-            var results = ringReader.Read(map, context);
-            var expectedResults = new Ring(new Point(2, 3) { Id = 2 }, 3, 2) { Id = 1 };
+            var results = ringReader.Read(fieldsMap, context);
+            var expectedResults = new Ring(
+                new Point(2, 3) { Id = 2 },
+                3, 
+                2) 
+            { Id = 1 };
 
             results.Should().BeEquivalentTo(expectedResults);
         }

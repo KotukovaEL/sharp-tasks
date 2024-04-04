@@ -25,16 +25,15 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             pointWriter
                 .Setup(x => x.Save(It.IsAny<TextWriter>(), It.IsAny<Point>(), It.IsAny<IdGenerator>()))
                 .Callback(() => calledPointWriter = true);
-
+            
+            var RingWriter = new RingWriter(pointWriter.Object);
             var center = new Point(2, 2);
             var bigRadius = 4;
             var shortRadius = 3;
-            var ring = new Ring(center, bigRadius, shortRadius);
-            ring.Id = 1;
-
-            var RingWriter = new RingWriter(pointWriter.Object);
+            var ring = new Ring(center, bigRadius, shortRadius) { Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(ring.Id);
+
             RingWriter.Save(txtWriter, ring, idGenerator);
 
             memoryStream.Seek(0, SeekOrigin.Begin);

@@ -23,7 +23,7 @@ namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
 
             var context = new GeometricEntitiesContext(entitiesMap);
 
-            var map = new Dictionary<string, string>
+            var fieldsMap = new Dictionary<string, string>
             {
                 { "A", "2"},
                 { "B", "3"},
@@ -31,8 +31,11 @@ namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
             };
 
             var lineSegmentReader = new LineSegmentReader();
-            var results = lineSegmentReader.Read(map, context);
-            var expectedResults = new LineSegment(new Point(2, 3) { Id = 2 }, new Point(3, 3) { Id = 3 }) { Id = 1 };
+            var results = lineSegmentReader.Read(fieldsMap, context);
+            var expectedResults = new LineSegment(
+                new Point(2, 3) { Id = 2 }, 
+                new Point(3, 3) { Id = 3 }) 
+            { Id = 1 };
 
             results.Should().BeEquivalentTo(expectedResults);
         }

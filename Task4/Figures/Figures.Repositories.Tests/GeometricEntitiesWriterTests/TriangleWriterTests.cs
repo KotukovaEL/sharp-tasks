@@ -25,16 +25,15 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             pointWriter
                 .Setup(x => x.Save(It.IsAny<TextWriter>(), It.IsAny<Point>(), It.IsAny<IdGenerator>()))
                 .Callback(() => calledPointWriter = true);
-
+            
+            var triangleWriter = new TriangleWriter(pointWriter.Object);
             var pointA = new Point(1, 1);
             var pointB = new Point(1, 3);
             var pointC = new Point(4, 3);
-            var triangle = new Triangle(pointA, pointB, pointC);
-            triangle.Id = 1;
-
-            var triangleWriter = new TriangleWriter(pointWriter.Object);
+            var triangle = new Triangle(pointA, pointB, pointC) { Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(triangle.Id);
+
             triangleWriter.Save(txtWriter, triangle, idGenerator);
 
             memoryStream.Seek(0, SeekOrigin.Begin);

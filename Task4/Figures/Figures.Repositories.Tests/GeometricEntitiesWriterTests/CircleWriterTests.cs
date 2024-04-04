@@ -26,14 +26,13 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             pointWriter
                 .Setup(x => x.Save(It.IsAny<TextWriter>(), It.IsAny<Point>(), It.IsAny<IdGenerator>()))
                 .Callback(() => calledPointWriter = true);
-            
-            var center = new Point(2, 2);
-            var circle = new Circle(center, 5);
-            circle.Id = 1;
+           var circleWriter = new CircleWriter(pointWriter.Object); 
 
-            var circleWriter = new CircleWriter(pointWriter.Object);
+            var center = new Point(2, 2);
+            var circle = new Circle(center, 5) { Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(circle.Id);
+
             circleWriter.Save(txtWriter, circle, idGenerator);
 
             memoryStream.Seek(0, SeekOrigin.Begin);
@@ -52,6 +51,5 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             Assert.Equal(expectedResults, results);
             Assert.True(calledPointWriter);
         }
-
     }
 }

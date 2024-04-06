@@ -35,6 +35,17 @@ namespace Figures.Repositories.Tests
             };
 
             usersWriter.SaveChanges(userMap);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            var reader = new StreamReader(memoryStream);
+            var results = reader.ReadToEnd();
+
+            var expectedResults = string.Join(Environment.NewLine,
+               " Name: name",
+               " EntityList: 1,2",
+               "",
+               "");
+
+            Assert.Equal(expectedResults, results);
         }
     }
 }

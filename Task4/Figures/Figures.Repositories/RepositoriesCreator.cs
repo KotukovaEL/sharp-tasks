@@ -27,12 +27,12 @@ namespace Figures.Repositories
 
             var readersMap = new Dictionary<string, IEntityReader<GeometricEntity>>            
             {
-                { nameof(Point), new EntityReader<Point>(new PointReader()) },
-                { nameof(LineSegment), new EntityReader<LineSegment>(new LineSegmentReader()) },
-                { nameof(Circle), new EntityReader<Circle>(new CircleReader()) },
-                { nameof(Rectangle), new EntityReader<Rectangle>(new RectangleReader()) },
-                { nameof(Ring), new EntityReader<Ring>(new RingReader()) },
-                { nameof(Triangle), new EntityReader<Triangle>(new TriangleReader()) },
+                { nameof(Point), new PointReader() },
+                { nameof(LineSegment), new LineSegmentReader() },
+                { nameof(Circle), new CircleReader () },
+                { nameof(Rectangle), new RectangleReader () },
+                { nameof(Ring), new RingReader () },
+                { nameof(Triangle), new TriangleReader () },
             };
 
             var reader = new GeometricEntitiesReader(sourceIO, readersMap);

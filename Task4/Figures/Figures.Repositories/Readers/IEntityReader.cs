@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Figures.Repositories.Readers
 {
-    public interface IEntityReader<T> where T : GeometricEntity
+    public interface IEntityReader<out T> where T : GeometricEntity
     {
         T Read(Dictionary<string, string> fieldsMap, GeometricEntitiesContext context);
     }

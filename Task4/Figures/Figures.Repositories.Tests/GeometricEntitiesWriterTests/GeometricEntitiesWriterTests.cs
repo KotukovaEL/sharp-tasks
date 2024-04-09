@@ -42,36 +42,24 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             Assert.True(calledSave);
         }
 
-        //[Fact]
-        //public void Should_throw_ArgumentException_correctly()
-        //{
-        //    using var memoryStream = new MemoryStream();
-        //    using var writer = new TestTextWriter(memoryStream);
-        //    var calledSave = false;
+        [Fact]
+        public void Should_throw_ArgumentException_correctly()
+        {
+            
+            var sourceIO = new Mock<ISourceIO>();
+            var writerMap = new Dictionary<string, IEntityWriter<GeometricEntity>>();
+            var geometricEntitiesWriter = new GeometricEntitiesWriter(sourceIO.Object, writerMap);
 
-        //    var entityWriter = new Mock<IEntityWriter<Point>>();
-        //    entityWriter
-        //        .Setup(x => x.Save(It.IsAny<TestTextWriter>(), It.IsAny<Point>(), It.IsAny<IdGenerator>()))
-        //        .Callback(() => calledSave = true);
+            var entitiesMap = new Dictionary<int, GeometricEntity>
+            {
+                {1, new Point(1, 2) },
+            };
 
-        //    var writerMap = new Dictionary<string, IEntityWriter<GeometricEntity>>
-        //    {
-        //        {"Circle", new EntityWriter<Point>(entityWriter.Object)}
-        //    };
-
-        //    var geometricEntitiesWriter = CreateEntitiesWriter(writer, writerMap);
-
-        //    var entitiesMap = new Dictionary<int, GeometricEntity>
-        //    {
-        //        {1, new Point(1, 2) },
-        //    };
-
-        //    var context = new GeometricEntitiesContext(entitiesMap);
-        //    geometricEntitiesWriter.SaveChanges(context);
-        //    Func<Dictionary<int, GeometricEntity>> func = () => entitiesMap;
-        //    Assert.True(calledSave);
-        //    Assert.Throws<ArgumentException>(() => func());
-        //}
+            var context = new GeometricEntitiesContext(entitiesMap);
+            
+            Action func = () => geometricEntitiesWriter.SaveChanges(context);
+            Assert.Throws<ArgumentException>(() => func());
+        }
 
         private GeometricEntitiesWriter CreateEntitiesWriter(TestTextWriter writer, Dictionary<string, IEntityWriter<GeometricEntity>> writersMap)
         {

@@ -1,10 +1,7 @@
 ﻿using Figures.Model;
-using Figures.Repositories.Writers;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Figures.Repositories.Readers
+namespace Figures.Repositories.TxtDb.Readers
 {
     public interface IEntityReader<out T> where T : GeometricEntity
     {

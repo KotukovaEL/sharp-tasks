@@ -3,19 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Figures.Repositories.Readers
+namespace Figures.Repositories.TxtDb.Readers
 {
-    public class LineSegmentReader : IEntityReader<LineSegment>
+    public class TriangleReader : IEntityReader<Triangle>
     {
-        public LineSegment Read(Dictionary<string, string> fieldsMap, GeometricEntitiesContext context)
+        public Triangle Read(Dictionary<string, string> fieldsMap, GeometricEntitiesContext context)
         {
             var aId = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "A"));
             var bId = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "B"));
+            var cId = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "C"));
             var pointA = (Point)context.GetByKey(aId);
             var pointB = (Point)context.GetByKey(bId);
+            var pointC = (Point)context.GetByKey(cId);
             context.Remove(aId);
             context.Remove(bId);
-            return new LineSegment(pointA, pointB)
+            context.Remove(cId);
+            return new Triangle(pointA, pointB, pointC)
             {
                 Id = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Id"))
             };

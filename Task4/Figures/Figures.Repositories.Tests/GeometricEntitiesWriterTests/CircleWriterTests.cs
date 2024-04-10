@@ -1,13 +1,9 @@
 ﻿using Figures.Model;
-using Figures.Repositories.Interface;
+using Figures.Repositories.TxtDb.Writers;
 using Figures.Repositories.Writers;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Figures.Repositories.Readers
+namespace Figures.Repositories.TxtDb.Readers
 {
     public class RectangleReader : IEntityReader<Rectangle>
     {

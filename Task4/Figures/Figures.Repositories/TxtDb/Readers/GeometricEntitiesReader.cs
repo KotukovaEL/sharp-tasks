@@ -1,10 +1,9 @@
 ﻿using Figures.Model;
 using Figures.Repositories.Interface;
-using Figures.Repositories.Readers;
 using System;
 using System.Collections.Generic;
 
-namespace Figures.Repositories
+namespace Figures.Repositories.TxtDb.Readers
 {
     public class GeometricEntitiesReader : IGeometricEntitiesReader
     {

@@ -1,5 +1,5 @@
 ﻿using Figures.Model;
-using Figures.Repositories.Writers;
+using Figures.Repositories.TxtDb.Writers;
 using Moq;
 using System;
 using System.Collections.Generic;

@@ -1,11 +1,7 @@
 ﻿using Figures.Model;
-using Figures.Repositories.Readers;
+using Figures.Repositories.TxtDb.Readers;
 using FluentAssertions;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests

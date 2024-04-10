@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 
-namespace Figures.Repositories.Writers
+namespace Figures.Repositories.TxtDb.Writers
 {
     public class GeometricEntitiesWriter : IGeometricEntitiesWriter
     {

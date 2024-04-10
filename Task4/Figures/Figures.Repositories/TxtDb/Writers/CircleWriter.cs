@@ -1,8 +1,6 @@
 ﻿using Figures.Model;
-using System;
-using System.Collections.Generic;
+using Figures.Repositories.TxtDb.Writers;
 using System.IO;
-using System.Text;
 
 namespace Figures.Repositories.Writers
 {

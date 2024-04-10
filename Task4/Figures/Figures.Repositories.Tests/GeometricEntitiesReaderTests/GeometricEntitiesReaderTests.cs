@@ -1,14 +1,8 @@
 ﻿using Figures.Model;
-using Figures.Repositories.Readers;
-using Figures.Repositories.Writers;
+using Figures.Repositories.TxtDb.Readers;
 using FluentAssertions;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests

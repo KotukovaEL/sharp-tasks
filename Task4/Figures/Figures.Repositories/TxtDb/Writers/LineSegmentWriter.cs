@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Figures.Repositories.Writers
+namespace Figures.Repositories.TxtDb.Writers
 {
     public class LineSegmentWriter : IEntityWriter<LineSegment>
     {

@@ -1,6 +1,7 @@
 ﻿using Figures.Common.Interfaces;
 using Figures.Model;
-using Figures.Repositories.Readers;
+using Figures.Repositories.TxtDb.Readers;
+using Figures.Repositories.TxtDb.Writers;
 using Figures.Repositories.Writers;
 using System.Collections.Generic;
 

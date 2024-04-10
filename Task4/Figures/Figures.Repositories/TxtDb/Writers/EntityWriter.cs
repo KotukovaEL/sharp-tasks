@@ -1,7 +1,7 @@
 ﻿using Figures.Model;
 using System.IO;
 
-namespace Figures.Repositories.Writers
+namespace Figures.Repositories.TxtDb.Writers
 {
     public class EntityWriter<T> : IEntityWriter<GeometricEntity> where T : GeometricEntity
     {

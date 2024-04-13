@@ -6,11 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Entities.json" />
     <None Remove="Entities.txt" />
     <None Remove="Users.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Entities.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Entities.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

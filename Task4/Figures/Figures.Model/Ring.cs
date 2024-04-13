@@ -23,7 +23,6 @@ namespace Figures.Model
             SmallCircle = new Circle(center, shortRadius);
         }
 
-
         public override double GetArea()
         {
             return BigCircle.GetArea() - SmallCircle.GetArea();

@@ -12,8 +12,8 @@ namespace Figures.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var usersRepository = RepositoriesCreator.CreateUsersRepository("Users.txt");
-            var entitiesRepository = RepositoriesCreator.CreateEntitiesRepository("Entities.txt");
+            var usersRepository = RepositoriesCreator.CreateUsersTxtRepository("Users.txt");
+            var entitiesRepository = RepositoriesCreator.CreateEntitiesJsonRepository("Entities.json");
 
             var userService = new UsersService(entitiesRepository, usersRepository);
 

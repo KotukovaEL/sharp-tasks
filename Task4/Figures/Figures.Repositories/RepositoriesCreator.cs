@@ -9,7 +9,7 @@ namespace Figures.Repositories
 {
     public static class RepositoriesCreator
     {
-        public static IGeometricEntitiesRepository CreateEntitiesRepository(string entitiesFilename)
+        public static IGeometricEntitiesRepository CreateEntitiesTxtRepository(string entitiesFilename)
         {
             var sourceIO = new SourceIO(entitiesFilename);
 
@@ -26,7 +26,7 @@ namespace Figures.Repositories
 
             var writer = new GeometricEntitiesWriter(sourceIO, writersMap);
 
-            var readersMap = new Dictionary<string, IEntityReader<GeometricEntity>>            
+            var readersMap = new Dictionary<string, IEntityReader<GeometricEntity>>
             {
                 { nameof(Point), new PointReader() },
                 { nameof(LineSegment), new LineSegmentReader() },
@@ -40,13 +40,20 @@ namespace Figures.Repositories
             return new GeometricEntitiesRepository(writer, reader);
         }
 
-        public static IUsersRepository CreateUsersRepository(string usersFilename)
+        public static IUsersRepository CreateUsersTxtRepository(string usersFilename)
         {
             var sourceIO = new SourceIO(usersFilename);
             var writer = new UsersWriter(sourceIO);
             var reader = new UsersReader(sourceIO);
 
             return new UsersRepository(writer, reader);
+        }
+        public static IGeometricEntitiesRepository CreateEntitiesJsonRepository(string entitiesFilename)
+        {
+            var sourceIO = new SourceIO(entitiesFilename);
+            var writer = new JsonDb.GeometricEntitiesWriter(sourceIO);
+            var reader = new JsonDb.GeometricEntitiesReader(sourceIO);
+            return new GeometricEntitiesRepository(writer, reader);
         }
     }
 }

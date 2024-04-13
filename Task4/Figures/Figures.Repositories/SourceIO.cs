@@ -24,5 +24,15 @@ namespace Figures.Repositories
         {
             return File.ReadAllLines(_filePath);
         }
+
+        public string ReadAllText()
+        {
+            return File.ReadAllText(_filePath);
+        }
+
+        public void WriteAllText(string str)
+        {
+            File.WriteAllText(_filePath, str);
+        }
     }
 }

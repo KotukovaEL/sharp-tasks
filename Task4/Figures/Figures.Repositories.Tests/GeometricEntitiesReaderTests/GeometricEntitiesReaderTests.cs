@@ -23,7 +23,7 @@ namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
 
             var readersMap = new Dictionary<string, IEntityReader<GeometricEntity>>()
             {
-                { "Point", new EntityReader<Point>(new PointReader()) }
+                { "Point", new PointReader() }
             };
 
             var sourceIO = new Mock<ISourceIO>();

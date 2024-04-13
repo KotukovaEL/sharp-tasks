@@ -9,9 +9,9 @@ namespace Figures.Model
         public string Name { get; }
 
         public List<int> EntityIdList { get; }
-
         public User(string name)
         {
+
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("The name must not empty.");

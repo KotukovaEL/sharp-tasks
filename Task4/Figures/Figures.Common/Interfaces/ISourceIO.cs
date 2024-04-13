@@ -6,5 +6,7 @@ namespace Figures.Repositories
     {
         TextWriter CreateWriter();
         string[] ReadAllLines();
+        string ReadAllText();
+        void WriteAllText(string str);
     }
 }

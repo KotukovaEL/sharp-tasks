@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Figures.Repositories.JsonDb
+namespace Figures.Repositories.JsonDb.DtoModels
 {
     public class RingDto : GeometricEntityDto
     {
         public PointDto Center { get; set; }
-        public double LongRadius {  get; set; }
+        public double LongRadius { get; set; }
         public double ShortRadius { get; set; }
     }
 }

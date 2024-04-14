@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Figures.Repositories.JsonDb
+namespace Figures.Repositories.JsonDb.DtoModels
 {
-    public class TriangleDto : GeometricEntityDto
+    public class RectangleDto : GeometricEntityDto
     {
         public PointDto A { get; set; }
         public PointDto B { get; set; }
         public PointDto C { get; set; }
+        public PointDto D { get; set; }
     }
 }

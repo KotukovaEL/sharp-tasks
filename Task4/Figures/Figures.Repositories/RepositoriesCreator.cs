@@ -55,5 +55,14 @@ namespace Figures.Repositories
             var reader = new JsonDb.GeometricEntitiesReader(sourceIO);
             return new GeometricEntitiesRepository(writer, reader);
         }
+
+        public static IUsersRepository CreateUsersJsonRepository(string usersFilename)
+        {
+            var sourceIO = new SourceIO(usersFilename);
+            var writer = new JsonDb.UsersWriter(sourceIO);
+            var reader = new JsonDb.UsersReader(sourceIO);
+
+            return new UsersRepository(writer, reader);
+        }
     }
 }

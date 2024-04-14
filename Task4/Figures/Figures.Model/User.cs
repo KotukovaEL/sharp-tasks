@@ -8,7 +8,7 @@ namespace Figures.Model
     {
         public string Name { get; }
 
-        public List<int> EntityIdList { get; }
+        public List<int> EntityIdList { get; set; }
         public User(string name)
         {
 

@@ -1,18 +1,10 @@
-﻿using Figures.Model;
-using Figures.Repositories.Interface;
-using System.Collections.Generic;
-using System.IO;
+﻿using Figures.Repositories.Interface;
 using System.Text.Json;
 
 namespace Figures.Repositories.JsonDb
 {
     public class GeometricEntitiesWriter : IGeometricEntitiesWriter
     {
-        private static JsonSerializerOptions JsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.General)
-        {
-            WriteIndented = true,
-        };
-
         private readonly ISourceIO _sourceIO;
 
         public GeometricEntitiesWriter(ISourceIO sourceIO)
@@ -23,7 +15,7 @@ namespace Figures.Repositories.JsonDb
         public void SaveChanges(GeometricEntitiesContext context)
         {
             var geometricEntitiesDto = new GeometricEntitiesDto(context.List());
-            var json = JsonSerializer.Serialize(geometricEntitiesDto, JsonOptions);
+            var json = JsonSerializer.Serialize(geometricEntitiesDto, JsonSettings.JsonOptions);
             _sourceIO.WriteAllText(json);
         }
     }

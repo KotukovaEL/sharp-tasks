@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Figures.Repositories.JsonDb
+namespace Figures.Repositories.JsonDb.DtoModels
 {
     public class PointDto : GeometricEntityDto
     {

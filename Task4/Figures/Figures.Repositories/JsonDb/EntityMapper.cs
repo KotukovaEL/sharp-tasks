@@ -1,4 +1,5 @@
 ﻿using Figures.Model;
+using Figures.Repositories.JsonDb.DtoModels;
 using System;
 
 namespace Figures.Repositories.JsonDb

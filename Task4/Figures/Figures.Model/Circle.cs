@@ -4,18 +4,11 @@ namespace Figures.Model
 {
     public class Circle : Figure
     {
-        public Point Center { get; }
-        public double Radius { get; }
+        public Point Center { get; set; }
+        public double Radius { get; set; }
 
-        public Circle(Point center, double radius)
+        public Circle()
         {
-            if (radius < 0)
-            {
-                throw new ArgumentException("The radius cannot be negative");
-            }
-
-            Center = center;
-            Radius = radius;
         }
 
         public override double GetArea()

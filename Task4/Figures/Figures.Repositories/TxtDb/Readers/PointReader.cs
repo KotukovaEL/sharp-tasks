@@ -11,8 +11,10 @@ namespace Figures.Repositories.TxtDb.Readers
         {
             var x = double.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "X"));
             var y = double.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Y"));
-            return new Point(x, y)
+            return new Point()
             {
+                X = x,
+                Y = y,
                 Id = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Id"))
             };
         }

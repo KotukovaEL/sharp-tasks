@@ -1,33 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Figures.Model
 {
     public class Triangle : Figure
     {
-        public Point A { get; }
-        public Point B { get; }
-        public Point C { get; }
+        public Point A { get; set; }
+        public Point B { get; set; }
+        public Point C { get; set; }
 
-        public double SideAB { get; }
-        public double SideBC { get; }
-        public double SideAC { get; }
+        public double SideAB => GeometricHelpers.GetSide(A, B);
+        public double SideBC => GeometricHelpers.GetSide(B, C);
+        public double SideAC => GeometricHelpers.GetSide(A, C);
 
-        public Triangle(Point a, Point b, Point c)
+        public Triangle()
         {
-            ValidateTriangle(a, b, c);
-            A = a; 
-            B = b; 
-            C = c;
-            SideAB = GeometricHelpers.GetSide(a, b);
-            SideBC = GeometricHelpers.GetSide(b, c);
-            SideAC = GeometricHelpers.GetSide(a, c);
         }
 
-        
         public override double GetArea()
         {
             var halfMeter = GetPerimeter() / 2; 
@@ -42,14 +30,6 @@ namespace Figures.Model
         public override double GetPerimeter()
         {
             return SideAB + SideBC + SideAC;
-        }
-
-        private void ValidateTriangle(Point a, Point b, Point c)
-        {
-            if((b.Y - a.Y) / (c.X - a.X) == (c.Y - a.X) / (b.X - a.X))
-            {
-                throw new ArgumentException("There is no such triangle");
-            }
         }
 
         public override string ToString()

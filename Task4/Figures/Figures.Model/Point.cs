@@ -8,12 +8,11 @@ namespace Figures.Model
 {
     public class Point : GeometricEntity, IEquatable<Point>
     {
-        public double X { get; }
-        public double Y { get; }
-        public Point(double x, double y)
+        public double X { get; set; }
+        public double Y { get; set; }
+
+        public Point()
         {
-            X = x;
-            Y = y;
         }
 
         public override bool Equals(object? obj)

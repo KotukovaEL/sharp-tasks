@@ -19,7 +19,7 @@ namespace Figures.Repositories
 
         public void TryAdd(string name)
         {
-            _usersMap.TryAdd(name, new User(name));
+            _usersMap.TryAdd(name, new User() { Name = name });
             _usersWriter.SaveChanges(_usersMap);
         }
 

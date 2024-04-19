@@ -13,8 +13,10 @@ namespace Figures.Repositories.TxtDb.Readers
             var center = (Point)context.GetByKey(pointId);
             var radius = double.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Radius"));
             context.Remove(pointId);
-            return new Circle(center, radius)
+            return new Circle()
             {
+                Center = center,
+                Radius = radius,
                 Id = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Id"))
             };
         }

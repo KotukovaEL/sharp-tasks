@@ -21,8 +21,12 @@ namespace Figures.Repositories.TxtDb.Readers
             context.Remove(bId);
             context.Remove(cId);
             context.Remove(dId);
-            return new Rectangle(pointA, pointB, pointC, pointD)
+            return new Rectangle()
             {
+                A = pointA,
+                B = pointB,
+                C = pointC,
+                D = pointD,
                 Id = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Id"))
             };
         }

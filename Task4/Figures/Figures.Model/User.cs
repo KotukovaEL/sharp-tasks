@@ -6,19 +6,12 @@ namespace Figures.Model
 {
     public class User 
     {
-        public string Name { get; }
+        public string Name { get; set; }
 
-        public List<int> EntityIdList { get; set; }
-        public User(string name)
+        public List<int> EntityIdList { get; } = new List<int>();
+
+        public User()
         {
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("The name must not empty.");
-            }
-
-            Name = name;
-            EntityIdList = new List<int>();
         }
     }
 }

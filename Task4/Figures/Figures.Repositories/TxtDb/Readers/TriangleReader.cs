@@ -18,8 +18,11 @@ namespace Figures.Repositories.TxtDb.Readers
             context.Remove(aId);
             context.Remove(bId);
             context.Remove(cId);
-            return new Triangle(pointA, pointB, pointC)
+            return new Triangle()
             {
+                A = pointA,
+                B = pointB,
+                C = pointC,
                 Id = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Id"))
             };
         }

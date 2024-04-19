@@ -25,13 +25,7 @@ namespace Figures.Repositories.JsonDb
             }
 
             var geometricEntitiesDto = JsonSerializer.Deserialize<GeometricEntitiesDto> (jsonStr, JsonSettings.JsonOptions);
-            var entityMap = new Dictionary<int, GeometricEntity>();
-            _geometricEntitiesDto.AddEntities(geometricEntitiesDto.Points, entityMap);
-            _geometricEntitiesDto.AddEntities(geometricEntitiesDto.Circles, entityMap);
-            _geometricEntitiesDto.AddEntities(geometricEntitiesDto.LineSegments, entityMap);
-            _geometricEntitiesDto.AddEntities(geometricEntitiesDto.Triangles, entityMap);
-            _geometricEntitiesDto.AddEntities(geometricEntitiesDto.Rectangles, entityMap);
-            _geometricEntitiesDto.AddEntities(geometricEntitiesDto.Rings, entityMap);
+            var entityMap = _geometricEntitiesDto.AddEntities(geometricEntitiesDto);
             return new GeometricEntitiesContext(entityMap);
         }
     }

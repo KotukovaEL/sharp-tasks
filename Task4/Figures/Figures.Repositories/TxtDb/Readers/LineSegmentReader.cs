@@ -15,8 +15,10 @@ namespace Figures.Repositories.TxtDb.Readers
             var pointB = (Point)context.GetByKey(bId);
             context.Remove(aId);
             context.Remove(bId);
-            return new LineSegment(pointA, pointB)
+            return new LineSegment()
             {
+                A = pointA,
+                B = pointB,
                 Id = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Id"))
             };
         }

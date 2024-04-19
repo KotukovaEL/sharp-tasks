@@ -34,7 +34,7 @@ namespace Figures.Repositories
                 var name = TxtDbHelpers.GetFieldValue(map, "Name");
                 var entityIdStr = TxtDbHelpers.GetFieldValue(map, "EntityList");
                 map.Clear();
-                var user = new User(name);
+                var user = new User() { Name = name };
 
                 if (entityIdStr != string.Empty)
                 {

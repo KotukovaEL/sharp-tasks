@@ -14,8 +14,11 @@ namespace Figures.Repositories.TxtDb.Readers
             var longRadius = double.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Long radius"));
             var shortRadius = double.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Short radius"));
             context.Remove(pointId);
-            return new Ring(center, longRadius, shortRadius)
+            return new Ring()
             {
+                Center = center,
+                SmallCircleRadius = shortRadius,
+                BigCircleRadius = longRadius,
                 Id = int.Parse(TxtDbHelpers.GetFieldValue(fieldsMap, "Id"))
             };
         }

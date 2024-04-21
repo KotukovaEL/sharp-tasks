@@ -25,7 +25,7 @@ namespace Figures.Repositories.Tests
                 .Returns(writer);
 
             var usersWriter = new UsersWriter(sourceIO.Object);
-            var user = new User("name");
+            var user = new User { Name = "name" };
             var entityList = new List<int> { 1, 2 };
             user.EntityIdList.AddRange(entityList);
 

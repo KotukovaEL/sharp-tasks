@@ -11,10 +11,6 @@ namespace Figures.Model
         public double X { get; set; }
         public double Y { get; set; }
 
-        public Point()
-        {
-        }
-
         public override bool Equals(object? obj)
         {
             var point = obj as Point;

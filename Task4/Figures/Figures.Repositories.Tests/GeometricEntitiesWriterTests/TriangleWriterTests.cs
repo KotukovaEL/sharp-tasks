@@ -28,10 +28,10 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
                 .Callback(() => calledPointWriter = true);
             
             var triangleWriter = new TriangleWriter(pointWriter.Object);
-            var pointA = new Point(1, 1);
-            var pointB = new Point(1, 3);
-            var pointC = new Point(4, 3);
-            var triangle = new Triangle(pointA, pointB, pointC) { Id = 1 };
+            var pointA = new Point { X = 1, Y = 1 };
+            var pointB = new Point { X = 1, Y = 1 };
+            var pointC = new Point { X = 4, Y = 4 };
+            var triangle = new Triangle {  A = pointA, B = pointB, C = pointC, Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(triangle.Id);
 

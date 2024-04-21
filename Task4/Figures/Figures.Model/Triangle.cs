@@ -12,10 +12,6 @@ namespace Figures.Model
         public double SideBC => GeometricHelpers.GetSide(B, C);
         public double SideAC => GeometricHelpers.GetSide(A, C);
 
-        public Triangle()
-        {
-        }
-
         public override double GetArea()
         {
             var halfMeter = GetPerimeter() / 2; 

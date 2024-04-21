@@ -13,10 +13,10 @@ namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
         {
             var entitiesMap = new Dictionary<int, GeometricEntity>
             {
-                { 2, new Point(1, 1) {Id = 2 } },
-                { 3, new Point(1, 3) {Id = 3 } },
-                { 4, new Point(4, 3) {Id = 4 } },
-                { 5, new Point(4, 1) {Id = 5 } },
+                { 2, new Point { X = 1, Y = 1, Id = 2 } },
+                { 3, new Point { X = 1, Y = 3, Id = 3 } },
+                { 4, new Point { X = 4, Y = 3, Id = 4 } },
+                { 5, new Point { X = 4, Y = 1, Id = 5 } },
             };
 
             var context = new GeometricEntitiesContext(entitiesMap);
@@ -32,12 +32,13 @@ namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
 
             var rectangleReader = new RectangleReader();
             var results = rectangleReader.Read(fieldsMap, context);
-            var expectedResults = new Rectangle(
-                new Point(1, 1) { Id = 2 }, 
-                new Point(1, 3) { Id = 3 }, 
-                new Point(4, 3) { Id = 4 }, 
-                new Point(4, 1) { Id = 5 }) 
-            { Id = 1 };
+            var expectedResults = new Rectangle { 
+                A = new Point{ X = 1, Y = 1, Id = 2 }, 
+                B = new Point{ X = 1, Y = 3, Id = 3 }, 
+                C = new Point{ X = 4, Y = 3, Id = 4 }, 
+                D = new Point{ X = 4, Y = 1, Id = 5 },
+                Id = 1 
+            };
 
             results.Should().BeEquivalentTo(expectedResults);
         }

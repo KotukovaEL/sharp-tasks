@@ -34,7 +34,7 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
 
             var entitiesMap = new Dictionary<int, GeometricEntity>
             {
-                {1, new Point(3, 2) },
+                {1, new Point { X = 3, Y = 2 } }
             };
 
             var context = new GeometricEntitiesContext(entitiesMap);
@@ -52,7 +52,7 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
 
             var entitiesMap = new Dictionary<int, GeometricEntity>
             {
-                {1, new Point(1, 2) },
+                {1, new Point{ X = 1, Y = 2 } }
             };
 
             var context = new GeometricEntitiesContext(entitiesMap);

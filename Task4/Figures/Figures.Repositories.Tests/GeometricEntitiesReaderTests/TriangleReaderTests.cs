@@ -13,9 +13,9 @@ namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
         {
             var entitiesMap = new Dictionary<int, GeometricEntity>
             {
-                { 2, new Point(1, 1) {Id = 2 } },
-                { 3, new Point(1, 3) {Id = 3 } },
-                { 4, new Point(4, 3) {Id = 4 } },
+                { 2, new Point { X = 1, Y = 1, Id = 2 } },
+                { 3, new Point { X = 1, Y = 3, Id = 3 } },
+                { 4, new Point { X = 4, Y = 3, Id = 4 } },
             };
 
             var context = new GeometricEntitiesContext(entitiesMap);
@@ -30,11 +30,12 @@ namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
 
             var triangleReader = new TriangleReader();
             var results = triangleReader.Read(fieldsMap, context);
-            var expectedResults = new Triangle(
-                new Point(1, 1) { Id = 2 }, 
-                new Point(1, 3) { Id = 3 }, 
-                new Point(4, 3) { Id = 4 }) 
-            { Id = 1 };
+            var expectedResults = new Triangle { 
+                A = new Point{ X = 1, Y = 1, Id = 2 }, 
+                B = new Point{ X = 1, Y = 3, Id = 3 }, 
+                C = new Point{ X = 4, Y = 3, Id = 4 },
+                Id = 1 
+            };
 
             results.Should().BeEquivalentTo(expectedResults);
         }

@@ -23,11 +23,11 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
                 .Callback(() => calledPointWriter = true);
             
             var rectangleWriter = new RectangleWriter(pointWriter.Object);
-            var pointA = new Point(1, 1);
-            var pointB = new Point(1, 3);
-            var pointC = new Point(4, 3);
-            var pointD = new Point(4, 1);
-            var rectangle = new Rectangle(pointA, pointB, pointC, pointD) { Id = 1 };
+            var pointA = new Point { X = 1, Y = 1 };
+            var pointB = new Point { X = 1, Y = 1 };
+            var pointC = new Point { X = 4, Y = 4 };
+            var pointD = new Point { X = 4, Y = 4 };
+            var rectangle = new Rectangle { A = pointA, B = pointB, C = pointC, D = pointD, Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(rectangle.Id);
 

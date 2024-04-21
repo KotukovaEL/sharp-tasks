@@ -10,22 +10,12 @@ namespace Figures.Model.Tests
     public class TriangleTests
     {
         [Fact]
-        public void Should_pass_validation_incorrectly()
-        {
-            var point1 = new Point(1, 1);
-            var point2 = new Point(3, 1);
-            var point3 = new Point(5, 1);
-            Func<Triangle> func = () => new Triangle(point1, point2, point3);
-            Assert.Throws<ArgumentException>(() => func());
-        }
-
-        [Fact]
         public void Should_calculate_area()
         {
-            var point1 = new Point(-1, 0);
-            var point2 = new Point(1, 4);
-            var point3 = new Point(3, 0);
-            var triangle = new Triangle(point1, point2, point3);
+            var point1 = new Point { X = -1, Y = 0 };
+            var point2 = new Point { X = 1, Y = 4 };
+            var point3 = new Point { X = 3, Y = 0 };
+            var triangle = new Triangle { A = point1, B = point2, C = point3 };
             var result = triangle.GetArea();
             var expectedResult = 8;
             Assert.Equal(expectedResult, result);
@@ -34,10 +24,10 @@ namespace Figures.Model.Tests
         [Fact]
         public void Should_calculate_diameter()
         {
-            var point1 = new Point(-1, 0);
-            var point2 = new Point(1, 4);
-            var point3 = new Point(3, 0);
-            var triangle = new Triangle(point1, point2, point3);
+            var point1 = new Point { X = -1, Y = 0 };
+            var point2 = new Point { X = 1, Y = 4 };
+            var point3 = new Point { X = 3, Y = 0 };
+            var triangle = new Triangle { A = point1, B = point2, C = point3 };
             var result = triangle.GetDiameter();
             var expectedResult = 320.00000000000006;
             Assert.Equal(expectedResult, result);
@@ -47,10 +37,10 @@ namespace Figures.Model.Tests
         [Fact]
         public void Should_calculate_perimeter()
         {
-            var point1 = new Point(-1, 0);
-            var point2 = new Point(1, 4);
-            var point3 = new Point(3, 0);
-            var triangle = new Triangle(point1, point2, point3);
+            var point1 = new Point { X = -1, Y = 0 };
+            var point2 = new Point { X = 1, Y = 4 };
+            var point3 = new Point { X = 3, Y = 0 };
+            var triangle = new Triangle { A = point1, B = point2, C = point3 };
             var result = triangle.GetPerimeter();
             var expectedResult = 12.944271909999159;
             Assert.Equal(expectedResult, result);

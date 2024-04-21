@@ -30,7 +30,7 @@ namespace Figures.Handlers.Tests
                 "\t1. Круг\n\t2. Линия\n\t3. Прямоугольник\n\t4. Кольцо\n\t5. Треугольник\n\t6. Точка",
                 "Введите координаты X:",
                 "Введите координаты Y:");
-            var expectedEntity = new Point(2, 3);
+            var expectedEntity = new Point { X = 2, Y = 3 };
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
             entity.Should().BeEquivalentTo(expectedEntity);
@@ -51,8 +51,8 @@ namespace Figures.Handlers.Tests
                 "Введите координаты Y:",
                 "Введите радиус круга:");
 
-            var point = new Point(2, 3);
-            var expectedEntity = new Circle(point, 5);
+            var point = new Point { X = 2, Y = 3 };
+            var expectedEntity = new Circle { Center = point, Radius = 5 };
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
             entity.Should().BeEquivalentTo(expectedEntity);
@@ -75,9 +75,9 @@ namespace Figures.Handlers.Tests
                 "Введите координаты X:",
                 "Введите координаты Y:");
 
-            var point1 = new Point(2, 3);
-            var point2 = new Point(5, 6);
-            var expectedEntity = new LineSegment(point1, point2);
+            var point1 = new Point { X = 2, Y = 3 };
+            var point2 = new Point { X = 5, Y = 6 };
+            var expectedEntity = new LineSegment { A = point1, B = point2 };
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
             entity.Should().BeEquivalentTo(expectedEntity);
@@ -106,11 +106,11 @@ namespace Figures.Handlers.Tests
                 "Введите координаты X:",
                 "Введите координаты Y:");
 
-            var point1 = new Point(-1, -3);
-            var point2 = new Point(-1, 1);
-            var point3 = new Point(5, 1);
-            var point4 = new Point(5, -3);
-            var expectedEntity = new Rectangle(point1, point2, point3, point4);
+            var point1 = new Point { X = -1, Y = -3 };
+            var point2 = new Point { X = -1, Y = 1 };
+            var point3 = new Point { X = 5, Y = 1 };
+            var point4 = new Point { X = 5, Y = -3 };
+            var expectedEntity = new Rectangle { A = point1, B = point2, C = point3, D = point4 };
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
             entity.Should().BeEquivalentTo(expectedEntity);
@@ -132,8 +132,8 @@ namespace Figures.Handlers.Tests
                 "Введите радиус большего круга:",
                 "Введите радиус меньшего круга:");
 
-            var point = new Point(1, 3);
-            var expectedEntity = new Ring(point, 5, 1);
+            var point = new Point { X = 1, Y = 3 };
+            var expectedEntity = new Ring { Center = point, BigCircleRadius = 5, SmallCircleRadius = 1 };
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
             entity.Should().BeEquivalentTo(expectedEntity);
@@ -159,10 +159,10 @@ namespace Figures.Handlers.Tests
                 "Введите координаты X:",
                 "Введите координаты Y:");
 
-            var point1 = new Point(1, 3);
-            var point2 = new Point(1, 1);
-            var point3 = new Point(5, 1);
-            var expectedEntity = new Triangle(point1, point2, point3);
+            var point1 = new Point { X = 1, Y = 3 };
+            var point2 = new Point { X = 1, Y = 1 };
+            var point3 = new Point { X = 5, Y = 1 };
+            var expectedEntity = new Triangle { A = point1, B = point2, C = point3 };
 
             Assert.Equal(expectedOutput, _outputSb.ToString());
             entity.Should().BeEquivalentTo(expectedEntity);

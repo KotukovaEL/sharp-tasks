@@ -12,10 +12,6 @@ namespace Figures.Model
         public double SmallCircleRadius { get; set; }
         public Point Center { get; set; }
 
-        public Ring()
-        {
-        }
-
         public override double GetArea()
         {
             return Math.PI * ((BigCircleRadius * BigCircleRadius) - (SmallCircleRadius * SmallCircleRadius));

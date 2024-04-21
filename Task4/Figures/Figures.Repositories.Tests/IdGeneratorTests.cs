@@ -25,8 +25,8 @@ namespace Figures.Repositories.Tests
         {
             var entity = new Dictionary<int, GeometricEntity>
             {
-                { 1, new Point(6, 8) { Id = 1 } },
-                { 4, new Point(12, 12) { Id = 4 } },
+                { 1, new Point { X = 6, Y = 8, Id = 1 } },
+                { 4, new Point { X = 12, Y = 12, Id = 4 } },
             };
 
             var idGenerator = new IdGenerator();
@@ -51,8 +51,8 @@ namespace Figures.Repositories.Tests
         {
             var entity = new Dictionary<int, GeometricEntity>
             {
-                { 1, new Point(6, 8) { Id = 1 } },
-                { 4, new Point(12, 12) { Id = 4 } },
+                { 1, new Point { X = 6, Y = 8, Id = 1 } },
+                { 4, new Point { X = 12, Y = 12, Id = 4 } },
             };
 
             var idGenerator = new IdGenerator();

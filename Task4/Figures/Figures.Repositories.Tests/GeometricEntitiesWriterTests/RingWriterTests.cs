@@ -23,10 +23,10 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
                 .Callback(() => calledPointWriter = true);
             
             var RingWriter = new RingWriter(pointWriter.Object);
-            var center = new Point(2, 2);
+            var center = new Point { X = 2, Y = 2 };
             var bigRadius = 4;
             var shortRadius = 3;
-            var ring = new Ring(center, bigRadius, shortRadius) { Id = 1 };
+            var ring = new Ring { Center = center, BigCircleRadius = bigRadius, SmallCircleRadius = shortRadius, Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(ring.Id);
 

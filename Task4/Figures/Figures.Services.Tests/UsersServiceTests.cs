@@ -13,7 +13,7 @@ namespace Figures.Services.Tests
         [Fact]
         public void Should_add_figure_correctly()
         {
-            var userFromRepo = new User("Name");
+            var userFromRepo = new User { Name = "Name" };
             GeometricEntity? entityFromRepo = null;
             var calledAddFigure = false;
 
@@ -28,7 +28,7 @@ namespace Figures.Services.Tests
                 .Callback(() => calledAddFigure = true);
 
             var usersService = new UsersService(entitiesRepo.Object, usersRepo.Object);
-            var point = new Point(6, 8) { Id = 1 };
+            var point = new Point { X = 6, Y = 8, Id = 1 };
 
             usersService.AddFigure("Name", point);
             entityFromRepo.Should().BeEquivalentTo(point);
@@ -38,15 +38,15 @@ namespace Figures.Services.Tests
         [Fact]
         public void Should_list_figures()
         {
-            var userFromRepo = new User("Name");
+            var userFromRepo = new User { Name = "Name" };
             userFromRepo.EntityIdList.AddRange(new int[] { 2, 4 });
 
             var entitiesFromRepo = new List<GeometricEntity>()
             {
-                new Point(6, 8) { Id = 1 },
-                new Circle(new Point(5, 4), 8) { Id = 2 },
-                new LineSegment(new Point(9, 11), new Point(10, 11)) { Id = 3 },
-                new Point(12, 12) { Id = 4 },
+                new Point { X = 6, Y = 8, Id = 1 },
+                new Circle { Center = new Point { X = 5, Y = 4, Id = 1 }, Radius = 8, Id = 2 },
+                new LineSegment { A = new Point { X = 9, Y = 11 }, B = new Point { X = 10, Y = 11 }, Id = 3 },
+                new Point { X = 12, Y = 12, Id = 4 },
             };
 
             var usersRepo = new Mock<IUsersRepository>();
@@ -64,8 +64,8 @@ namespace Figures.Services.Tests
 
             var expectedResults = new List<GeometricEntity>()
             {
-                new Circle(new Point(5, 4), 8) { Id = 2 },
-                new Point(12, 12) { Id = 4 },
+                new Circle { Center = new Point { X = 5, Y = 4, Id = 1 }, Radius = 8, Id = 2 },
+                new Point { X = 12, Y = 12, Id = 4 },
             };
 
             results.Should().BeEquivalentTo(expectedResults);
@@ -75,15 +75,15 @@ namespace Figures.Services.Tests
         public void Should_delete_figures_correctly()
         {
             var calledDelete = false;
-            var userFromRepo = new User("Name");
+            var userFromRepo = new User { Name = "Name" };
             userFromRepo.EntityIdList.AddRange(new[] { 1, 2, 3, 4 });
 
             var entitiesFromRepo = new List<GeometricEntity>()
             {
-                new Point(6, 8) { Id = 1 },
-                new Circle(new Point(5, 4), 8) { Id = 2 },
-                new LineSegment(new Point(9, 11), new Point(10, 11)) { Id = 3 },
-                new Point(12, 12) { Id = 4 },
+                new Point { X = 6, Y = 8, Id = 1 },
+                new Circle { Center = new Point { X = 5, Y = 4 }, Radius = 8, Id = 2 },
+                new LineSegment { A = new Point { X = 9, Y = 11 }, B = new Point { X = 10, Y = 11 }, Id = 3 },
+                new Point { X = 12, Y = 12, Id = 4 },
             };
 
             var usersRepo = new Mock<IUsersRepository>();

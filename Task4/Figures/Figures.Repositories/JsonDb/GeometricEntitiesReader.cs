@@ -7,7 +7,6 @@ namespace Figures.Repositories.JsonDb
 {
     public class GeometricEntitiesReader : IGeometricEntitiesReader
     {
-        private readonly GeometricEntitiesDto _geometricEntitiesDto = new();
         private readonly ISourceIO _sourceIO;
 
         public GeometricEntitiesReader(ISourceIO sourceIO)
@@ -25,7 +24,7 @@ namespace Figures.Repositories.JsonDb
             }
 
             var geometricEntitiesDto = JsonSerializer.Deserialize<GeometricEntitiesDto> (jsonStr, JsonSettings.JsonOptions);
-            var entityMap = _geometricEntitiesDto.AddEntities(geometricEntitiesDto);
+            var entityMap = geometricEntitiesDto.AddEntities();
             return new GeometricEntitiesContext(entityMap);
         }
     }

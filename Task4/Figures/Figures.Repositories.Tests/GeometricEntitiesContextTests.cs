@@ -18,13 +18,13 @@ namespace Figures.Repositories.Tests
         {
             var entitiesMap = new Dictionary<int, GeometricEntity>
             {
-                { 1, new Point(6, 8) { Id = 1 } },
-                { 4, new Point(12, 12) { Id = 4 } },
+                { 1, new Point { X = 6, Y = 8, Id = 1 } },
+                { 4, new Point { X = 12, Y = 12, Id = 4 } },
             };
 
             var context = new GeometricEntitiesContext(entitiesMap);
             var entity = context.GetByKey(1);
-            var expectedResults = new Point(6, 8) { Id = 1 };
+            var expectedResults = new Point { X = 6, Y = 8, Id = 1 };
             entity.Should().BeEquivalentTo(expectedResults);
         }
 
@@ -33,8 +33,8 @@ namespace Figures.Repositories.Tests
         {
             var entitiesMap = new Dictionary<int, GeometricEntity>
             {
-                { 1, new Point(6, 8) { Id = 1 } },
-                { 4, new Point(12, 12) { Id = 4 } },
+                { 1, new Point { X = 6, Y = 8, Id = 1 } },
+                { 4, new Point { X = 12, Y = 12, Id = 4 } },
             };
 
             var context = new GeometricEntitiesContext(entitiesMap);
@@ -42,8 +42,8 @@ namespace Figures.Repositories.Tests
 
             var expectedResults = new List<GeometricEntity> 
             {
-                { new Point(6, 8) { Id = 1 } },
-                { new Point(12, 12) { Id = 4 } },
+                { new Point { X = 6, Y = 8, Id = 1 } },
+                { new Point { X = 12, Y = 12, Id = 4 } },
             };
 
             geometricEntities.Should().BeEquivalentTo(expectedResults);
@@ -57,13 +57,13 @@ namespace Figures.Repositories.Tests
             };
 
             var context = new GeometricEntitiesContext(entitiesMap);
-            var point = new Point(2, 5) { Id = 1 };
+            var point = new Point { X = 2, Y = 5, Id = 1 };
             context.Add(point);
 
             var geometricEntities = context.List();
             var expectedResults = new List<GeometricEntity>
             {
-                { new Point(2, 5) { Id = 1 } },
+                { new Point { X = 2, Y = 5, Id = 1 } },
             };
 
             geometricEntities.Should().BeEquivalentTo(expectedResults);
@@ -74,8 +74,8 @@ namespace Figures.Repositories.Tests
         {
             var entitiesMap = new Dictionary<int, GeometricEntity>
             {
-                { 1, new Point(6, 8) { Id = 1 } },
-                { 4, new Point(12, 12) { Id = 4 } },
+                { 1, new Point { X = 6, Y = 8, Id = 1 } },
+                { 4, new Point { X = 12, Y = 12, Id = 4 } },
             };
 
             var context = new GeometricEntitiesContext(entitiesMap);
@@ -84,7 +84,7 @@ namespace Figures.Repositories.Tests
             var geometricEntities = context.List();
             var expectedResults = new List<GeometricEntity>
             {
-                { new Point(6, 8) { Id = 1 } },
+                { new Point { X = 6, Y = 8, Id = 1 } },
             };
 
             geometricEntities.Should().BeEquivalentTo(expectedResults);

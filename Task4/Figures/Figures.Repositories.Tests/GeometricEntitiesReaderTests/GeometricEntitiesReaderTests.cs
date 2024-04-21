@@ -35,7 +35,7 @@ namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
             var results = geometricEntitiesReader.ReadFile();
             var entitiesMap = new Dictionary<int, GeometricEntity>
             {
-                {1, new Point(7, 8) { Id = 1 } },
+                {1, new Point { X = 7, Y = 8, Id = 1 } },
             };
             var expectedResults = new GeometricEntitiesContext(entitiesMap);
             results.Should().BeEquivalentTo(expectedResults);

@@ -15,7 +15,7 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             using var txtWriter = new TestTextWriter(memorySystem);
 
             var writer = new PointWriter();
-            var point = new Point(1, 1) { Id = 1 };
+            var point = new Point { X = 1, Y = 1, Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(point.Id);
 

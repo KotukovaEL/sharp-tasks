@@ -23,7 +23,7 @@ namespace Figures.Repositories.Tests
 
             var usersMap = new Dictionary<string, User>
             {
-                { "name", new User("name")},
+                { "name", new User { Name = "name" }},
             };
 
             var usersReader = new Mock<IUsersReader>();
@@ -32,7 +32,7 @@ namespace Figures.Repositories.Tests
                 .Returns(usersMap);
 
             var repo = new UsersRepository(usersWriter.Object, usersReader.Object);
-            var expectedUser = new User("Name");
+            var expectedUser = new User { Name = "Name" };
             repo.TryAdd(expectedUser.Name);
             Assert.True(calledSaveChanges);
         }
@@ -43,7 +43,7 @@ namespace Figures.Repositories.Tests
             var usersWriter = new Mock<IUsersWriter>();
             var usersMap = new Dictionary<string, User>
             {
-                { "name", new User("name")},
+                { "name", new User { Name = "name" }},
             };
 
             var usersReader = new Mock<IUsersReader>();
@@ -53,7 +53,7 @@ namespace Figures.Repositories.Tests
 
             var repo = new UsersRepository(usersWriter.Object, usersReader.Object);
             var results = repo.GetUser("name");
-            var expectedUser = new User("name");
+            var expectedUser = new User { Name = "name" };
             results.Should().BeEquivalentTo(expectedUser);
         }
 
@@ -63,7 +63,7 @@ namespace Figures.Repositories.Tests
             var calledSaveChanges = false;
             var usersMap = new Dictionary<string, User>
             {
-                { "name", new User("name")},
+                { "name", new User { Name = "name" }},
             };
 
             var usersWriter = new Mock<IUsersWriter>();

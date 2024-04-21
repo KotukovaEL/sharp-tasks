@@ -31,7 +31,7 @@ namespace Figures.Handlers.Tests
         {
             _inputs = new[] { "Name", "1", "5" };
 
-            var logic = CreateHandler(() => new Point(2, 2));
+            var logic = CreateHandler(() => new Point { X = 2, Y = 2 });
             logic.Run();
 
             string expectedOutput = string.Join(null,
@@ -50,8 +50,8 @@ namespace Figures.Handlers.Tests
         public void Should_list_figure_correctly()
         {
             _inputs = new[] { "Name", "2", "5", };
-            _entities.Add(new Point(2, 2));
-            var logic = CreateHandler(() => new Point(2, 2));
+            _entities.Add(new Point { X = 2, Y = 2 });
+            var logic = CreateHandler(() => new Point { X = 2, Y = 2 });
             logic.Run();
 
             string expectedOutput = string.Join(null,
@@ -70,7 +70,7 @@ namespace Figures.Handlers.Tests
         {
             _inputs = new[] { "Name", "3", "2", "5", };
 
-            var logic = CreateHandler(() => new Point(2, 2));
+            var logic = CreateHandler(() => new Point { X = 2, Y = 2 });
             logic.Run();
 
             string expectedOutput = string.Join(null,
@@ -92,7 +92,7 @@ namespace Figures.Handlers.Tests
         {
             _inputs = new[] {"Name", "6", "5" };
 
-            var logic = CreateHandler(() => new Point(2, 2));
+            var logic = CreateHandler(() => new Point { X = 2, Y = 2 });
             logic.Run();
 
             string expectedOutput = string.Join(null,

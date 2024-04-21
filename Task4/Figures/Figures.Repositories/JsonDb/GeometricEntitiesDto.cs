@@ -48,21 +48,17 @@ namespace Figures.Repositories.JsonDb
             }
         }
 
-        public Dictionary<int, GeometricEntity> AddEntities(GeometricEntitiesDto geometricEntitiesDto)
+        public Dictionary<int, GeometricEntity> AddEntities()
         {
-            var entitiesMap = Enumerable.Empty<GeometricEntity>();
-            {
-                entitiesMap.Concat(geometricEntitiesDto.Points);
-                entitiesMap.Concat(geometricEntitiesDto.LineSegments);
-                entitiesMap.Concat(geometricEntitiesDto.Circles);
-                entitiesMap.Concat(geometricEntitiesDto.Triangles);
-                entitiesMap.Concat(geometricEntitiesDto.Rectangles);
-                entitiesMap.Concat(geometricEntitiesDto.Rings);
-            }
-
-            var map = entitiesMap.ToDictionary(key => key.Id);
-
-            return map;
+            return Enumerable.Empty<GeometricEntity>()
+                .Concat(Points)
+                .Concat(LineSegments)
+                .Concat(Circles)
+                .Concat(Triangles)
+                .Concat(Rectangles)
+                .Concat(Rings)
+                .ToDictionary(key => key.Id);
+                
         }
     }
 }

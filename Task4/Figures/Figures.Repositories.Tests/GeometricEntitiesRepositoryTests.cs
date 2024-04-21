@@ -17,8 +17,8 @@ namespace Figures.Services.Tests
         {
             var entitiesMap = new Dictionary<int, GeometricEntity> 
             { 
-                { 1, new Point(6, 8) { Id = 1 } },
-                { 4, new Point(12, 12) { Id = 4 } },
+                { 1, new Point { X = 6, Y = 8, Id = 1 } },
+                { 4, new Point { X = 12, Y = 12, Id = 4 } },
             };
 
             var context = new GeometricEntitiesContext(entitiesMap);
@@ -35,8 +35,8 @@ namespace Figures.Services.Tests
 
             var expectedResults = new List<GeometricEntity>()
             {
-                new Point(6, 8) { Id = 1 },
-                new Point(12, 12) { Id = 4 },
+                new Point { X = 6, Y = 8, Id = 1 },
+                new Point { X = 12, Y = 12, Id = 4 },
             };
 
             results.Should().BeEquivalentTo(expectedResults);
@@ -45,7 +45,7 @@ namespace Figures.Services.Tests
         [Fact]
         public void Should_get_entity_by_id_correctly()
         {
-            var entitiesMap = new Dictionary<int, GeometricEntity> {{ 1, new Point(6, 8) { Id = 1 } }};
+            var entitiesMap = new Dictionary<int, GeometricEntity> {{ 1, new Point { X = 6, Y = 8, Id = 1 } }};
             var context = new GeometricEntitiesContext(entitiesMap);
 
             var writer = new Mock<IGeometricEntitiesWriter>();
@@ -57,7 +57,7 @@ namespace Figures.Services.Tests
 
             var repo = new GeometricEntitiesRepository(writer.Object, reader.Object);
             var result = repo.GetEntityById(1);
-            var expectedResult = new Point(6, 8) { Id = 1 };
+            var expectedResult = new Point { X = 6, Y = 8, Id = 1 };
             result.Should().BeEquivalentTo(expectedResult);
         }
 
@@ -79,7 +79,7 @@ namespace Figures.Services.Tests
                 .Returns(() => context);
 
             var repo = new GeometricEntitiesRepository(writer.Object, reader.Object);
-            var point = new Point(6, 8) { Id = 1 };
+            var point = new Point { X = 6, Y = 8, Id = 1 };
             repo.Add(point);
             var expectedResult = context.GetByKey(point.Id);
             point.Should().BeEquivalentTo(expectedResult);
@@ -91,8 +91,8 @@ namespace Figures.Services.Tests
         {
             var entitiesMap = new Dictionary<int, GeometricEntity>
             {
-                { 1, new Point(6, 8) { Id = 1 } },
-                { 4, new Point(12, 12) { Id = 4 } },
+                { 1, new Point { X = 6, Y = 8, Id = 1 } },
+                { 4, new Point { X = 12, Y = 12, Id = 4 } },
             };
 
             var context = new GeometricEntitiesContext(entitiesMap);
@@ -113,7 +113,7 @@ namespace Figures.Services.Tests
             var results = repo.List();
             var expectedResults = new List<GeometricEntity>()
             {
-                new Point(6, 8) { Id = 1 }
+                new Point { X = 6, Y = 8, Id = 1 }
             };
 
             Assert.True(calledSaveChanges);

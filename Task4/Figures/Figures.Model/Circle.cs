@@ -7,10 +7,6 @@ namespace Figures.Model
         public Point Center { get; set; }
         public double Radius { get; set; }
 
-        public Circle()
-        {
-        }
-
         public override double GetArea()
         {
             return Math.PI * Radius * Radius;

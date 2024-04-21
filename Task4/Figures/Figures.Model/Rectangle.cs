@@ -13,10 +13,6 @@ namespace Figures.Model
         public double SecondSide => GeometricHelpers.GetSide(B, C);
         public bool IsSquare => FirstSide == SecondSide;
 
-        public Rectangle()
-        {
-        }
-
         public override double GetArea()
         {
             return FirstSide * SecondSide;

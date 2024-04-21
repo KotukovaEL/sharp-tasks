@@ -6,10 +6,6 @@ namespace Figures.Model
         public Point A { get; set; }
         public Point B { get; set; }
 
-        public LineSegment()
-        {
-        }
-
         public override string ToString()
         {
             return $"Id линии: {Id}. Линия: точка А: '{A.X}','{A.Y}'; точка B: '{B.X}','{B.Y}'.";

@@ -23,9 +23,9 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
                 .Callback(() => calledPointWriter = true);
             
             var lineSegmentWriter = new LineSegmentWriter(pointWriter.Object);
-            var pointA = new Point(2, 2);
-            var pointB = new Point(3, 3);
-            var lineSegment = new LineSegment(pointA, pointB) { Id = 1 };
+            var pointA = new Point { X = 2, Y = 2 };
+            var pointB = new Point { X = 3, Y = 3 };
+            var lineSegment = new LineSegment { A = pointA, B = pointB, Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(lineSegment.Id);
 

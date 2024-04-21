@@ -24,8 +24,8 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
                 .Callback(() => calledPointWriter = true);
            var circleWriter = new CircleWriter(pointWriter.Object); 
 
-            var center = new Point(2, 2);
-            var circle = new Circle(center, 5) { Id = 1 };
+            var center = new Point { X = 2, Y = 2 };
+            var circle = new Circle { Center = center, Radius = 5, Id = 1 };
             var idGenerator = new IdGenerator();
             idGenerator.Add(circle.Id);
 

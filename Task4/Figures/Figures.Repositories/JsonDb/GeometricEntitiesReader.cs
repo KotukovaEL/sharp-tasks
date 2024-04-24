@@ -1,6 +1,4 @@
-﻿using Figures.Model;
-using Figures.Repositories.Interface;
-using System.Collections.Generic;
+﻿using Figures.Repositories.Interface;
 using System.Text.Json;
 
 namespace Figures.Repositories.JsonDb
@@ -18,13 +16,13 @@ namespace Figures.Repositories.JsonDb
         {
             var jsonStr = _sourceIO.ReadAllText();
 
-            if (jsonStr == string.Empty)
+            if (string.IsNullOrWhiteSpace(jsonStr))
             {
                 return new GeometricEntitiesContext();
             }
 
             var geometricEntitiesDto = JsonSerializer.Deserialize<GeometricEntitiesDto> (jsonStr, JsonSettings.JsonOptions);
-            var entityMap = geometricEntitiesDto.AddEntities();
+            var entityMap = DtoHelpers.GetEntities(geometricEntitiesDto);
             return new GeometricEntitiesContext(entityMap);
         }
     }

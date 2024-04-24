@@ -14,7 +14,7 @@ namespace Figures.Repositories.JsonDb
 
         public void SaveChanges(GeometricEntitiesContext context)
         {
-            var geometricEntitiesDto = new GeometricEntitiesDto(context.List());
+            var geometricEntitiesDto = DtoHelpers.AddEntities(context.List());
             var json = JsonSerializer.Serialize(geometricEntitiesDto, JsonSettings.JsonOptions);
             _sourceIO.WriteAllText(json);
         }

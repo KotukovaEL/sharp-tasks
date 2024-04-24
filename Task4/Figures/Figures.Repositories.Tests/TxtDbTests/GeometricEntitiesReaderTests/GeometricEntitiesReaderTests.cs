@@ -5,14 +5,14 @@ using Moq;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
+namespace Figures.Repositories.Tests.TxtDbTests.GeometricEntitiesReaderTests
 {
     public class GeometricEntitiesReaderTests
     {
         [Fact]
         public void Should_read_correctly()
-        { 
-            var lines = new string[] 
+        {
+            var lines = new string[]
             {
                 "Id: 1",
                 "X: 7",

@@ -4,7 +4,7 @@ using FluentAssertions;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
+namespace Figures.Repositories.Tests.TxtDbTests.GeometricEntitiesReaderTests
 {
     public class LineSegmentReaderTests
     {
@@ -28,10 +28,11 @@ namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
 
             var lineSegmentReader = new LineSegmentReader();
             var results = lineSegmentReader.Read(fieldsMap, context);
-            var expectedResults = new LineSegment { 
+            var expectedResults = new LineSegment
+            {
                 A = new Point { X = 2, Y = 3, Id = 2 },
                 B = new Point { X = 3, Y = 3, Id = 3 },
-                Id = 1 
+                Id = 1
             };
 
             results.Should().BeEquivalentTo(expectedResults);

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
+namespace Figures.Repositories.Tests.TxtDbTests.GeometricEntitiesWriterTests
 {
     public class GeometricEntitiesWriterTests
     {
@@ -45,7 +45,7 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
         [Fact]
         public void Should_throw_ArgumentException_correctly()
         {
-            
+
             var sourceIO = new Mock<ISourceIO>();
             var writerMap = new Dictionary<string, IEntityWriter<GeometricEntity>>();
             var geometricEntitiesWriter = new GeometricEntitiesWriter(sourceIO.Object, writerMap);
@@ -56,7 +56,7 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             };
 
             var context = new GeometricEntitiesContext(entitiesMap);
-            
+
             Action func = () => geometricEntitiesWriter.SaveChanges(context);
             Assert.Throws<ArgumentException>(() => func());
         }

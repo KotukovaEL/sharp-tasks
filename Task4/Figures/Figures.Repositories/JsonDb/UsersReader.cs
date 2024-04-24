@@ -22,7 +22,7 @@ namespace Figures.Repositories.JsonDb
             var usersMap = new Dictionary<string, User>();
             var jsonStr = _sourceIO.ReadAllText();
 
-            if (jsonStr == string.Empty)
+            if (string.IsNullOrWhiteSpace(jsonStr))
             {
                 return usersMap;
             }

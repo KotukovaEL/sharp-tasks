@@ -1,16 +1,17 @@
 ﻿using Figures.Model;
 using Figures.Repositories.TxtDb.Writers;
+using Figures.Repositories.Writers;
 using Moq;
 using System;
 using System.IO;
 using Xunit;
 
-namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
+namespace Figures.Repositories.Tests.TxtDbTests.GeometricEntitiesWriterTests
 {
-    public class RectangleWriterTests
+    public class CircleWriterTests
     {
         [Fact]
-        public void Should_save_changes_for_rectangle_correctly()
+        public void Should_save_changes_for_circle_correctly()
         {
             using var memoryStream = new MemoryStream();
             using var txtWriter = new TestTextWriter(memoryStream);
@@ -21,17 +22,14 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
             pointWriter
                 .Setup(x => x.Save(It.IsAny<TextWriter>(), It.IsAny<Point>(), It.IsAny<IdGenerator>()))
                 .Callback(() => calledPointWriter = true);
-            
-            var rectangleWriter = new RectangleWriter(pointWriter.Object);
-            var pointA = new Point { X = 1, Y = 1 };
-            var pointB = new Point { X = 1, Y = 1 };
-            var pointC = new Point { X = 4, Y = 4 };
-            var pointD = new Point { X = 4, Y = 4 };
-            var rectangle = new Rectangle { A = pointA, B = pointB, C = pointC, D = pointD, Id = 1 };
-            var idGenerator = new IdGenerator();
-            idGenerator.Add(rectangle.Id);
+            var circleWriter = new CircleWriter(pointWriter.Object);
 
-            rectangleWriter.Save(txtWriter, rectangle, idGenerator);
+            var center = new Point { X = 2, Y = 2 };
+            var circle = new Circle { Center = center, Radius = 5, Id = 1 };
+            var idGenerator = new IdGenerator();
+            idGenerator.Add(circle.Id);
+
+            circleWriter.Save(txtWriter, circle, idGenerator);
 
             memoryStream.Seek(0, SeekOrigin.Begin);
 
@@ -40,11 +38,9 @@ namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
 
             var expectedResults = string.Join(Environment.NewLine,
                 " Id: 1",
-                " A: 2",
-                " B: 3",
-                " C: 4",
-                " D: 5",
-                "Rectangle",
+                " Center: 2",
+                " Radius: 5",
+                "Circle",
                 "",
                 "");
 

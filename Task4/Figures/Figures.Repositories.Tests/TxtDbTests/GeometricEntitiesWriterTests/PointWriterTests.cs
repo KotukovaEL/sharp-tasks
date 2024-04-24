@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using Xunit;
 
-namespace Figures.Repositories.Tests.GeometricEntitiesWriterTests
+namespace Figures.Repositories.Tests.TxtDbTests.GeometricEntitiesWriterTests
 {
     public class PointWriterTests
     {

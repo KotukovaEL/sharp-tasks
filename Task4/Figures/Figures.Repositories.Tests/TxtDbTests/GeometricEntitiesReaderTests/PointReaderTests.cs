@@ -4,7 +4,7 @@ using FluentAssertions;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Figures.Repositories.Tests.GeometricEntitiesReaderTests
+namespace Figures.Repositories.Tests.TxtDbTests.GeometricEntitiesReaderTests
 {
     public class PointReaderTests
     {

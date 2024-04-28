@@ -15,7 +15,15 @@ namespace Figures.Repositories.Tests.JsonDbTests
         [Fact]
         public void Should_read_correctly()
         {
-            var jsonStr = "{\r\n  \"name\": {\r\n    \"Name\": \"name\",\r\n    \"EntityIdList\": [\r\n      1\r\n    ]\r\n  }\r\n}";
+            var jsonStr = @"
+{
+ ""name"": { 
+  ""Name"": ""name"",
+  ""EntityIdList"": [
+   1 
+  ]
+ }
+}";
 
             var sourceIO = new Mock<ISourceIO>();
             sourceIO

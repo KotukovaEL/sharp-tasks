@@ -22,7 +22,7 @@ namespace Figures.Repositories.Tests.JsonDbTests
                 new Point { X = 1, Y = 3, Id = 2 },
             };
 
-            var results = DtoHelpers.AddEntities(entityList);
+            var results = DtoHelpers.ConvertToDto(entityList);
 
             var pointList = new List<Point>
             {
@@ -43,7 +43,7 @@ namespace Figures.Repositories.Tests.JsonDbTests
                 new Point { X = 1, Y = 3, Id = 2 },}
             };
 
-            var results = DtoHelpers.GetEntities(geometricEntitiesDto);
+            var results = DtoHelpers.ConvertFromDto(geometricEntitiesDto);
 
             var pointList = new List<Point>
             {

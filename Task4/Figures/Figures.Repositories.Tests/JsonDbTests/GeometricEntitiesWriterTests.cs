@@ -18,7 +18,21 @@ namespace Figures.Repositories.Tests.JsonDbTests
         public void Should_save_changes_correctly()
         {
             var calledWriteAllText = false;
-            var jsonStr = "{\r\n  \"Points\": [\r\n    {\r\n      \"X\": 4,\r\n      \"Y\": 5,\r\n      \"Id\": 1\r\n    }\r\n  ],\r\n  \"LineSegments\": [],\r\n  \"Circles\": [],\r\n  \"Rectangles\": [],\r\n  \"Triangles\": [],\r\n  \"Rings\": []\r\n}";
+            var jsonStr = @"{
+  ""Points"": [
+    {
+      ""X"": 4,
+      ""Y"": 5,
+      ""Id"": 1
+    }
+  ],
+  ""LineSegments"": [],
+  ""Circles"": [],
+  ""Rectangles"": [],
+  ""Triangles"": [],
+  ""Rings"": []
+}";
+         
             var sourceIO = new Mock<ISourceIO>();
             sourceIO
                 .Setup(x => x.WriteAllText(jsonStr))

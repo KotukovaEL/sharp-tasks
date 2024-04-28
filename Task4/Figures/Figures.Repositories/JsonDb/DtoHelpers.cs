@@ -7,7 +7,7 @@ namespace Figures.Repositories.JsonDb
 {
     public static class DtoHelpers
     {
-        public static GeometricEntitiesDto AddEntities(List<GeometricEntity> entities)
+        public static GeometricEntitiesDto ConvertToDto(List<GeometricEntity> entities)
         {
             var geometricEntitiesDto = new GeometricEntitiesDto();
 
@@ -41,7 +41,7 @@ namespace Figures.Repositories.JsonDb
             return geometricEntitiesDto;
         }
 
-        public static Dictionary<int, GeometricEntity> GetEntities(GeometricEntitiesDto geometricEntitiesDto)
+        public static Dictionary<int, GeometricEntity> ConvertFromDto(GeometricEntitiesDto geometricEntitiesDto)
         {
             return Enumerable.Empty<GeometricEntity>()
                 .Concat(geometricEntitiesDto.Points)

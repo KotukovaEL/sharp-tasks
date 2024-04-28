@@ -22,7 +22,7 @@ namespace Figures.Repositories.JsonDb
             }
 
             var geometricEntitiesDto = JsonSerializer.Deserialize<GeometricEntitiesDto> (jsonStr, JsonSettings.JsonOptions);
-            var entityMap = DtoHelpers.GetEntities(geometricEntitiesDto);
+            var entityMap = DtoHelpers.ConvertFromDto(geometricEntitiesDto);
             return new GeometricEntitiesContext(entityMap);
         }
     }

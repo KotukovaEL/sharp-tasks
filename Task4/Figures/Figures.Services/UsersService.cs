@@ -1,52 +1,51 @@
-﻿using Figures.Model;
+﻿using Figures.Common.Interfaces;
+using Figures.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 
 namespace Figures.Services
 {
-    public class UsersService
+    public class UsersService : IUsersService
     {
-        private readonly Dictionary<string, User> _userMap;
+        private readonly IGeometricEntitiesRepository _entitiesRepository;
+        private readonly IUsersRepository _usersRepository;
 
-        public UsersService()
+        public UsersService(IGeometricEntitiesRepository entitiesRepository, IUsersRepository usersRepository)
         {
-            _userMap = new Dictionary<string, User>();
+            _entitiesRepository = entitiesRepository;
+            _usersRepository = usersRepository;
         }
-        public void AddFigures(string name, GeometricEntity geometricEntity)
+
+        public void AddFigure(string name, GeometricEntity geometricEntity)
         {
-            var user = GetUser(name);
-            user.GeometricEntities.Add(geometricEntity);
+            _entitiesRepository.Add(geometricEntity);
+            _usersRepository.AddFigure(name, geometricEntity.Id);            
         }
-        
+
         public List<GeometricEntity> ListFigures(string name)
         {
-            var user = GetUser(name);
-            return new List<GeometricEntity>(user.GeometricEntities);
+            var entities = new List<GeometricEntity>();
+            var user = _usersRepository.GetUser(name);
+
+            foreach (var entityId in user.EntityIdList)
+            {
+                var entity = _entitiesRepository.GetEntityById(entityId);
+                entities.Add(entity);
+            }
+
+            return entities;
         }
 
-        public void ClearFigures(string name)
+        public void DeleteFigures(string name)
         {
-            var user = GetUser(name);
-            user.GeometricEntities.Clear();
+            var user = _usersRepository.GetUser(name);
+            _entitiesRepository.DeleteFiguresByIds(user.EntityIdList);
+            user.EntityIdList.Clear();
         }
 
         public void Authorize(string name)
         {
-            _userMap.TryAdd(name, new User(name));
-        }
-
-        private User GetUser(string name)
-        {
-            if (!_userMap.TryGetValue(name, out User user))
-            {
-                throw new ArgumentException($"User {name} was not found");
-            }
-
-            return user;
+            _usersRepository.TryAdd(name);
         }
     }
 }

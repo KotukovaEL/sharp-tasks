@@ -6,19 +6,8 @@ namespace Figures.Model
 {
     public class User 
     {
-        public string Name { get; }
+        public string Name { get; set; }
 
-        public List<GeometricEntity> GeometricEntities { get; }
-
-        public User(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("The name must not empty.");
-            }
-
-            Name = name;
-            GeometricEntities = new List<GeometricEntity>();
-        }
+        public List<int> EntityIdList { get; set; } = new List<int>();
     }
 }

@@ -8,13 +8,8 @@ namespace Figures.Model
 {
     public class Point : GeometricEntity, IEquatable<Point>
     {
-        public double X { get; }
-        public double Y { get; }
-        public Point(double x, double y)
-        {
-            X = x;
-            Y = y;
-        }
+        public double X { get; set; }
+        public double Y { get; set; }
 
         public override bool Equals(object? obj)
         {
@@ -35,7 +30,7 @@ namespace Figures.Model
 
         public override string ToString()
         {
-            return $"Точка: координаты: '{X}','{Y}'.";
+            return $"Id точки: {Id}. Точка: координаты: '{X}','{Y}'.";
         }
     }
 }

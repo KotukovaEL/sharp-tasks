@@ -6,8 +6,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Entities.json" />
+    <None Remove="Entities.txt" />
+    <None Remove="Users.json" />
+    <None Remove="Users.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Entities.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Entities.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Users.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Users.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Figures.Handlers\Figures.Handlers.csproj" />
     <ProjectReference Include="..\Figures.Model\Figures.Model.csproj" />
     <ProjectReference Include="..\Figures.Repositories\Figures.Repositories.csproj" />
+    <ProjectReference Include="..\Figures.Services\Figures.Services.csproj" />
   </ItemGroup>
 
 </Project>

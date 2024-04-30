@@ -7,8 +7,8 @@ namespace WeakestLink.App
         static void Main(string[] args)
         {
             var userInteractor = new ConsoleUserInteractor();
-            var fillingList = new FillingList();
-            var handler = new WeakestLinkAppHandler(userInteractor, fillingList);
+            var weakestLinkGame = new WeakestLinkGame(userInteractor);
+            var handler = new WeakestLinkAppHandler(userInteractor, weakestLinkGame);
             handler.Run();
         }
     }

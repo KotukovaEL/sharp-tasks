@@ -7,26 +7,22 @@ namespace WeakestLink.Handlers
     public class WeakestLinkAppHandler
     {
         private readonly IUserInteractor _userInteractor;
-        private readonly IFillingList _fillingList;
+        private readonly IWeakestLinkGame _weakestLinkGame;
 
-        public WeakestLinkAppHandler(IUserInteractor userInteractor, IFillingList fillingList)
+        public WeakestLinkAppHandler(IUserInteractor userInteractor, IWeakestLinkGame weakestLinkGame)
         {
             _userInteractor = userInteractor;
-            _fillingList = fillingList;
+            _weakestLinkGame = weakestLinkGame;
         }
 
         public void Run()
         {
             _userInteractor.PrintMessage("Введите N: ");
-            var numberPeople = Parsing.IntParse(_userInteractor, _userInteractor.ReadStr());
+            var playersCount = int.Parse(_userInteractor.ReadStr());
             
             _userInteractor.PrintMessage("Введите, какой по счету человек будет вычеркнут каждый раунд: ");
-            var numberPersonDelete = Parsing.IntParse(_userInteractor, _userInteractor.ReadStr()); 
-            
-            _userInteractor.PrintMessage($"Сгенерирован круг людей. Начинаем вычеркивать каждого {numberPersonDelete}");
-            
-            var peopleList = _fillingList.FillList(numberPeople);
-            DeletionPeople.DeletePeople(peopleList, numberPersonDelete, _userInteractor);
+            var strikeoutNumber = int.Parse(_userInteractor.ReadStr()); 
+            _weakestLinkGame.Run(playersCount, strikeoutNumber);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WeakestLink.Handlers
+namespace WeakestLink.Handlers.ListImplementation
 {
     public class WeakestLinkGame : IWeakestLinkGame
     {

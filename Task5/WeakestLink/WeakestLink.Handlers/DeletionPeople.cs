@@ -9,14 +9,14 @@ namespace WeakestLink.Handlers
         public static void DeletePeople(List<int> peopleList, int numberPersonDelete, IUserInteractor userInteractor)
         {
             var round = 0;
-            var deletingNumber = 0;
+            var numberDelete = 0;
 
             while(peopleList.Count > 1)
             {
-                deletingNumber = deletingNumber + numberPersonDelete - 1;
-                deletingNumber = deletingNumber % peopleList.Count;
-                var peopleDelete = peopleList[deletingNumber];
-                peopleList.RemoveAt(deletingNumber);
+                numberDelete = numberDelete + numberPersonDelete - 1;
+                numberDelete = numberDelete % peopleList.Count;
+                var peopleDelete = peopleList[numberDelete];
+                peopleList.RemoveAt(numberDelete);
                 round++;
 
                 userInteractor.PrintMessage($"Раунд {round}. Вычеркнут {peopleDelete} человек. Людей осталось: {peopleList.Count}");

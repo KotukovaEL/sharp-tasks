@@ -4,9 +4,9 @@ using System.Text;
 
 namespace WeakestLink.Handlers
 {
-    public static class CompletionList
+    public class FillingList : IFillingList
     {
-        public static List<int> CompleteList(int numberPeople)
+        public List<int> FillList(int numberPeople)
         {
             var peopleList = new List<int>(numberPeople);
 

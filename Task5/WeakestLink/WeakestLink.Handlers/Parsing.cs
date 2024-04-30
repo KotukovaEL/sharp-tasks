@@ -4,9 +4,9 @@ using System.Text;
 
 namespace WeakestLink.Handlers
 {
-    public static class Validations
+    public static class Parsing
     {
-        public static int IntValid(IUserInteractor userInteractor, string numberPeople)
+        public static int IntParse(IUserInteractor userInteractor, string numberPeople)
         {
             while (true)
             {
@@ -15,6 +15,7 @@ namespace WeakestLink.Handlers
                     userInteractor.PrintMessage("Попытайся заново");
                     userInteractor.ReadStr();
                 }
+
                 return number;
             }
         }

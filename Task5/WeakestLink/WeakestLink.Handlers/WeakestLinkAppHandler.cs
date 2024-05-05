@@ -21,7 +21,12 @@ namespace WeakestLink.Handlers
             var playersCount = int.Parse(_userInteractor.ReadStr());
             
             _userInteractor.PrintMessage("Введите, какой по счету человек будет вычеркнут каждый раунд: ");
-            var strikeoutNumber = int.Parse(_userInteractor.ReadStr()); 
+            var strikeoutNumber = int.Parse(_userInteractor.ReadStr());
+
+            if (strikeoutNumber < 2)
+            {
+                throw new ArgumentException($"Игра окончена. Невозможно вычеркнуть людей, так как вычеркивается каждый {strikeoutNumber}");
+            }
             _weakestLinkGame.Run(playersCount, strikeoutNumber);
         }
     }

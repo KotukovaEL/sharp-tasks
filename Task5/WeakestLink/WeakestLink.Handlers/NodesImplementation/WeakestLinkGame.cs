@@ -17,24 +17,22 @@ namespace WeakestLink.Handlers.NodesImplementation
         {            
             var currentPlayer = GenerateNodes(playersCount);
             _userInteractor.PrintMessage($"Сгенерирован круг людей. Начинаем вычеркивать каждого {strikeoutNumber}");
-            Player previousPlayer = null;
             var strikeoutCount = 0;
             var round = 0;
      
             while (currentPlayer?.Next is not null)
             {
                 strikeoutCount++;
-                previousPlayer = currentPlayer.Previous;
-                currentPlayer = currentPlayer.Next;
 
                 if (strikeoutCount == strikeoutNumber)
                 {
                     round++;
                     playersCount--;
                     _userInteractor.PrintMessage($"Раунд {round}. Вычеркнут {currentPlayer.Previous.Number} человек. Людей осталось: {playersCount}");
+                    currentPlayer.Previous.Next = currentPlayer.Next;
+                    currentPlayer.Next.Previous = currentPlayer.Previous;
+                    currentPlayer = currentPlayer.Next;
                     strikeoutCount = 0;
-                    previousPlayer.Next = currentPlayer;
-                    currentPlayer.Previous = previousPlayer;
                     continue;
                 }
 
@@ -42,10 +40,13 @@ namespace WeakestLink.Handlers.NodesImplementation
                 {
                     currentPlayer.Next = null;
                     currentPlayer.Previous = null;
+                    continue;
                 }
-            }
-            _userInteractor.PrintMessage($"Игра окончена. Невозможно вычеркнуть больше людей. Победитель {currentPlayer.Number}");
 
+                currentPlayer = currentPlayer.Next;
+            }
+
+            _userInteractor.PrintMessage($"Игра окончена. Невозможно вычеркнуть больше людей. Победитель {currentPlayer.Number}");
         }
 
         private Player GenerateNodes(int playersCount)

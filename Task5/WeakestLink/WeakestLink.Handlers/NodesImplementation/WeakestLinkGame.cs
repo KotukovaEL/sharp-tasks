@@ -28,7 +28,7 @@ namespace WeakestLink.Handlers.NodesImplementation
                 {
                     round++;
                     playersCount--;
-                    _userInteractor.PrintMessage($"Раунд {round}. Вычеркнут {currentPlayer.Previous.Number} человек. Людей осталось: {playersCount}");
+                    _userInteractor.PrintMessage($"Раунд {round}. Вычеркнут {currentPlayer.Number} человек. Людей осталось: {playersCount}");
                     currentPlayer.Previous.Next = currentPlayer.Next;
                     currentPlayer.Next.Previous = currentPlayer.Previous;
                     currentPlayer = currentPlayer.Next;

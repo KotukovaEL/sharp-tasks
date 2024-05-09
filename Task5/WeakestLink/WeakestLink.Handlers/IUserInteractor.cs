@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WeakestLink.Handlers
+﻿namespace WeakestLink.Handlers
 {
     public interface IUserInteractor
     {

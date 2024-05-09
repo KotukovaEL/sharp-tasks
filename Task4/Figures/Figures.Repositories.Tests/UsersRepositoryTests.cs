@@ -68,7 +68,7 @@ namespace Figures.Repositories.Tests
 
             var usersWriter = new Mock<IUsersWriter>();
             usersWriter
-                .Setup(x => x.SaveChanges(It.IsAny<Dictionary<string, User>>())) //можно ли так сделать?
+                .Setup(x => x.SaveChanges(It.IsAny<Dictionary<string, User>>()))
                 .Callback(() => calledSaveChanges = true);
 
             var usersReader = new Mock<IUsersReader>();

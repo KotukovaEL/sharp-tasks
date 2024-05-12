@@ -11,8 +11,6 @@ namespace WeakestLink.Handlers.Tests
         public void Should_run_WeakestLinkGame_NodesImplementation_correctly()
         {
             var sb = new StringBuilder();
-            var inputs = new string[] { };
-            var inputIndex = 0;
 
             var userInteractor = new Mock<IUserInteractor>();
             userInteractor
@@ -23,9 +21,7 @@ namespace WeakestLink.Handlers.Tests
                 .Setup(x => x.ReadStr())
                 .Returns(() =>
                 {
-                    var input = inputs[inputIndex];
-                    inputIndex++;
-                    return input;
+                    return sb.ToString();
                 });
 
             var weakestLinkGame = new WeakestLinkGame(userInteractor.Object);

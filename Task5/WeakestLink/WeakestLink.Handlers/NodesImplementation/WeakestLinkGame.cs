@@ -20,7 +20,7 @@ namespace WeakestLink.Handlers.NodesImplementation
             var strikeoutCount = 0;
             var round = 0;
      
-            while (currentPlayer?.Next is not null)
+            while (currentPlayer?.Previous is not null && currentPlayer?.Next is not null)
             {
                 strikeoutCount++;
 

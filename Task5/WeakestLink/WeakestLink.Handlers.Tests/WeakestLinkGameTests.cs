@@ -1,30 +1,21 @@
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
+using System;
 using System.Text;
-using WeakestLink.Handlers.ListImplementation;
+using System.Xml.Linq;
 using Xunit;
 
 namespace WeakestLink.Handlers.Tests
 {
-    public class ListImplementationWeakestLinkGameTests
+    public class WeakestLinkGameTests
     {
-        [Fact]
-        public void Should_run_WeakestLinkGame_ListImplementation_when_number_of_players_is_odd_and_every_2_are_strikeout_correctly()
+        [Theory]
+        [InlineData(GameImplementation.List)]
+        [InlineData(GameImplementation.Nodes)]
+        public void Should_run_WeakestLinkGame_ListImplementation_when_number_of_players_is_odd_and_every_2_are_strikeout_correctly(GameImplementation gameImplementation)
         {
             var sb = new StringBuilder();
-
-            var userInteractor = new Mock<IUserInteractor>();
-            userInteractor
-                .Setup(x => x.PrintMessage(It.IsAny<string>()))
-                .Callback((string message) => sb.Append(message));
-
-            userInteractor
-                .Setup(x => x.ReadStr())
-                .Returns(() => 
-                {
-                    return sb.ToString();
-                });
-
-            var weakestLinkGame = new WeakestLinkGame(userInteractor.Object);
+            var weakestLinkGame = CreateWeakestLinkGame(gameImplementation, sb);
             weakestLinkGame.Run(5, 2);
             string expectedOutput = string.Join(null,
                 "Сгенерирован круг людей. Начинаем вычеркивать каждого 2",
@@ -37,24 +28,13 @@ namespace WeakestLink.Handlers.Tests
             Assert.Equal(expectedOutput, sb.ToString());
         }
 
-        [Fact]
-        public void Should_run_WeakestLinkGame_ListImplementation_when_number_of_players_is_even_and_every_2_are_strikeout_correctly()
+        [Theory]
+        [InlineData(GameImplementation.List)]
+        [InlineData(GameImplementation.Nodes)]
+        public void Should_run_WeakestLinkGame_ListImplementation_when_number_of_players_is_even_and_every_2_are_strikeout_correctly(GameImplementation gameImplementation)
         {
             var sb = new StringBuilder();
-
-            var userInteractor = new Mock<IUserInteractor>();
-            userInteractor
-                .Setup(x => x.PrintMessage(It.IsAny<string>()))
-                .Callback((string message) => sb.Append(message));
-
-            userInteractor
-                .Setup(x => x.ReadStr())
-                .Returns(() =>
-                {
-                    return sb.ToString();
-                });
-
-            var weakestLinkGame = new WeakestLinkGame(userInteractor.Object);
+            var weakestLinkGame = CreateWeakestLinkGame(gameImplementation, sb);
             weakestLinkGame.Run(10, 2);
             string expectedOutput = string.Join(null,
                 "Сгенерирован круг людей. Начинаем вычеркивать каждого 2",
@@ -72,24 +52,13 @@ namespace WeakestLink.Handlers.Tests
             Assert.Equal(expectedOutput, sb.ToString());
         }
 
-        [Fact]
-        public void Should_run_WeakestLinkGame_ListImplementation_when_number_of_players_is_even_and_every_3_are_strikeout_correctly()
+        [Theory]
+        [InlineData(GameImplementation.List)]
+        [InlineData(GameImplementation.Nodes)]
+        public void Should_run_WeakestLinkGame_ListImplementation_when_number_of_players_is_even_and_every_3_are_strikeout_correctly(GameImplementation gameImplementation)
         {
             var sb = new StringBuilder();
-
-            var userInteractor = new Mock<IUserInteractor>();
-            userInteractor
-                .Setup(x => x.PrintMessage(It.IsAny<string>()))
-                .Callback((string message) => sb.Append(message));
-
-            userInteractor
-                .Setup(x => x.ReadStr())
-                .Returns(() =>
-                {
-                    return sb.ToString();
-                });
-
-            var weakestLinkGame = new WeakestLinkGame(userInteractor.Object);
+            var weakestLinkGame = CreateWeakestLinkGame(gameImplementation, sb);
             weakestLinkGame.Run(10, 5);
             string expectedOutput = string.Join(null,
                 "Сгенерирован круг людей. Начинаем вычеркивать каждого 5",
@@ -107,11 +76,27 @@ namespace WeakestLink.Handlers.Tests
             Assert.Equal(expectedOutput, sb.ToString());
         }
 
-        [Fact]
-        public void Should_run_WeakestLinkGame_ListImplementation_when_number_of_players_is_odd_and_every_5_are_strikeout_correctly()
+        [Theory]
+        [InlineData(GameImplementation.List)]
+        [InlineData(GameImplementation.Nodes)]
+        public void Should_run_WeakestLinkGame_ListImplementation_when_number_of_players_is_odd_and_every_5_are_strikeout_correctly(GameImplementation gameImplementation)
         {
             var sb = new StringBuilder();
+            var weakestLinkGame = CreateWeakestLinkGame(gameImplementation, sb);
+            weakestLinkGame.Run(5, 5);
+            string expectedOutput = string.Join(null,
+                "Сгенерирован круг людей. Начинаем вычеркивать каждого 5",
+                "Раунд 1. Вычеркнут 5 человек. Людей осталось: 4",
+                "Раунд 2. Вычеркнут 1 человек. Людей осталось: 3",
+                "Раунд 3. Вычеркнут 3 человек. Людей осталось: 2",
+                "Раунд 4. Вычеркнут 4 человек. Людей осталось: 1",
+                "Игра окончена. Невозможно вычеркнуть больше людей. Победитель 2");
 
+            Assert.Equal(expectedOutput, sb.ToString());
+        }
+
+        private static IWeakestLinkGame CreateWeakestLinkGame(GameImplementation gameImplementation, StringBuilder sb)
+        {
             var userInteractor = new Mock<IUserInteractor>();
             userInteractor
                 .Setup(x => x.PrintMessage(It.IsAny<string>()))
@@ -124,17 +109,15 @@ namespace WeakestLink.Handlers.Tests
                     return sb.ToString();
                 });
 
-            var weakestLinkGame = new WeakestLinkGame(userInteractor.Object);
-            weakestLinkGame.Run(5, 5);
-            string expectedOutput = string.Join(null,
-                "Сгенерирован круг людей. Начинаем вычеркивать каждого 5",
-                "Раунд 1. Вычеркнут 5 человек. Людей осталось: 4",
-                "Раунд 2. Вычеркнут 1 человек. Людей осталось: 3",
-                "Раунд 3. Вычеркнут 3 человек. Людей осталось: 2",
-                "Раунд 4. Вычеркнут 4 человек. Людей осталось: 1",
-                "Игра окончена. Невозможно вычеркнуть больше людей. Победитель 2");
-
-            Assert.Equal(expectedOutput, sb.ToString());
+            switch (gameImplementation)
+            {
+                case GameImplementation.Nodes:
+                    return new NodesImplementation.WeakestLinkGame(userInteractor.Object);
+                case GameImplementation.List:
+                    return new ListImplementation.WeakestLinkGame(userInteractor.Object);
+                default: 
+                    throw new ArgumentException("Таких вариантов нет");
+            }
         }
     }
 }

@@ -109,15 +109,12 @@ namespace WeakestLink.Handlers.Tests
                     return sb.ToString();
                 });
 
-            switch (gameImplementation)
+            return gameImplementation switch
             {
-                case GameImplementation.Nodes:
-                    return new NodesImplementation.WeakestLinkGame(userInteractor.Object);
-                case GameImplementation.List:
-                    return new ListImplementation.WeakestLinkGame(userInteractor.Object);
-                default: 
-                    throw new ArgumentException("Таких вариантов нет");
-            }
+                GameImplementation.Nodes => new NodesImplementation.WeakestLinkGame(userInteractor.Object),
+                GameImplementation.List => new ListImplementation.WeakestLinkGame(userInteractor.Object),
+                _ => throw new ArgumentException($"Unknown {nameof(GameImplementation)} '{gameImplementation}.'")
+            };
         }
     }
 }

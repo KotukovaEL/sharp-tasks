@@ -63,20 +63,20 @@ namespace TextAnalysis.Logic
         private void WriteConclusion(Dictionary<string, int> wordsMap)
         {
             int wordCount = 0;
-            int numberRepetitions = 1;
-            int countOneRepetition = 0;
+            int minNumberRepetitions = 1;
+            int countMinRepetition = 0;
 
             foreach (var word in wordsMap.Values)
             {
-                if (numberRepetitions == 1)
+                if (minNumberRepetitions == 1)
                 {
-                    countOneRepetition++;
+                    countMinRepetition++;
                 }
 
                 wordCount += word;
             }
 
-            if (countOneRepetition > wordCount / 2)
+            if (countMinRepetition > wordCount / 2)
             {
                 _userInteractor.PrintMessage("\tТекст интересный");
             }
